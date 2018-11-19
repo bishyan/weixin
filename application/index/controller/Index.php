@@ -75,12 +75,17 @@ class Index
         // 判断数据包是否是订阅的事件推送
         if (strtolower($postObj->MsgType) == 'event') {
             // 如果是关注subscribe 事件
-            if (strtolower($postObj->Event == 'subscribe')) {
+            if (strtolower($postObj->Event) == 'subscribe') {
                 // 回复用户消息
-                $toUser = $postObj->FromUserName;
+                //$toUser = $postObj->FromUserName;
+                //$fromUser = $postObj->ToUserName;
+                //$time = time();
+                //$msgType = 'text';
+                $toUser   = $postObj->FromUserName;
                 $fromUser = $postObj->ToUserName;
-                $time = time();
-                $msgType = 'text';
+                $time     = time();
+                $msgType  =  'text';
+
                 $content = '欢迎关注果爸的订阅号';
                 /*<xml>  回复文本消息的模板
                  * <ToUserName>< ![CDATA[toUser] ]></ToUserName>

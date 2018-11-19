@@ -84,7 +84,7 @@ class Index
             MsgType         消息类型，event
             Event           事件类型，subscribe(订阅)、unsubscribe(取消订阅)
          */
-        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);   // 把XML信息转换成对象
+        $postObj = simplexml_load_string($postStr);   // 把XML信息转换成对象
         // 判断数据包是否是订阅的事件推送
         if (strtolower($postObj->MsgType) == 'event') {
             // 如果是关注subscribe 事件
@@ -111,7 +111,7 @@ class Index
                         . '<Content>< ![CDATA[%s] ]></Content> '
                         . '</xml>';
                 $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-                return $info;
+                echo $info;
             } 
         }
     }

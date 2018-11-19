@@ -111,7 +111,7 @@ class Index
                         <Content>< ![CDATA[%s] ]></Content> '
                         </xml>";
                 $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-                return $info;
+                echo $info;
             } 
         }
     }

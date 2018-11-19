@@ -69,8 +69,7 @@ class Index
     public function responseMsg() {
         // 1. 获取到微信推送过来的post数据(xml格式)
         //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $postStr = $HTTP_RAW_POST_DATA;
-        //$postArr = file_get_contents("php://input"); 
+        $postArr = file_get_contents("php://input"); 
         //2.处理消息类型，并设置回复类型和内容
         $postObj = simplexml_load_string( $postArr );
         // 判断数据包是否是订阅的事件推送
@@ -82,7 +81,7 @@ class Index
                 $fromUser = $postObj->ToUserName;
                 $time = time();
                 $msgType = 'text';
-                $content = '欢迎关注果果老爸的订阅号';
+                $content = '欢迎关注果果老爸他的订阅号';
                 /*<xml>  回复文本消息的模板
                  * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
                  * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 

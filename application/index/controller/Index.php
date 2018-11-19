@@ -7,11 +7,11 @@ class Index
     public function index()
     {
         // 获得参数 signaturn nonce token timestamp
-        $timestamp = $_GET['timestamp'];
-        $nonce     = $_GET['nonce'];
+        $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';
+        $nonce     = isset($_GET['nonce'])? $_GET['nonce'] : '';
         $token     = 'GUO20160704guo';
-        $signature = $_GET['signature'];
-        $echostr   = $_GET['echostr'];
+        $signature = isset($_GET['signature'])? $_GET['signature'] : '';
+        $echostr   = isset($_GET['echostr'])? $_GET['echostr'] : '';
         
         // 按字典排序
         $arr = array($timestamp, $token, $nonce);
@@ -21,7 +21,7 @@ class Index
         $tmpstr = implode('', $arr);
         $tmpstr = sha1($tmpstr);
         
-        if ($tmpstr == $signature && $echostr) {
+        if ($tmpstr == $signature && !empty($echostr)) {
             return $echostr;
         } else {
             $this->responseMsg();

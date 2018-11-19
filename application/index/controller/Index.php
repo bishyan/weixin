@@ -24,7 +24,7 @@ class Index
         if ($tmpstr == $signature && !empty($echostr)) {
             return $echostr;
         } else {
-            $this->responseMessage();
+            $this->responseMsg();
         }
         //return  'hello weixin';
     }
@@ -68,8 +68,8 @@ class Index
     // 接收事件推送并回复
     public function responseMsg() {
         // 1. 获取到微信推送过来的post数据(xml格式)
-        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        
+        //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postStr = file_get_contents('php://input');
         
         // 2. 处理消息类型, 并设置回复类型和内容
         /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName>

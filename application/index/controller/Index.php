@@ -68,8 +68,8 @@ class Index
     // 接收事件推送并回复
     public function responseMsg() {
         // 1. 获取到微信推送过来的post数据(xml格式)
-        //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $postArr = file_get_contents("php://input"); 
+        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        //$postArr = file_get_contents("php://input"); 
         //2.处理消息类型，并设置回复类型和内容
         $postObj = simplexml_load_string( $postArr );
         // 判断数据包是否是订阅的事件推送

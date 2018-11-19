@@ -10,14 +10,14 @@ class Index
         $timestamp = $_GET['timestamp'];
         $nonce = $_GET['nonce'];
         $token = 'GUO20160704guo';
-        $signture = $_GET['signature'];
+        $signature = $_GET['signature'];
         $arr = array($timestamp, $token, $nonce);
         sort($arr);
         
         $tmpstr = implode('', $arr);
         $tmpstr = sha1($tmpstr);
         
-        if ($tmpstr == $signture) {
+        if ($tmpstr == $signature) {
             return $_GET['echostr'];
         }
         //return  'hello weixin';

@@ -81,7 +81,7 @@ class Index
                 $fromUser = $postObj->ToUserName;
                 $time = time();
                 $msgType = 'text';
-                $content = '欢迎关注果爸的订阅号';
+                $content = '欢迎关注果果老爸的订阅号';
                 /*<xml>  回复文本消息的模板
                  * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
                  * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 

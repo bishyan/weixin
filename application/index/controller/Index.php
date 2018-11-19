@@ -8,10 +8,10 @@ class Index
     {
         // 获得参数 signaturn nonce token timestamp
         $timestamp = $_GET['timestamp'];
-        $nonce = $_GET['nonce'];
-        $token = 'GUO20160704guo';
+        $nonce     = $_GET['nonce'];
+        $token     = 'GUO20160704guo';
         $signature = $_GET['signature'];
-        $echostr = $_GET['echostr'];
+        $echostr   = $_GET['echostr'];
         
         // 按字典排序
         $arr = array($timestamp, $token, $nonce);
@@ -21,9 +21,63 @@ class Index
         $tmpstr = implode('', $arr);
         $tmpstr = sha1($tmpstr);
         
-        if ($tmpstr == $signature) {
+        if ($tmpstr == $signature && $echostr) {
             return $echostr;
+        } else {
+            $this->responseMsg();
         }
         //return  'hello weixin';
+    }
+    
+    // 接收事件推送并回复
+    public function responseMsg() {
+        // 1. 获取到微信推送过来的post数据(xml格式)
+        $postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        // 2. 处理消息类型, 并设置回复类型和内容
+        /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName>
+         * <FromUserName>< ![CDATA[FromUser] ]></FromUserName>
+         * <CreateTime>123456789</CreateTime>
+         * <MsgType>< ![CDATA[event] ]></MsgType>
+         * <Event>< ![CDATA[subscribe] ]></Event></xml>
+         *  参数              描述
+            ToUserName      开发者微信号
+            FromUserName    发送方帐号（一个OpenID）
+            CreateTime      消息创建时间 （整型）
+            MsgType         消息类型，event
+            Event           事件类型，subscribe(订阅)、unsubscribe(取消订阅)
+         */
+        $postObj = simplexml_load_string($postArr);   // 把XML信息转换成对象
+        // 判断数据包是否是订阅的事件推送
+        if (strtolower($postObj->MsgType) == 'event') {
+            // 如果是关注subscribe 事件
+            if (strtolower($postObj->Event) == 'subscribe') {
+                // 回复用户消息
+                $toUser = $postObj->FromUserName;
+                $fromUser = $postObj->ToUserName;
+                $time = time();
+                $msgType = 'text';
+                $content = '欢迎关注果爸的订阅号';
+                /*<xml>  回复文本消息的模板
+                 * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
+                 * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 
+                 * <CreateTime>12345678</CreateTime>
+                 * <MsgType>< ![CDATA[text] ]></MsgType> 
+                 * <Content>< ![CDATA[你好] ]></Content> 
+                 * </xml>
+                 */
+                $template = '<xml>'
+                        . '<ToUserName>< ![CDATA[%s] ]></ToUserName> '
+                        . '<FromUserName>< ![CDATA[%s] ]></FromUserName> '
+                        . '<CreateTime>%s</CreateTime> '
+                        . '<MsgType>< ![CDATA[%s] ]></MsgType> '
+                        . '<Content>< ![CDATA[%s] ]></Content> '
+                        . '</xml>';
+                $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+                return $info;
+            } else {
+                // 取消关注(unsubscribe)事件
+                return 'okkk';
+            }
+        }
     }
 }

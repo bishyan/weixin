@@ -33,7 +33,8 @@ class Index
     public function responseMsg() {
         // 1. 获取到微信推送过来的post数据(xml格式)
         $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-
+        
+        
         // 2. 处理消息类型, 并设置回复类型和内容
         /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName>
          * <FromUserName>< ![CDATA[FromUser] ]></FromUserName>

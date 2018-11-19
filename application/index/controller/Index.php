@@ -86,7 +86,7 @@ class Index
                 $time     = time();
                 $msgType  =  'text';
 
-                $content = '欢迎关注果爸的订阅号';
+                //$content = '欢迎关注果爸的订阅号';
                 /*<xml>  回复文本消息的模板
                  * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
                  * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 
@@ -95,14 +95,24 @@ class Index
                  * <Content>< ![CDATA[你好] ]></Content> 
                  * </xml>
                  */
-                $template = "<xml>
+                /*$template = "<xml>
                         <ToUserName>< ![CDATA[%s] ]></ToUserName> '
                         <FromUserName>< ![CDATA[%s] ]></FromUserName> '
                         <CreateTime>%s</CreateTime> '
                         <MsgType>< ![CDATA[%s] ]></MsgType> '
                         <Content>< ![CDATA[%s] ]></Content> '
                         </xml>";
-                $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+                $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content); */
+                $content  = '欢迎关注放哥的微信公众账号';
+                $template = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                            </xml>";
+                $info     = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+
                 echo $info;
                // if( strtolower($postObj->Event == 'subscribe') ){
                 //回复用户消息(纯文本格式)                

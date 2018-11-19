@@ -32,9 +32,8 @@ class Index
     // 接收事件推送并回复
     public function responseMsg() {
         // 1. 获取到微信推送过来的post数据(xml格式)
-        //$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        var_dump($GLOBALS);
-        var_dump($_POST); exit;
+        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+
         // 2. 处理消息类型, 并设置回复类型和内容
         /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName>
          * <FromUserName>< ![CDATA[FromUser] ]></FromUserName>
@@ -48,7 +47,7 @@ class Index
             MsgType         消息类型，event
             Event           事件类型，subscribe(订阅)、unsubscribe(取消订阅)
          */
-        $postObj = simplexml_load_string($postArr);   // 把XML信息转换成对象
+        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);   // 把XML信息转换成对象
         // 判断数据包是否是订阅的事件推送
         if (strtolower($postObj->MsgType) == 'event') {
             // 如果是关注subscribe 事件

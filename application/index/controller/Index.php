@@ -81,7 +81,7 @@ class Index
                 $fromUser = $postObj->ToUserName;
                 $time = time();
                 $msgType = 'text';
-                $content = '欢迎关注果果爸的订阅号';
+                $content = '欢迎关注果爸的订阅号';
                 /*<xml>  回复文本消息的模板
                  * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
                  * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 
@@ -90,15 +90,16 @@ class Index
                  * <Content>< ![CDATA[你好] ]></Content> 
                  * </xml>
                  */
-                $template = "<xml>
+                $template = "<xml> <ToUserName>< ![CDATA[toUser] ]></ToUserName> <FromUserName>< ![CDATA[fromUser] ]></FromUserName> <CreateTime>12345678</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[你好] ]></Content> </xml>";
+                /*$template = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
                             <CreateTime>%s</CreateTime>
                             <MsgType><![CDATA[%s]]></MsgType>
                             <Content><![CDATA[%s]]></Content>
-                            </xml>";
+                            </xml>"; */
                 $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-                echo $info;
+                return $info;
      
             } 
         }

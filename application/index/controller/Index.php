@@ -90,20 +90,20 @@ class Index
                  * <Content>< ![CDATA[你好] ]></Content> 
                  * </xml>
                  */
-                $template = "<xml> 
+                /*$template = "<xml> 
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
                         <CreateTime>%s</CreateTime>
                         <MsgType><![CDATA[%s]]></MsgType>
                         <Content><![CDATA[%s]]></Content>
-                        </xml>";
-                /*$template = "<xml>
+                        </xml>"; */
+                $template = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
                             <CreateTime>%s</CreateTime>
                             <MsgType><![CDATA[%s]]></MsgType>
                             <Content><![CDATA[%s]]></Content>
-                            </xml>"; */
+                            </xml>"; 
                 $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
                 return $info;
      

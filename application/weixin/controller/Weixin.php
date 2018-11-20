@@ -59,7 +59,7 @@ class Weixin extends Controller  {
                             <MsgType>< ![CDATA[%s] ]></MsgType> 
                             <Content>< ![CDATA[%s] ]></Content> 
                             <xml>";
-                    echo printf($template, $toUser, $fromUser, $time, $msgType, $content);
+                    printf($template, $toUser, $fromUser, $time, $msgType, $content);
                 }
             }
         }

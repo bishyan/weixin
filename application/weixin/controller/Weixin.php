@@ -12,10 +12,13 @@ class Weixin extends Controller  {
         $token = 'guoguo2016';
         $signature = $_GET['signature'];
         $echostr = $_GET['echostr'];
-        // 将timestamp, nonce, token 三个参数按字典排序, sha1加密, 然后与signature校对
+        // 将timestamp, nonce, token 三个参数按字典排序 
         $arr = array($timestamp, $nonce, $token);
         sort($arr);
-        $arrStr = sha1($arr);
+        //拼接成字符串,sha1加密, 然后与signature校对
+        $arrStr = implode('', $arr);
+        $arrStr = sha1($arrStr);
+        
         if ($arrStr == $signature && $signature) {
             echo $echostr;
             exit;

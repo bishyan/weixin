@@ -5,9 +5,9 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Index extends Controller  {
-    private $weixinObj;
     use Weixin;
-    
+    private $weixinObj;
+      
     public function __construct(\think\Request $request = null) {
         parent::__construct($request);
         $this->weixinObj = new Weixin();

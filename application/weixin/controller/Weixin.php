@@ -187,7 +187,7 @@ class Weixin extends Controller  {
         // 2. 设置curl的参数
         $appid = 'wxe6dfc606143872e8';
         $secret = '0be5d18ee3d0f3df973d06c2a9e22b22';
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret .'';
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         // 3. 

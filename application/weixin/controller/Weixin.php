@@ -36,9 +36,9 @@ class Weixin extends Controller  {
         
         if (!empty($postStr)) {
             $postObj = simplexml_load_string($postStr);
-            // 判断数据包是否是订阅的事件推送
-            /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
             
+            /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
+            // 判断数据包是否是订阅的事件推送
             if (strtolower($postObj->MsgType) == 'event') {
                 // 如果是关注事件(subscribe)
                 if (strtolower($postObj->Event) == 'subscribe') {
@@ -78,6 +78,22 @@ class Weixin extends Controller  {
                     //echo $info;
                     printf($template, $toUser, $fromUser, $time, $msgType, $content);
                     //echo $info;
+                }
+            } else if ($postObj->MsgType == 'text') {
+                if ($postObj->Content == '果果') {
+                    $toUser = $postObj->FromUserName;
+                    $fromUser = $postObj->ToUserName;
+                    $time = time();
+                    $type = 'text';
+                    $content = '果果2岁4个月大了...';
+                    $template = "<xml> 
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                            </xml>"; 
+                    printf($template, $toUser, $fromUser, $time, $type, $content);
                 }
             }
         }

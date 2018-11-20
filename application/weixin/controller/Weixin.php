@@ -9,7 +9,7 @@ class Weixin extends Controller  {
         // 接收参数 signature nonce token echostr
         $timestamp = $_GET['timestamp'];
         $nonce = $_GET['nonce'];
-        $token = 'guoguo2016@@';
+        $token = 'guoguo2016';
         $signature = $_GET['signature'];
         $echostr = $_GET['echostr'];
         // 将timestamp, nonce, token 三个参数按字典排序, sha1加密, 然后与signature校对

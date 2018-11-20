@@ -5,13 +5,13 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Index extends Controller  {
-    use Weixin;
     private $weixinObj;
       
     public function __construct(\think\Request $request = null) {
         parent::__construct($request);
         $this->weixinObj = new Weixin();
     }
+    
     public function index() {
         // 获得参数 signaturn nonce echostr timestamp
         $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';

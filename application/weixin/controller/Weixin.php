@@ -203,5 +203,22 @@ class Weixin extends Controller  {
         // 5. 关闭
         curl_close($curl); 
     }
+    
+    //获取微信服务器IP
+    public function getWxServerIp() {
+        $accessToken = "15_m8Bbhv7qyXd3o80hYXPU78vY9BXkvyZl_7dfQRE3sfKOIriVM6AKE8grj6DgBjXmO92ygWpO4EC0_OPe1wOJ0AACqgBY8Z_oYd7J2O0AHRrrXr6zyNIUdztkSTkFwyEIibjie1WJY3nbGvztTBBfAJADLL";
+        $url = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=$accessToken";
+        
+        $ch = curl_init();
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        $res = curl_exec($ch);
+        $res = json_decode($res, true);
+        echo "<pre>";
+        dump($res);
+        curl_close($ch);
+    }
 }
 

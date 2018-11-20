@@ -116,7 +116,9 @@ class Weixin extends Controller  {
                         $type = 'news';
                         $template = $this->getNewsTemplate($arr);
                         break;
-                    case 6: // 回复多图文
+                    case 6: 
+                    // 回复多图文, 当前微信版本 : 图文消息个数；
+                    //当用户发送文本、图片、视频、图文、地理位置这五种消息时，开发者只能回复1条图文消息；其余场景最多可回复8条图文消息
                         $arr = array(
                             array(
                                 'title' => 'baidu',
@@ -176,6 +178,23 @@ class Weixin extends Controller  {
         $template .= "</Articles></xml>";    
         
         return $template;
+    }
+    
+    public function getWxAccessToken() {
+        // 1. 初始化curl
+        $curl = curl_init();
+        
+        // 2. 设置curl的参数
+        $appid = 'wxe6dfc606143872e8';
+        $secret = '0be5d18ee3d0f3df973d06c2a9e22b22';
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret .'';
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // 3. 
+        $res = curl_exec($curl);
+        var_dump($res);
+        // 4. 关闭
+        curl_close($curl);
     }
 }
 

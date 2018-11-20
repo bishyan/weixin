@@ -104,7 +104,7 @@ class Weixin extends Controller  {
                     case 4:
                         $content = "<a href='http://blog.ai702.com'>果果的个人博客</a>";
                         break;
-                    case 5: // 回复单图文
+                    case 5: // 回复图文
                         $type = 'news';
                         $arr = array(
                             array(
@@ -112,6 +112,18 @@ class Weixin extends Controller  {
                                 'description' => '果果是一个可爱的女孩子',
                                 'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
                                 'url' => 'http://blog.ai702.com/a/6',
+                            ),
+                            array(
+                                'title' => 'baidu',
+                                'description' => 'baidu搜索',
+                                'picUrl' => 'https://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+                                'url' => 'http://www.baidu.com',
+                            ),
+                            array(
+                                'title' => 'bi xin yun',
+                                'description' => '果果的大名号闭馨允',
+                                'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517163727743.jpg',
+                                'url' => 'http://www.hao123.com',
                             ),
                         );
                         $template = "<xml>

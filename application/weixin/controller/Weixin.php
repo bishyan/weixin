@@ -28,11 +28,11 @@ class Weixin extends Controller  {
     }
     
     public function responseMsg() {
-        // 1.接收微信发送过来的参数
+        // 1.获取到微信推送过来的post数据(xml格式)
         $postStr = file_get_contents('php://input');
         // 2. 处理数据并回复
         $postObj = simplexml_load_string($postStr);
-        if (!$postObj) {
+        if (!empty($postObj)) {
             // 判断是否是推送事件
             /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
             

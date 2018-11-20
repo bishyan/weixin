@@ -59,7 +59,7 @@ class Weixin extends Controller  {
                     $fromUser = $postObj->ToUserName;
                     $time = time();
                     $msgType = 'text';
-                    $content = "欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄 \n回复2: 了解果果的身高 \n回复3: 了解果果的体重 \n回复4: 果果的个人博客";
+                    $content = "欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄 \n回复2: 了解果果的身高 \n回复3: 了解果果的体重 \n回复4: 果果的个人博客 \n回复5: 单图文信息";
                     /*$template = "<xml> 
                             <ToUserName><![CDATA[%s]]></ToUserName> 
                             <FromUserName><![CDATA[%s]]></FromUserName> 
@@ -80,6 +80,17 @@ class Weixin extends Controller  {
                     //echo $info;
                 }
             } else if ($postObj->MsgType == 'text') {
+                $toUser = $postObj->FromUserName;
+                $fromUser = $postObj->ToUserName;
+                $time = time();
+                $type = 'text';
+                $template = "<xml> 
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[%s]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>";
                 switch( trim($postObj->Content) ) {
                     case 1:
                         $content = '果果2岁4个月大了..';
@@ -93,23 +104,42 @@ class Weixin extends Controller  {
                     case 4:
                         $content = "<a href='http://blog.ai702.com'>果果的个人博客</a>";
                         break;
+                    case 5: // 回复单图文
+                        $type = 'news';
+                        $arr = array(
+                            array(
+                                'title' => 'guoguo',
+                                'description' => '果果是一个可爱的女孩子',
+                                'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
+                                'url' => 'http://blog.ai702.com/a/6',
+                            ),
+                        );
+                        $template = "<xml>
+                                <ToUserName><![CDATA[%s]]></ToUserName>
+                                <FromUserName><![CDATA[%s]]></FromUserName>
+                                <CreateTime>%s</CreateTime>
+                                <MsgType><![CDATA[%s]]></MsgType>
+                                <ArticleCount>" . count($arr) . "</ArticleCount>
+                                <Articles>";
+                        foreach($arr as $k=>$v) {
+                            $template .= "<item><Title><![CDATA[".$v['title']."]]></Title>
+                                <Description><![CDATA[".$v['description']."]]></Description>
+                                <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
+                                <Url><![CDATA[".$v['url']."]]></Url>
+                                </item>";
+                        }
+                        $template .= "</Articles></xml>";
+                        break;
                     default:
                         $content = '关键字不正确!';
                         break;
                 }
-                $toUser = $postObj->FromUserName;
-                $fromUser = $postObj->ToUserName;
-                $time = time();
-                $type = 'text';
-                $template = "<xml> 
-                        <ToUserName><![CDATA[%s]]></ToUserName>
-                        <FromUserName><![CDATA[%s]]></FromUserName>
-                        <CreateTime>%s</CreateTime>
-                        <MsgType><![CDATA[%s]]></MsgType>
-                        <Content><![CDATA[%s]]></Content>
-                        </xml>";
                 
-                 printf($template, $toUser, $fromUser, $time, $type, $content);
+                if (isset($content)) {
+                    printf($template, $toUser, $fromUser, $time, $type, $content);
+                } else {
+                    printf($template, $toUser, $fromUser, $time, $type);
+                }
             }
         }
     }

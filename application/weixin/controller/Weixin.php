@@ -91,7 +91,7 @@ class Weixin extends Controller  {
                         $content = '果果13kg了';
                         break;
                     case 4:
-                        $content = "<a href='blog.ai702.com'>果果的个人博客</a>";
+                        $content = "<a href='http://blog.ai702.com'>果果的个人博客</a>";
                         break;
                     default:
                         $content = '关键字不正确!';

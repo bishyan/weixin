@@ -37,8 +37,8 @@ class Weixin extends Controller  {
             /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
             
             if (strtolower($postObj->MsgType) == 'event') {
-                // 如果是关注事件(subscride)
-                if (strtolower($postObj->Event) == 'subscride') {
+                // 如果是关注事件(subscribe)
+                if (strtolower($postObj->Event) == 'subscribe') {
                     //拼接回复消息(纯文本)
                     /*<xml> 
                      * <ToUserName>< ![CDATA[toUser] ]></ToUserName> 

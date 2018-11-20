@@ -29,7 +29,7 @@ class Weixin extends Controller  {
     
     public function responseMsg() {
         // 1.获取到微信推送过来的post数据(xml格式)
-        $postStr = file_get_contents('php://input');
+        $postStr = file_get_contents("php://input");
         // 2. 处理数据并回复
         $postObj = simplexml_load_string($postStr);
         if (!empty($postObj)) {

@@ -59,7 +59,7 @@ class Weixin extends Controller  {
                     $fromUser = $postObj->ToUserName;
                     $time = time();
                     $msgType = 'text';
-                    $content = '欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄, \n回复2: 了解果果的身高, \n回复3: 了解果果的体重';
+                    $content = "欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄, \n回复2: 了解果果的身高, \n回复3: 了解果果的体重";
                     /*$template = "<xml> 
                             <ToUserName><![CDATA[%s]]></ToUserName> 
                             <FromUserName><![CDATA[%s]]></FromUserName> 
@@ -89,6 +89,7 @@ class Weixin extends Controller  {
                         break;
                     case 3:
                         $content = '果果13kg了';
+                        break;
                     default:
                         $content = '关键字不正确!';
                         break;

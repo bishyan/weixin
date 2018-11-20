@@ -47,12 +47,17 @@ class Weixin extends Controller  {
                      * <CreateTime>12345678</CreateTime> 
                      * <MsgType>< ![CDATA[text] ]></MsgType> 
                      * <Content>< ![CDATA[你好] ]></Content> 
-                     * </xml>*/
+                     * </xml>
                     $toUser = $postObj->FromUserName;
                     $fromUser = $postObj->ToUserName;
                     $time = time();
                     $msgType = 'text';
-                    $content = '感谢关注果爸的公众号......';
+                    $content = '感谢关注果爸的公众号......';*/
+                    $toUser = $postObj->FromUserName;
+                    $fromUser = $postObj->ToUserName;
+                    $time = time();
+                    $msgType = 'text';
+                    $content = '欢迎关注果果爸爸的订阅号'.$postObj->FromUserName . '-' . $postObj->ToUserName;
                     /*$template = "<xml> 
                             <ToUserName><![CDATA[%s]]></ToUserName> 
                             <FromUserName><![CDATA[%s]]></FromUserName> 

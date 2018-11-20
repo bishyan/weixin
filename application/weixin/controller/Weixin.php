@@ -19,7 +19,7 @@ class Weixin extends Controller  {
         $arrStr = implode('', $arr);
         $arrStr = sha1($arrStr);
         
-        if ($arrStr == $signature && $signature) {
+        if ($arrStr == $signature && $echostr) {
             echo $echostr;
             exit;
         } else {

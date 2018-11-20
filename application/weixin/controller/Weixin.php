@@ -119,17 +119,18 @@ class Weixin extends Controller  {
                     case 6: // 回复多图文
                         $arr = array(
                             array(
-                                'title' => 'guoguo',
-                                'description' => '果果是一个可爱的女孩子',
-                                'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
-                                'url' => 'http://blog.ai702.com/a/6',
-                            ),
-                            array(
                                 'title' => 'baidu',
                                 'description' => 'baidu搜索',
                                 'picUrl' => 'https://www.baidu.com/img/bd_logo1.png',
                                 'url' => 'http://www.baidu.com',
                             ),
+                            array(
+                                'title' => 'guoguo',
+                                'description' => '果果是一个可爱的女孩子',
+                                'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
+                                'url' => 'http://blog.ai702.com/a/6',
+                            ),
+                            
                             array(
                                 'title' => 'bi xin yun',
                                 'description' => '果果的大名号闭馨允',

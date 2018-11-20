@@ -53,11 +53,11 @@ class Weixin extends Controller  {
                     $msgType = 'text';
                     $content = '感谢关注果爸的公众号';
                     $template = "<xml> 
-                            <ToUserName>< ![CDATA[%s] ]></ToUserName> 
-                            <FromUserName>< ![CDATA[%s] ]></FromUserName> 
+                            <ToUserName><![CDATA[%s]]></ToUserName> 
+                            <FromUserName><![CDATA[%s]]></FromUserName> 
                             <CreateTime>%s</CreateTime> 
-                            <MsgType>< ![CDATA[%s] ]></MsgType> 
-                            <Content>< ![CDATA[%s] ]></Content> 
+                            <MsgType><![CDATA[%s]]></MsgType> 
+                            <Content><![CDATA[%s]]></Content> 
                             <xml>";
                     $info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
                     echo $info;

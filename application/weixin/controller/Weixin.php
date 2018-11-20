@@ -80,21 +80,25 @@ class Weixin extends Controller  {
                     //echo $info;
                 }
             } else if ($postObj->MsgType == 'text') {
-                if ($postObj->Content == '果果') {
-                    $toUser = $postObj->FromUserName;
-                    $fromUser = $postObj->ToUserName;
-                    $time = time();
-                    $type = 'text';
-                    $content = '果果2岁4个月大了...';
-                    $template = "<xml> 
-                            <ToUserName><![CDATA[%s]]></ToUserName>
-                            <FromUserName><![CDATA[%s]]></FromUserName>
-                            <CreateTime>%s</CreateTime>
-                            <MsgType><![CDATA[%s]]></MsgType>
-                            <Content><![CDATA[%s]]></Content>
-                            </xml>"; 
-                    printf($template, $toUser, $fromUser, $time, $type, $content);
+                $toUser = $postObj->FromUserName;
+                $fromUser = $postObj->ToUserName;
+                $time = time();
+                $type = 'text';
+                $template = "<xml> 
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[%s]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>";
+                
+                if ($postObj->Content == '果果') {                    
+                    $content = '果果2岁4个月大了...';   
+                } else if (strtolower($postObj->Content) == '身高') {
+                    $content = '果果身高85CM';
                 }
+                
+                 printf($template, $toUser, $fromUser, $time, $type, $content);
             }
         }
     }

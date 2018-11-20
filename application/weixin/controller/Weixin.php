@@ -104,8 +104,19 @@ class Weixin extends Controller  {
                     case 4:
                         $content = "<a href='http://blog.ai702.com'>果果的个人博客</a>";
                         break;
-                    case 5: // 回复图文
+                    case 5: // 回复单图文
+                        $arr = array(
+                            array(
+                                'title' => 'guoguo',
+                                'description' => '果果是一个可爱的女孩子',
+                                'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
+                                'url' => 'http://blog.ai702.com/a/6',
+                            ),
+                        );
                         $type = 'news';
+                        $template = $this->getNewsTemplate($arr);
+                        break;
+                    case 6: // 回复多图文
                         $arr = array(
                             array(
                                 'title' => 'guoguo',
@@ -126,21 +137,8 @@ class Weixin extends Controller  {
                                 'url' => 'http://www.hao123.com',
                             ),
                         );
-                        $template = "<xml>
-                                <ToUserName><![CDATA[%s]]></ToUserName>
-                                <FromUserName><![CDATA[%s]]></FromUserName>
-                                <CreateTime>%s</CreateTime>
-                                <MsgType><![CDATA[%s]]></MsgType>
-                                <ArticleCount>" . count($arr) . "</ArticleCount>
-                                <Articles>";
-                        foreach($arr as $k=>$v) {
-                            $template .= "<item><Title><![CDATA[".$v['title']."]]></Title>
-                                <Description><![CDATA[".$v['description']."]]></Description>
-                                <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
-                                <Url><![CDATA[".$v['url']."]]></Url>
-                                </item>";
-                        }
-                        $template .= "</Articles></xml>";
+                        $type = 'news';
+                        $template = $this->getNewsTemplate($arr);
                         break;
                     default:
                         $content = '关键字不正确!';
@@ -153,7 +151,30 @@ class Weixin extends Controller  {
                     printf($template, $toUser, $fromUser, $time, $type);
                 }
             }
+                      
         }
+    }
+    
+    // 返回图文的模板
+    protected function getNewsTemplate($arr=array()) {       
+
+        $template = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <ArticleCount>" . count($arr) . "</ArticleCount>
+                <Articles>";
+        foreach($arr as $k=>$v) {
+            $template .= "<item><Title><![CDATA[".$v['title']."]]></Title>
+                <Description><![CDATA[".$v['description']."]]></Description>
+                <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
+                <Url><![CDATA[".$v['url']."]]></Url>
+                </item>";
+        }
+        $template .= "</Articles></xml>";    
+        
+        return $template;
     }
 }
 

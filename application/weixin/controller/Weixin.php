@@ -1,5 +1,8 @@
 <?php
 
+/**
+ *  微信基本功能类
+ */
 namespace app\weixin\controller;
 
 use think\Controller;
@@ -28,126 +31,29 @@ class Weixin extends Controller  {
         }
     }
     
-    /*
-     *  回复消息
+    /**
+     * 回复图文消息
+     * @param object $postObj   post数据对象
+     * @param array $arr     二维数组, 格式: 
+     *      $arr = array(
+                array(
+                    'title' => 'baidu',
+                    'description' => 'baidu搜索',
+                    'picUrl' => 'https://www.baidu.com/img/bd_logo1.png',
+                    'url' => 'http://www.baidu.com',
+                ),
+                array(
+                    'title' => 'guoguo',
+                    'description' => '果果是一个可爱的女孩子',
+                    'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
+                    'url' => 'http://blog.ai702.com/a/6',
+                ),
+            );
+     * @return string
      */
-    public function responseMsg($postObj) {           
-        /*<xml>  微信事件推送的格式
-         * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
-         * <FromUserName>< ![CDATA[FromUser] ]></FromUserName>
-         * <CreateTime>123456789</CreateTime>
-         * <MsgType>< ![CDATA[event] ]></MsgType>
-         * <Event>< ![CDATA[subscribe] ]></Event>
-         * </xml>*/
+    public function responseNews($postObj, $arr) {
         $toUser = $postObj->FromUserName;
         $fromUser = $postObj->ToUserName;
-        $time = time();
-        $msgType = 'text';
-        
-        // 判断数据包是否是订阅的事件推送
-        if (strtolower($postObj->MsgType) == 'event') {
-            // 如果是关注事件(subscribe)
-            if (strtolower($postObj->Event) == 'subscribe') {
-                //拼接回复消息(纯文本)
-                /*<xml> 
-                 * <ToUserName>< ![CDATA[toUser] ]></ToUserName> 
-                 * <FromUserName>< ![CDATA[fromUser] ]></FromUserName> 
-                 * <CreateTime>12345678</CreateTime> 
-                 * <MsgType>< ![CDATA[text] ]></MsgType> 
-                 * <Content>< ![CDATA[你好] ]></Content> 
-                 * </xml>
-                 */
-                
-                $content = "欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄 \n回复2: 了解果果的身高 \n回复3: 了解果果的体重 \n回复4: 果果的个人博客 \n回复5: 单图文信息";
-                $template = "<xml> 
-                        <ToUserName><![CDATA[%s]]></ToUserName>
-                        <FromUserName><![CDATA[%s]]></FromUserName>
-                        <CreateTime>%s</CreateTime>
-                        <MsgType><![CDATA[%s]]></MsgType>
-                        <Content><![CDATA[%s]]></Content>
-                        </xml>"; 
-                //$info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-                //echo $info;
-                printf($template, $toUser, $fromUser, $time, $msgType, $content);
-            }
-        } else if ($postObj->MsgType == 'text') {
-            $template = "<xml> 
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[%s]]></MsgType>
-                    <Content><![CDATA[%s]]></Content>
-                    </xml>";
-            switch( trim($postObj->Content) ) {
-                case 1:
-                    $content = '果果2岁4个月大了..';
-                    break;
-                case 2:
-                    $content = '果果目前的身高是86cm';
-                    break;
-                case 3:
-                    $content = '果果13kg了';
-                    break;
-                case 4:
-                    $content = "<a href='http://blog.ai702.com'>果果的个人博客</a>";
-                    break;
-                case 5: // 回复单图文
-                    $arr = array(
-                        array(
-                            'title' => 'guoguo',
-                            'description' => '果果是一个可爱的女孩子',
-                            'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
-                            'url' => 'http://blog.ai702.com/a/6',
-                        ),
-                    );
-                    $msgType = 'news';
-                    $template = $this->getNewsTemplate($arr);
-                    break;
-                case 6: 
-                // 回复多图文, 当前微信版本 : 图文消息个数；
-                //当用户发送文本、图片、视频、图文、地理位置这五种消息时，开发者只能回复1条图文消息；其余场景最多可回复8条图文消息
-                    $arr = array(
-                        array(
-                            'title' => 'baidu',
-                            'description' => 'baidu搜索',
-                            'picUrl' => 'https://www.baidu.com/img/bd_logo1.png',
-                            'url' => 'http://www.baidu.com',
-                        ),
-                        array(
-                            'title' => 'guoguo',
-                            'description' => '果果是一个可爱的女孩子',
-                            'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
-                            'url' => 'http://blog.ai702.com/a/6',
-                        ),
-
-                        array(
-                            'title' => 'bi xin yun',
-                            'description' => '果果的大名号闭馨允',
-                            'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517163727743.jpg',
-                            'url' => 'http://www.hao123.com',
-                        ),
-                    );
-                    $msgType = 'news';
-                    $template = $this->getNewsTemplate($arr);
-                    break;
-                default:
-                    $content = '关键字不正确!';
-                    break;
-            }
-
-            if (isset($content)) {
-                printf($template, $toUser, $fromUser, $time, $msgType, $content);
-            } else {
-                printf($template, $toUser, $fromUser, $time, $msgType);
-            }
-        }
-                      
-        
-    }
-    
-    // 返回图文的模板
-    protected function getNewsTemplate($arr=array()) {       
-
         $template = "<xml>
                 <ToUserName><![CDATA[%s]]></ToUserName>
                 <FromUserName><![CDATA[%s]]></FromUserName>
@@ -164,9 +70,30 @@ class Weixin extends Controller  {
         }
         $template .= "</Articles></xml>";    
         
-        return $template;
+        echo sprintf($template, $toUser, $fromUser, time(), 'news');
     }
     
+    /**
+     * 回复文本消息
+     * @param object $postObj   post数据对象
+     * @param string $content   文本内容
+     */
+    public function responseText($postObj, $content) {           
+        $toUser = $postObj->FromUserName;
+        $fromUser = $postObj->ToUserName;
+        $template = "<xml> 
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[%s]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>"; 
+        //$info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+        //echo $info;
+        printf($template, $toUser, $fromUser, time(), 'text', $content);       
+    }
+    
+    // 获取access_token
     public function getWxAccessToken() {
         // 1. 请求url地址
         $appid = 'wxe6dfc606143872e8';
@@ -186,9 +113,11 @@ class Weixin extends Controller  {
         }
         
         $res = json_decode($res, true);
-        var_dump($res);
+        //var_dump($res);
         // 5. 关闭
         curl_close($curl); 
+        
+        return $res;
     }
     
     //获取微信服务器IP

@@ -67,6 +67,8 @@ class Weixin extends Controller  {
 
                 } 
             }
+        }
+    }
     
     public function responseMsg() {
         // 1.获取到微信推送过来的post数据(xml格式)

@@ -6,12 +6,12 @@ use think\Controller;
 
 class Weixin extends Controller  {
     public function index() {
-        // 接收参数 signature nonce token echostr
-        $timestamp = $_GET['timestamp'];
-        $nonce = $_GET['nonce'];
-        $token = 'guoguo2016';
-        $signature = $_GET['signature'];
-        $echostr = $_GET['echostr'];
+        // 获得参数 signaturn nonce token timestamp
+        $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';
+        $nonce     = isset($_GET['nonce'])? $_GET['nonce'] : '';
+        $token     = 'GUO20160704guo';
+        $signature = isset($_GET['signature'])? $_GET['signature'] : '';
+        $echostr   = isset($_GET['echostr'])? $_GET['echostr'] : '';
         // 将timestamp, nonce, token 三个参数按字典排序 
         $arr = array($timestamp, $nonce, $token);
         sort($arr);

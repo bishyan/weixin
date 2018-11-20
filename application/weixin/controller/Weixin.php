@@ -31,8 +31,9 @@ class Weixin extends Controller  {
         // 1.获取到微信推送过来的post数据(xml格式)
         $postStr = file_get_contents('php://input');
         // 2. 处理数据并回复
-        $postObj = simplexml_load_string($postStr);
-        if (!empty($postObj)) {
+        
+        if (!empty($postStr)) {
+            $postObj = simplexml_load_string($postStr);
             // 判断数据包是否是订阅的事件推送
             /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
             

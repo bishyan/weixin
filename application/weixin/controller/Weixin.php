@@ -29,18 +29,13 @@ class Weixin extends Controller  {
     
     public function responseMsg() {
         // 1.获取到微信推送过来的post数据(xml格式)
-        $postStr = file_get_contents("php://input");
-        // 2. //2.处理消息类型，并设置回复类型和内容      
-        if (!empty($postStr)) {
-            $postObj = simplexml_load_string($postStr);
+        $postStr = file_get_contents('php://input');
+        // 2. 处理数据并回复
+        $postObj = simplexml_load_string($postStr);
+        if (!empty($postObj)) {
             // 判断数据包是否是订阅的事件推送
-            /*<xml>
-             * <ToUserName>< ![CDATA[toUser] ]></ToUserName>
-             * <FromUserName>< ![CDATA[FromUser] ]></FromUserName>
-             * <CreateTime>123456789</CreateTime>
-             * <MsgType>< ![CDATA[event] ]></MsgType>
-             * <Event>< ![CDATA[subscribe] ]></Event>
-             * </xml>*/
+            /*<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[FromUser] ]></FromUserName><CreateTime>123456789</CreateTime><MsgType>< ![CDATA[event] ]></MsgType><Event>< ![CDATA[subscribe] ]></Event></xml>*/
+            
             if (strtolower($postObj->MsgType) == 'event') {
                 // 如果是关注事件(subscribe)
                 if (strtolower($postObj->Event) == 'subscribe') {

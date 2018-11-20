@@ -80,7 +80,7 @@ class Weixin extends Controller  {
                     //echo $info;
                 }
             } else if ($postObj->MsgType == 'text') {
-                switch($postObj->Content) {
+                switch( trim($postObj->Content) ) {
                     case 1:
                         $content = '果果2岁4个月大了..';
                         break;
@@ -90,6 +90,8 @@ class Weixin extends Controller  {
                     case 3:
                         $content = '果果13kg了';
                         break;
+                    case 4:
+                        $content = "<a href='blog.ai702.com'>果果的个人博客</a>";
                     default:
                         $content = '关键字不正确!';
                         break;

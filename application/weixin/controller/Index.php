@@ -20,8 +20,13 @@ class Index extends Controller  {
         $params['signature'] = isset($_GET['signature'])? $_GET['signature'] : '';
         $params['echostr']   = isset($_GET['echostr'])? $_GET['echostr'] : '';
         
+        
+//        $cityList = cache('city_list'); 
+//       
 //        $k = $_GET['k'];
-//        $url = 'http://mobile.weather.com.cn/js/citylist.xml';
+//        if (!$cityList) {
+//            echo '333';
+//                        $url = 'http://mobile.weather.com.cn/js/citylist.xml';
 //                            $ch = curl_init();
 //                            curl_setopt($ch, CURLOPT_URL, $url);
 //                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -36,6 +41,11 @@ class Index extends Controller  {
 //                            foreach ($arr['c']['d'] as $k=>$v) {
 //                                $cityList[$v['@attributes']['d2']] = $v['@attributes']['d1'];
 //                            }
+//                            cache('city_list', $cityList);
+//        }
+//        dump(array_key_exists($k, $cityList));
+//         dump($cityList[$k]);
+//        exit;
 //                            
 //                            if (array_key_exists($_GET['k'], $cityList)) {
 //                                $url = "http://www.weather.com.cn/data/cityinfo/{$cityList[$_GET['k']]}.html";
@@ -89,12 +99,11 @@ class Index extends Controller  {
                         $this->weixinObj->responseNews($postObj, $arr);
                     }
                 } else if ($postObj->MsgType == 'text') {
-                    
+                    $keyword = $postObj->Content;
                     //天气查询
-                    if (is_string($postObj->Content)) {
-                        $keyword = $postObj->Content;
+                    if (!(is_numeric($postObj->Content))) {                       
                         $cityList = cache('city_list');
-                        if (empty($cityList)) {
+                        if ($cityList) {
                             $url = 'http://mobile.weather.com.cn/js/citylist.xml';
                             $ch = curl_init();
                             curl_setopt($ch, CURLOPT_URL, $url);

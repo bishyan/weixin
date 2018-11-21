@@ -8,27 +8,30 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Weixin extends Controller  {
-    public function index() {
+    
+    /**
+     * 微信验证
+     * @param array $paramArr   参数数组
+     * @return boolean
+     */
+    public function wxVerify($paramArr) {
         // 获得参数 signaturn nonce echostr timestamp
-        $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';
-        $nonce     = isset($_GET['nonce'])? $_GET['nonce'] : '';
-        $token     = 'guoguo2016';
-        $signature = isset($_GET['signature'])? $_GET['signature'] : '';
-        $echostr   = isset($_GET['echostr'])? $_GET['echostr'] : '';
+        $timestamp = isset($paramArr['timestamp'])? $paramArr['timestamp'] : '';
+        $nonce     = isset($paramArr['nonce'])? $paramArr['nonce'] : '';
+        $token     = isset($paramArr['token'])? $paramArr['token'] : '';
+        $signature = isset($paramArr['signature'])? $paramArr['signature'] : '';
+        $echostr   = isset($paramArr['echostr'])? $paramArr['echostr'] : '';
         
         // 将timestamp, nonce, token 三个参数按字典排序 
         $arr = array($timestamp, $nonce, $token);
         sort($arr);
         //拼接成字符串,sha1加密, 然后与signature校对
-        $arrStr = implode('', $arr);
-        $arrStr = sha1($arrStr);
+        $arrStr = sha1(implode('', $arr));
         
-        if ($arrStr == $signature && $echostr) {
+        if ($arrStr == $signature) {
             echo $echostr;
-            exit;
-        } else {
-            $this->responseMsg();
-        }
+        } 
+
     }
     
     /**

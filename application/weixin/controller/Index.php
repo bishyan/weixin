@@ -66,9 +66,9 @@ class Index extends Controller  {
 //                            dump($cityList[$_GET['k']]);exit;
         //dump(is_string('22')); exit;
                             
-        // 判断是验证还是其他
+        // 判断是验证还是其他业务
         if (empty($params['echostr'])) {
-            # 其他
+            # 其他业务
              // 1.获取到微信推送过来的post数据(xml格式)
             $postStr = file_get_contents('php://input');
             // 2. 处理数据并回复      
@@ -103,7 +103,7 @@ class Index extends Controller  {
                     //天气查询
                     if (!(is_numeric($postObj->Content))) {                       
                         $cityList = cache('city_list');
-                        if ($cityList) {
+                        if (!$cityList) {
                             $url = 'http://mobile.weather.com.cn/js/citylist.xml';
                             $ch = curl_init();
                             curl_setopt($ch, CURLOPT_URL, $url);

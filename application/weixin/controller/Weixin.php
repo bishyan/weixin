@@ -113,9 +113,9 @@ class Weixin extends Controller  {
                         <MsgType><![CDATA[%s]]></MsgType>
                         <Content><![CDATA[%s]]></Content>
                         </xml>"; 
-        //$info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-        //echo $info;
-        printf($template, $toUser, $fromUser, $time, 'text', $content);       
+        echo sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+        
+        //printf($template, $toUser, $fromUser, $time, 'text', $content);       
     }
     
     // 获取access_token

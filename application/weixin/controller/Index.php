@@ -88,7 +88,7 @@ class Index extends Controller  {
                             $res = json_decode($res, true);
                             $info = $res['weatherinfo'];
 
-                            $content = "<h1>" . $info['city'] . "</h1>\n天气: " . $info['weather'] . "\n最低温度: " . $info['temp1'] . "\n最高温度: " . $info['temp2'];
+                            $content = "<h1 size='10'>" . $info['city'] . "</h1>\n天气: " . $info['weather'] . "\n最低温度: " . $info['temp1'] . "\n最高温度: " . $info['temp2'];
                         } else {
                             $content = '没有找到'.$keyword . '的天气信息.';
                         }

@@ -105,6 +105,7 @@ class Weixin extends Controller  {
     public function responseText($postObj, $content) {           
         $toUser = $postObj->FromUserName;
         $fromUser = $postObj->ToUserName;
+        $time = time();
         $template = "<xml> 
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
@@ -114,7 +115,7 @@ class Weixin extends Controller  {
                         </xml>"; 
         //$info = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
         //echo $info;
-        printf($template, $toUser, $fromUser, time(), 'text', $content);       
+        printf($template, $toUser, $fromUser, $time, 'text', $content);       
     }
     
     // 获取access_token

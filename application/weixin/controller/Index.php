@@ -19,62 +19,19 @@ class Index extends Controller  {
         $params['token']     = 'guoguo2016';
         $params['signature'] = isset($_GET['signature'])? $_GET['signature'] : '';
         $params['echostr']   = isset($_GET['echostr'])? $_GET['echostr'] : '';
-        
-        
-//        $cityList = cache('city_list'); 
-//       
-//        $k = $_GET['k'];
-//        if (!$cityList) {
-//            echo '333';
-//                        $url = 'http://mobile.weather.com.cn/js/citylist.xml';
-//                            $ch = curl_init();
-//                            curl_setopt($ch, CURLOPT_URL, $url);
-//                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                            
-//                            $res = curl_exec($ch);
-//                            // 将返回的数据转换成数组
-//                            $arr = simplexml_load_string($res);
-//                            $arr = json_encode($arr);
-//                            $arr = json_decode($arr, true);
-//                            // 处理数组, 转换成一维
-//                            $cityList = array();
-//                            foreach ($arr['c']['d'] as $k=>$v) {
-//                                $cityList[$v['@attributes']['d2']] = $v['@attributes']['d1'];
-//                            }
-//                            cache('city_list', $cityList);
-//        }
-//        dump(array_key_exists($k, $cityList));
-//         dump($cityList[$k]);
-//        exit;
-//                            
-//                            if (array_key_exists($_GET['k'], $cityList)) {
-//                                $url = "http://www.weather.com.cn/data/cityinfo/{$cityList[$_GET['k']]}.html";
-//                                $ch = curl_init();
-//                                curl_setopt($ch, CURLOPT_URL, $url);
-//                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                                
-//                                $res = curl_exec($ch);
-//                                $res = json_decode($res, true);
-//                                $info = $res['weatherinfo'];
-//                                dump($info);
-//                                $content = "<h1>" . $info['city'] . "</h1>\n天气: " . $info['weather'] . "\n最低温度: " . $info['temp1'] . "\n最高温度: " . $info['temp2'];
-//                            } else {
-//                                $content = '没有找到'.$k . '的天气信息.';
-//                                
-//                            }
-//                            echo $content;
-//                            dump($cityList[$_GET['k']]);exit;
-        //dump(is_string('22')); exit;
-                            
+                                 
         // 判断是验证还是其他业务
         if (empty($params['echostr'])) {
             # 其他业务
              // 1.获取到微信推送过来的post数据(xml格式)
-            $postStr = file_get_contents('php://input');
+            //$postStr = file_get_contents('php://input');
+            $postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[武汉]]></Content>  <MsgId>1234567890123456</MsgId></xml>";
             // 2. 处理数据并回复      
             if (!empty($postStr)) {
-                $postObj = simplexml_load_string($postStr);
-
+                $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+                $postArr = json_decode(json_encode($postObj), true);
+                $keyword = trim($postArr['Content']);
+       
                 /*<xml>  事件推送格式
                  * <ToUserName>
                  * < ![CDATA[toUser] ]></ToUserName><FromUserName>
@@ -99,9 +56,8 @@ class Index extends Controller  {
                         $this->weixinObj->responseNews($postObj, $arr);
                     }
                 } else if ($postObj->MsgType == 'text') {
-                    $keyword = $postObj->Content;
                     //天气查询
-                    if (!(is_numeric($postObj->Content))) {                       
+                    if (!(is_numeric($keyword))) {                       
                         $cityList = cache('city_list');
                         if (!$cityList) {
                             $url = 'http://mobile.weather.com.cn/js/citylist.xml';

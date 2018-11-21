@@ -181,7 +181,7 @@ class Index extends Controller  {
                                 $this->weixinObj->responseNews($postObj, $arr);
                                 break;
                             default:
-                                $content = '找不到和' . $postObj . '相关的信息';
+                                $content = '找不到和' . $postObj->Content . '相关的信息';
                                 break;
                         }
                     }

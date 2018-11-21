@@ -15,7 +15,7 @@ class Index extends Controller  {
     public function index() {
         // 获得参数 signaturn nonce echostr timestamp, token
         $params['timestamp'] = isset($_GET['timestamp'])? $_GET['timestamp']:'';
-        $parmas['nonce']     = isset($_GET['nonce'])? $_GET['nonce'] : '';
+        $params['nonce']     = isset($_GET['nonce'])? $_GET['nonce'] : '';
         $params['token']     = 'guoguo2016';
         $params['signature'] = isset($_GET['signature'])? $_GET['signature'] : '';
         $params['echostr']   = isset($_GET['echostr'])? $_GET['echostr'] : '';
@@ -115,7 +115,7 @@ class Index extends Controller  {
 
             }
         } else {
-            $this->weixinObj->wxVerify($parmas);
+            $this->weixinObj->wxVerify($params);
         }        
     }
     

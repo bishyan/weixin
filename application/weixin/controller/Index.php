@@ -54,6 +54,7 @@ class Index extends Controller  {
 //                            }
 //                            echo $content;
 //                            dump($cityList[$_GET['k']]);exit;
+        //dump(is_string('22')); exit;
                             
         // 判断是验证还是其他
         if (empty($params['echostr'])) {
@@ -180,7 +181,7 @@ class Index extends Controller  {
                                 $this->weixinObj->responseNews($postObj, $arr);
                                 break;
                             default:
-                                $content = '找不到相关的信息';
+                                $content = '找不到和' . $postObj . '相关的信息';
                                 break;
                         }
                     }

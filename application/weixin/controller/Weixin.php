@@ -74,6 +74,27 @@ class Weixin extends Controller  {
     }
     
     /**
+     * 回复图片消息
+     * @param object $postObj   post数据对象
+     * @param string $imgId     图片id
+     */
+    public function responseImage($postObj, $imgId) {
+        $toUser = $postObj->FromUserName;
+        $fromUser = $postObj->ToUserName;
+        $template = "<xml>
+                    <ToUserName>< ![CDATA[%s] ]></ToUserName>
+                    <FromUserName>< ![CDATA[%s] ]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType>< ![CDATA[%s] ]></MsgType>
+                    <Image>
+                        <MediaId>< ![CDATA[%s] ]></MediaId>
+                    </Image>
+                    </xml>";
+        
+        echo sprintf($template, $toUser, $fromUser, time(), 'image', $imgId);
+    }
+    
+    /**
      * 回复文本消息
      * @param object $postObj   post数据对象
      * @param string $content   文本内容

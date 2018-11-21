@@ -24,8 +24,8 @@ class Index extends Controller  {
         if (empty($params['echostr'])) {
             # 其他业务
              // 1.获取到微信推送过来的post数据(xml格式)
-            //$postStr = file_get_contents('php://input');
-            $postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[武汉]]></Content>  <MsgId>1234567890123456</MsgId></xml>";
+            $postStr = file_get_contents('php://input');
+            //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[武汉]]></Content>  <MsgId>1234567890123456</MsgId></xml>";
             // 2. 处理数据并回复      
             if (!empty($postStr)) {
                 $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -55,7 +55,7 @@ class Index extends Controller  {
                         );
                         $this->weixinObj->responseNews($postObj, $arr);
                     }
-                } else if ($postObj->MsgType == 'text') {
+                } else if (strtolower($postObj->MsgType) == 'text') {
                     //天气查询
                     if (!(is_numeric($keyword))) {                       
                         $cityList = cache('city_list');

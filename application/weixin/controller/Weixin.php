@@ -105,7 +105,6 @@ class Weixin extends Controller  {
     public function responseText($postObj, $content) {           
         $toUser = $postObj->FromUserName;
         $fromUser = $postObj->ToUserName;
-        $time = time();
         $template = "<xml> 
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
@@ -113,7 +112,7 @@ class Weixin extends Controller  {
                         <MsgType><![CDATA[%s]]></MsgType>
                         <Content><![CDATA[%s]]></Content>
                         </xml>"; 
-        echo sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
+        echo sprintf($template, $toUser, $fromUser, time(), 'text', $content);
         
         //printf($template, $toUser, $fromUser, $time, 'text', $content);       
     }

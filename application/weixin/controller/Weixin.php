@@ -117,9 +117,9 @@ class Weixin extends Controller  {
     
     // 获取access_token
     public function getWxAccessToken() {
-        $access_token = session('?access_token')? session('access_token') : '';
+        //$access_token = session('?access_token')? session('access_token') : '';
         
-        if (empty($access_token) || session('expire_time') < time()) {
+        //if (empty($access_token) || session('expire_time') < time()) {
             echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
@@ -131,7 +131,7 @@ class Weixin extends Controller  {
             $access_token = $res['access_token'];
             session('access_token', $access_token);
             session('expire_time', time()+7000);           
-        }
+       // }
         
         return $access_token;
     }
@@ -160,10 +160,12 @@ class Weixin extends Controller  {
         
         if (curl_errno($ch)) {
             // 请示失败, 返回错误信息
+            $err = curl_error($ch);
             curl_close($ch);
-            return curl_error($ch);
+            return $err;
         } else {
             // 成功
+            curl_close($ch);
             $res = json_decode($output, true);
             // 判断采集回来的是json还是xml格式
             if (json_last_error() == JSON_ERROR_NONE) {

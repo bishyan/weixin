@@ -219,7 +219,7 @@ class Index extends Controller  {
             ),
       
         );
-        $postJson = urlencode(json_encode($postArr));
+        $postJson = urldecode(json_encode($postArr));
         var_dump($postJson);
         $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);

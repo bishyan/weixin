@@ -21,6 +21,7 @@ class Index extends Controller  {
             // 验证微信服务器地址
             $this->weixinObj->wxVerify();
         } else {
+            $this->definedItem(); exit;
             # 其他业务
             $postObj = $this->getWxReqData();
 
@@ -172,6 +173,7 @@ class Index extends Controller  {
             'button' => array(
                 array(
                     'name' => '果果宝宝',
+                    'type' => 'click',
                     'key'  => 'vkakak_dkkd',
                 ),  // 第一个一级菜单
                 array(

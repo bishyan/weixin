@@ -158,16 +158,22 @@ class Weixin extends Controller  {
         // 关闭
         curl_close($ch);
         
-        $res = json_decode($output, true);
-        // 判断采集回来的是json还是xml格式
-        if (json_last_error() == JSON_ERROR_NONE) {
-            // json
-            return $res;
+        if (curl_errno($ch)) {
+            // 请示失败, 返回错误信息
+            return curl_error($ch);
         } else {
-            // xml 将xml转成数组
-            $obj = simplexml_load_string($output);
-            
-            return json_decode(json_encode($obj), true);
+            // 成功
+            $res = json_decode($output, true);
+            // 判断采集回来的是json还是xml格式
+            if (json_last_error() == JSON_ERROR_NONE) {
+                // json
+                return $res;
+            } else {
+                // xml 将xml转成数组
+                $obj = simplexml_load_string($output);
+
+                return json_decode(json_encode($obj), true);
+            }
         }
     }
     

@@ -169,7 +169,6 @@ class Index extends Controller  {
         $access_token = $this->weixinObj->getWxAccessToken();
         var_dump($access_token);
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
-        dump($url);
         $postArr = array(
             'button' => array(
                 array(
@@ -220,7 +219,7 @@ class Index extends Controller  {
             ),
       
         );
-        $postJson = json_encode($postArr);
+        $postJson = urlencode(json_encode(urlencode($postArr)));
         $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);
     }

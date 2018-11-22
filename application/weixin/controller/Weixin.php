@@ -120,7 +120,7 @@ class Weixin extends Controller  {
         //$access_token = session('?access_token')? session('access_token') : '';
         
         //if (empty($access_token) || session('expire_time') < time()) {
-            echo '3k3kdk';
+            //echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
             $secret = '1830b09c31cdf066fa299025c326b8f3';

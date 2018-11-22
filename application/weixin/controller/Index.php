@@ -172,16 +172,16 @@ class Index extends Controller  {
         $postArr = array(
             'button' => array(
                 array(
-                    'name' => '果果宝宝',
+                    'name' => urlencode('果果宝宝'),
                     'type' => 'click',
                     'key'  => 'vkakak_dkkd',
                 ),  // 第一个一级菜单
                 array(
-                    'name' => '小蜜',
+                    'name' => urlencode('小蜜'),
                     'sub_button' => array(
                         array(
                             'type' => 'view',
-                            'name' => '搜索',
+                            'name' => urlencode('搜索'),
                             'url' => 'http://www.soso.com'
                         ),
                         array(
@@ -193,24 +193,24 @@ class Index extends Controller  {
                         ),
                         array(
                             'type' => 'click',
-                            'name' => '赞一下我们',
+                            'name' => urlencode('赞一下我们'),
                             'key'  => 'dVvkdk'
                         ),
                     ),
                     
                 ),  // 第二个一级菜单
                 array(
-                    'name' => '扫码',
+                    'name' => urlencode('扫码'),
                     'sub_button' => array(
                         array(
                             'type' => 'scancode_waitmsg',
-                            'name' => '扫码带提示',
+                            'name' => urlencode('扫码带提示'),
                             'key'  => 'rselfmenu-kddk',
                             'sub_button' => array(),
                         ),
                         array(
                             'type' => 'scancode_push',
-                            'name' => '扫码事件',
+                            'name' => urlencode('扫码事件'),
                             'key'  => 'reskksk_0_1',
                             'sub_button' => array(),
                         ),
@@ -219,7 +219,7 @@ class Index extends Controller  {
             ),
       
         );
-        $postJson = urlencode(json_encode(urlencode($postArr)));
+        $postJson = urlencode(json_encode($postArr));
         $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);
     }

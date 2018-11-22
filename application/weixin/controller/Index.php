@@ -15,13 +15,13 @@ class Index extends Controller  {
     }
     
     public function index() {
+        $this->definedItem(); exit;
                                   
         // 判断是验证还是其他业务
         if ($this->request->isGet()) {
             // 验证微信服务器地址
             $this->weixinObj->wxVerify();
-        } else {
-            $this->definedItem(); exit;
+        } else {            
             # 其他业务
             $postObj = $this->getWxReqData();
 

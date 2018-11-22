@@ -117,9 +117,9 @@ class Weixin extends Controller  {
     
     // 获取access_token
     public function getWxAccessToken() {
-        //$access_token = session('?access_token')? session('access_token') : '';
+        $access_token = session('?access_token')? session('access_token') : '';
         
-        //if (empty($access_token) || session('expire_time') < time()) {
+        if (empty($access_token) || session('expire_time') < time()) {
             //echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
@@ -130,8 +130,8 @@ class Weixin extends Controller  {
             
             $access_token = $res['access_token'];
             session('access_token', $access_token);
-            session('expire_time', time()+7000);           
-       // }
+            session('expire_time', time()+10);           
+        }
         
         return $access_token;
     }

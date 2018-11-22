@@ -11,6 +11,7 @@
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Index.php</file>
             <file>file:/C:/xampp/htdocs/weixin/thinkphp/helper.php</file>
             <file>file:/C:/xampp/htdocs/weixin/thinkphp/library/think/cache/Driver.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/thinkphp/library/think/Session.php</file>
         </group>
     </open-files>
 </project-private>

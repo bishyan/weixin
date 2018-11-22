@@ -156,10 +156,11 @@ class Weixin extends Controller  {
         // 3. 采集
         $output = curl_exec($ch);    
         // 关闭
-        curl_close($ch);
+        //curl_close($ch);
         
         if (curl_errno($ch)) {
             // 请示失败, 返回错误信息
+            curl_close($ch);
             return curl_error($ch);
         } else {
             // 成功

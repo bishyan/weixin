@@ -127,9 +127,10 @@ class Weixin extends Controller  {
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
 
             $res = $this->http_curl($url);
-            $access_token = $res['access_token'];
-            session('access_token', $access_token);
-            session('expire_time', time()+7000);           
+            var_dump($res); exit;            
+            //$access_token = $res['access_token'];
+            //session('access_token', $access_token);
+            //session('expire_time', time()+7000);           
         }
         dump($access_token);
         //return $access_token;

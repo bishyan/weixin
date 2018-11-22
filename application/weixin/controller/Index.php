@@ -185,11 +185,10 @@ class Index extends Controller  {
                             'url' => 'http://www.soso.com'
                         ),
                         array(
-                            'type'  => 'miniprogram',
-                            'name'  => 'wxa',
-                            'url'   => 'http://mp.weixin.qq.com',
-                            'appid' => 'wx286b93c14bbf93aa',
-                            'pagepath' => 'pages/lunar/inde'
+                            'type'  => 'pic_sysphoto',
+                            'name'  => '系统拍照发图',
+                            'key'   => 'kdkdk_ovkd',
+                            'sub_button' => array(),
                         ),
                         array(
                             'type' => 'click',

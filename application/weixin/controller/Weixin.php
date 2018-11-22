@@ -143,7 +143,7 @@ class Weixin extends Controller  {
      * @param  $arr  请求的参数
      * @return type
      */
-    private function http_curl($url, $type='get', $arr = '') {
+    public function http_curl($url, $type='get', $arr = '') {
         // 1. 初始化
         $ch = curl_init();
         // 2. 设置参数

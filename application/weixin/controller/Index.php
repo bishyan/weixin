@@ -166,14 +166,59 @@ class Index extends Controller  {
     // 创建微信菜单
     public function definedItem() {
         $access_token = $this->weixinObj->getWxAccessToken();
+        var_dump($access_token);
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
         $postArr = array(
-            array(),  // 第一个一级菜单
-            array(),  // 第二个一级菜单
-            array(),  // 第三个一级菜单
+            'button' => array(
+                array(
+                    'name' => '果果宝宝',
+                    'key'  => 'vkakak_dkkd',
+                ),  // 第一个一级菜单
+                array(
+                    'name' => '小蜜',
+                    'sub_button' => array(
+                        array(
+                            'type' => 'view',
+                            'name' => '搜索',
+                            'url' => 'http://www.soso.com'
+                        ),
+                        array(
+                            'type'  => 'miniprogram',
+                            'name'  => 'wxa',
+                            'url'   => 'http://mp.weixin.qq.com',
+                            'appid' => 'wx286b93c14bbf93aa',
+                            'pagepath' => 'pages/lunar/inde'
+                        ),
+                        array(
+                            'type' => 'click',
+                            'name' => '赞一下我们',
+                            'key'  => 'dVvkdk'
+                        ),
+                    ),
+                    
+                ),  // 第二个一级菜单
+                array(
+                    'name' => '扫码',
+                    'sub_button' => array(
+                        array(
+                            'type' => 'scancode_waitmsg',
+                            'name' => '扫码带提示',
+                            'key'  => 'rselfmenu-kddk',
+                            'sub_button' => array(),
+                        ),
+                        array(
+                            'type' => 'scancode_push',
+                            'name' => '扫码事件',
+                            'key'  => 'reskksk_0_1',
+                            'sub_button' => array(),
+                        ),
+                    )
+                ), // 第三个一级菜单
+            ),
+      
         );
         $postJson = json_encode($postArr);
-        $res = $this->http_curl($url, 'post', $postJson);
+        $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);
     }
 }

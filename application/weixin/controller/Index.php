@@ -153,8 +153,8 @@ class Index extends Controller  {
     
     //获取到微信推送过来的post数据(xml格式)
     public function getWxReqData() {
-     //   $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[this is a test]]></Content>  <MsgId>1234567890123456</MsgId>  </xml>";
+        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[this is a test]]></Content>  <MsgId>1234567890123456</MsgId>  </xml>";
         if (!empty($postStr)) {
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
                     

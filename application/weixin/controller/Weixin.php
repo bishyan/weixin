@@ -10,17 +10,16 @@ use think\Controller;
 class Weixin extends Controller  {
     
     /**
-     * 微信验证
-     * @param array $paramArr   参数数组
-     * @return boolean
+     * 验证微信服务器
      */
-    public function wxVerify($paramArr) {
-        // 获得参数 signaturn nonce echostr timestamp
-        $timestamp = isset($paramArr['timestamp'])? $paramArr['timestamp'] : '';
-        $nonce     = isset($paramArr['nonce'])? $paramArr['nonce'] : '';
-        $token     = isset($paramArr['token'])? $paramArr['token'] : '';
-        $signature = isset($paramArr['signature'])? $paramArr['signature'] : '';
-        $echostr   = isset($paramArr['echostr'])? $paramArr['echostr'] : '';
+    public function wxVerify() {
+ 
+        // 获得参数 signaturn nonce echostr timestamp, token
+        $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';
+        $nonce     = isset($_GET['nonce'])? $_GET['nonce'] : '';
+        $token     = 'guoguo2016';
+        $signature = isset($_GET['signature'])? $_GET['signature'] : '';
+        $echostr   = isset($_GET['echostr'])? $_GET['echostr'] : '';
         
         // 将timestamp, nonce, token 三个参数按字典排序 
         $arr = array($timestamp, $nonce, $token);
@@ -31,7 +30,6 @@ class Weixin extends Controller  {
         if ($arrStr == $signature) {
             echo $echostr;
         } 
-
     }
     
     /**
@@ -137,7 +135,6 @@ class Weixin extends Controller  {
         }
         
         $res = json_decode($res, true);
-        //var_dump($res);
         // 5. 关闭
         curl_close($curl); 
         

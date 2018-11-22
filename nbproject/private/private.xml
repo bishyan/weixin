@@ -6,10 +6,11 @@
             <file>file:/C:/xampp/htdocs/weixin/application/config.php</file>
             <file>file:/C:/xampp/htdocs/weixin/public/index.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Weixin_1.php</file>
-            <file>file:/C:/xampp/htdocs/weixin/.gitignore</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Weixin.php</file>
-            <file>file:/C:/xampp/htdocs/weixin/public/router.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/.gitignore</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Index.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/thinkphp/helper.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/thinkphp/library/think/cache/Driver.php</file>
         </group>
     </open-files>
 </project-private>

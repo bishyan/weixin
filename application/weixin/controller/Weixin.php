@@ -158,7 +158,7 @@ class Weixin extends Controller  {
         // 关闭
         curl_close($ch);
         
-        $res = json_decode($output);
+        $res = json_decode($output, true);
         // 判断采集回来的是json还是xml格式
         if (json_last_error() == JSON_ERROR_NONE) {
             // json

@@ -161,40 +161,7 @@ class Index extends Controller  {
         return $postObj;
     }
     
-    /**
-     * 获取url接口数据
-     * @param string $url   接口url
-     * @param string $type  请求的类型
-     * @param  $arr  请求的参数
-     * @return type
-     */
-    public function http_curl($url, $type='get', $arr = '') {
-        // 1. 初始化
-        $ch = curl_init();
-        // 2. 设置参数
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        if ($type == 'post') {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);
-        }
-        // 3. 采集
-        $output = curl_exec($ch);    
-        // 关闭
-        curl_close($ch);
-        
-        $res = json_decode($output);
-        // 判断采集回来的是json还是xml格式
-        if (json_last_error() == JSON_ERROR_NONE) {
-            // json
-            return $res;
-        } else {
-            // xml 将xml转成数组
-            $obj = simplexml_load_string($output);
-            
-            return json_decode(json_encode($obj));
-        }
-    }
+
     
     // 创建微信菜单
     public function definedItem() {

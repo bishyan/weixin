@@ -186,7 +186,7 @@ class Index extends Controller  {
                         ),
                         array(
                             'type'  => 'pic_sysphoto',
-                            'name'  => '系统拍照发图',
+                            'name'  => urlencode('系统拍照发图'),
                             'key'   => 'kdkdk_ovkd',
                             'sub_button' => array(),
                         ),

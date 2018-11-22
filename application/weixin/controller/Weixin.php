@@ -119,17 +119,20 @@ class Weixin extends Controller  {
     public function getWxAccessToken() {
         $access_token = session('?access_token')? session('access_token') : '';
         
-        if (empty($access_token)) {
+        if (empty($access_token) || session('expire_time') < time()) {
+            echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
             $secret = '1830b09c31cdf066fa299025c326b8f3';
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
 
             $res = $this->http_curl($url);
-            dump($res);
+            $access_token = $res['access_token'];
+            session('access_token', $access_token);
+            session('expire_time', time()+7000);           
         }
-        
-        //return $res;
+        dump($access_token);
+        //return $access_token;
     }
     
         /**
@@ -163,7 +166,7 @@ class Weixin extends Controller  {
             // xml 将xml转成数组
             $obj = simplexml_load_string($output);
             
-            return json_decode(json_encode($obj));
+            return json_decode(json_encode($obj), true);
         }
     }
     

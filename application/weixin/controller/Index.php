@@ -1,7 +1,9 @@
 <?php
 
+/**
+ * 微信公众号服务类
+ */
 namespace app\weixin\controller;
-
 use think\Controller;
 
 class Index extends Controller  {
@@ -21,14 +23,6 @@ class Index extends Controller  {
         } else {
             # 其他业务
             $postObj = $this->getWxReqData();
-            /*<xml>  事件推送格式
-             * <ToUserName>
-             * < ![CDATA[toUser] ]></ToUserName><FromUserName>
-             * < ![CDATA[FromUser] ]></FromUserName>
-             * <CreateTime>123456789</CreateTime>
-             * <MsgType>< ![CDATA[event] ]></MsgType>
-             * <Event>< ![CDATA[subscribe] ]></Event>
-             * </xml>*/
 
             // 判断数据类型
             if (strtolower($postObj->MsgType) == 'event') {
@@ -166,6 +160,54 @@ class Index extends Controller  {
         
         return $postObj;
     }
- 
+    
+    /**
+     * 获取url接口数据
+     * @param string $url   接口url
+     * @param string $type  请求的类型
+     * @param  $arr  请求的参数
+     * @return type
+     */
+    public function http_curl($url, $type='get', $arr = '') {
+        // 1. 初始化
+        $ch = curl_init();
+        // 2. 设置参数
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if ($type == 'post') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);
+        }
+        // 3. 采集
+        $output = curl_exec($ch);    
+        // 关闭
+        curl_close($ch);
+        
+        $res = json_decode($output);
+        // 判断采集回来的是json还是xml格式
+        if (json_last_error() == JSON_ERROR_NONE) {
+            // json
+            return $res;
+        } else {
+            // xml 将xml转成数组
+            $obj = simplexml_load_string($output);
+            
+            return json_decode(json_encode($obj));
+        }
+    }
+    
+    // 创建微信菜单
+    public function definedItem() {
+        $access_token = $this->weixinObj->getWxAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
+        $postArr = array(
+            array(),  // 第一个一级菜单
+            array(),  // 第二个一级菜单
+            array(),  // 第三个一级菜单
+        );
+        $postJson = json_encode($postArr);
+        $res = $this->http_curl($url, 'post', $postJson);
+        var_dump($res);
+    }
 }
 

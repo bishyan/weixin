@@ -117,28 +117,54 @@ class Weixin extends Controller  {
     
     // 获取access_token
     public function getWxAccessToken() {
-        // 1. 请求url地址
-        $appid = 'wxe6dfc606143872e8';
-        $secret = '0be5d18ee3d0f3df973d06c2a9e22b22';
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
+        $access_token = session('?access_token')? session('access_token') : '';
         
-        // 2. 初始化curl
-        $curl = curl_init();     
-        // 3. 设置参数        
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // 4. 调用接口 
-        $res = curl_exec($curl);
+        if (empty($access_token)) {
+            // 1. 请求url地址
+            $appid = 'wxf90f6aec3e2fcd91';
+            $secret = '1830b09c31cdf066fa299025c326b8f3';
+            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
 
-        if (curl_errno($curl)) {
-            var_dump(curl_error($curl));
+            $res = $this->http_curl($url);
+            dump($res);
         }
         
-        $res = json_decode($res, true);
-        // 5. 关闭
-        curl_close($curl); 
+        //return $res;
+    }
+    
+        /**
+     * 获取url接口数据
+     * @param string $url   接口url
+     * @param string $type  请求的类型
+     * @param  $arr  请求的参数
+     * @return type
+     */
+    private function http_curl($url, $type='get', $arr = '') {
+        // 1. 初始化
+        $ch = curl_init();
+        // 2. 设置参数
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if ($type == 'post') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);
+        }
+        // 3. 采集
+        $output = curl_exec($ch);    
+        // 关闭
+        curl_close($ch);
         
-        return $res;
+        $res = json_decode($output);
+        // 判断采集回来的是json还是xml格式
+        if (json_last_error() == JSON_ERROR_NONE) {
+            // json
+            return $res;
+        } else {
+            // xml 将xml转成数组
+            $obj = simplexml_load_string($output);
+            
+            return json_decode(json_encode($obj));
+        }
     }
     
     //获取微信服务器IP

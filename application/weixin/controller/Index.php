@@ -40,15 +40,16 @@ class Index extends Controller  {
                 } else if (strtolower($postData['Event']) == 'click') {
                     switch($postData['EventKey']) {
                         case 'about_me':
-                            $this->weixinObj->responseText($postData, '我是果果的爸爸');
+                            $this->weixinObj->responseText($postData, '我是果果的爸爸..');
                             break;
                         case 'dVvkdk':
                             $this->weixinObj->responseText($postData, '谢谢你的称赞!');
                             break;
                         default:
-                            $this->weixinObj->responseText($postData, '其他东东....');
+                            $this->weixinObj->responseText($postData, '其他东东.');
                             break;
                     }                   
+
                 }
                    
                     

@@ -43,7 +43,7 @@ class Index extends Controller  {
                             $this->weixinObj->responseText($postData, '我是果果的爸爸..');
                             break;
                         case 'dVvkdk':
-                            $this->weixinObj->responseText($postData, '谢谢你的称赞!');
+                            $this->weixinObj->responseText($postData, '谢谢你的称赞....!');
                             break;
                         default:
                             $this->weixinObj->responseText($postData, '其他东东.');

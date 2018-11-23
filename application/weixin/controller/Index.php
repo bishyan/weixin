@@ -203,9 +203,12 @@ class Index extends Controller  {
                             'url'   => 'http://zuoche.com/touch/searincity.jspx',
                         ),
                         array(
-                            'type' => 'click',
-                            'name' => urlencode('赞一下我们'),
-                            'key'  => 'dVvkdk'
+                            'name' => urlencode('三级'),
+                            'sub_button' => array(
+                                'type' => 'click',
+                                'name' => urlencode('赞一下我们'),
+                                'key'  => 'dVvkdk'
+                            )
                         ),
                     ),
                     

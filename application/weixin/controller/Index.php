@@ -17,13 +17,12 @@ class Index extends Controller  {
     public function index() {
                                   
         // 判断是验证还是其他业务
-        if (!$this->request->isGet()) {
+        if ($this->request->isGet()) {
             // 验证微信服务器地址
             $this->weixinObj->wxVerify();
         } else {       
             # 其他业务
             $postData = $this->getWxReqData();
-            dump($postData);
             // 判断数据类型
             if (strtolower($postData['MsgType']) == 'event') {
                 echo 'event';

@@ -202,10 +202,9 @@ class Index extends Controller  {
                     'name' => urlencode('扫码'),
                     'sub_button' => array(
                         array(
-                            'type' => 'scancode_waitmsg',
-                            'name' => urlencode('扫码带提示'),
+                            'type' => 'location_select',
+                            'name' => urlencode('发送位置'),
                             'key'  => 'rselfmenu-kddk',
-                            'sub_button' => array(),
                         ),
                         array(
                             'type' => 'scancode_push',

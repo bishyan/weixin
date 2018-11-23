@@ -38,14 +38,17 @@ class Index extends Controller  {
                     );
                     $this->weixinObj->responseNews($postObj, $arr);
                 } else if (strtolower($postObj->Event) == 'click') {
-                    if($postObj->Eventkey == 'about_me') {
-                        $this->weixinObj->responseText($postObj, '我是果果的爸爸');
-                    } else if ($postObj->Eventkey == 'dVvkdk'){
-                        $this->weixinObj->responseText($postObj, '谢谢你的称赞!');
-                    } else {
-                        $this->weixinObj->responseText($postObj, '其他东东');
-                    }
-                    
+                    switch($postObj->Eventkey) {
+                        case 'about_me':
+                            $this->weixinObj->responseText($postObj, '我是果果的爸爸');
+                            break;
+                        case 'dVvkdk':
+                            $this->weixinObj->responseText($postObj, '谢谢你的称赞!');
+                            break;
+                        default:
+                            $this->weixinObj->responseText($postObj, '其他东东....');
+                            break;
+                    }                   
                 }
                    
                     

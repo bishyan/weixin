@@ -120,14 +120,14 @@ class Weixin extends Controller  {
         $access_token = session('?access_token')? session('access_token') : '';
         
         if (empty($access_token) || session('expire_time') < time()) {
-            //echo '3k3kdk';
+            echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
             $secret = '1830b09c31cdf066fa299025c326b8f3';
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
 
             $res = $this->http_curl($url);
-            
+            var_dump($res);
             $access_token = $res['access_token'];
             session('access_token', $access_token);
             session('expire_time', time()+10);           
@@ -149,6 +149,7 @@ class Weixin extends Controller  {
         // 2. 设置参数
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         if ($type == 'post') {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);

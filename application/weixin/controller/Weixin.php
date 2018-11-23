@@ -34,7 +34,7 @@ class Weixin extends Controller  {
     
     /**
      * 回复图文消息
-     * @param object $postObj   post数据对象
+     * @param array $postData   post数据
      * @param array $arr     二维数组, 格式: 
      *      $arr = array(
                 array(
@@ -52,9 +52,9 @@ class Weixin extends Controller  {
             );
      * @return string
      */
-    public function responseNews($postObj, $arr) {
-        $toUser = $postObj->FromUserName;
-        $fromUser = $postObj->ToUserName;
+    public function responseNews($postData, $arr) {
+        $toUser = $postData['FromUserName'];
+        $fromUser = $postData['ToUserName'];
         $template = "<xml>
                 <ToUserName><![CDATA[%s]]></ToUserName>
                 <FromUserName><![CDATA[%s]]></FromUserName>
@@ -76,12 +76,12 @@ class Weixin extends Controller  {
     
     /**
      * 回复图片消息
-     * @param object $postObj   post数据对象
+     * @param array $postData   post数据
      * @param string $imgId     图片id
      */
-    public function responseImage($postObj, $imgId) {
-        $toUser = $postObj->FromUserName;
-        $fromUser = $postObj->ToUserName;
+    public function responseImage($postData, $imgId) {
+        $toUser = $postData['FromUserName'];
+        $fromUser = $postData['ToUserName'];
         $template = "<xml>
                     <ToUserName>< ![CDATA[%s] ]></ToUserName>
                     <FromUserName>< ![CDATA[%s] ]></FromUserName>
@@ -97,12 +97,12 @@ class Weixin extends Controller  {
     
     /**
      * 回复文本消息
-     * @param object $postObj   post数据对象
+     * @param array $postData   post数据
      * @param string $content   文本内容
      */
-    public function responseText($postObj, $content) {           
-        $toUser = $postObj->FromUserName;
-        $fromUser = $postObj->ToUserName;
+    public function responseText($postData, $content) {           
+        $toUser = $postData['FromUserName'];
+        $fromUser = $postData['ToUserName'];
         $template = "<xml> 
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
@@ -111,7 +111,7 @@ class Weixin extends Controller  {
                         <Content><![CDATA[%s]]></Content>
                         </xml>"; 
         echo sprintf($template, $toUser, $fromUser, time(), 'text', $content);
-        
+
         //printf($template, $toUser, $fromUser, $time, 'text', $content);       
     }
     

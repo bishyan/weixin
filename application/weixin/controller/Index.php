@@ -17,17 +17,18 @@ class Index extends Controller  {
     public function index() {
                                   
         // 判断是验证还是其他业务
-        if ($this->request->isGet()) {
+        if (!$this->request->isGet()) {
             // 验证微信服务器地址
             $this->weixinObj->wxVerify();
-        } else {            
+        } else {       
             # 其他业务
-            $postObj = $this->getWxReqData();
-
+            $postData = $this->getWxReqData();
+            dump($postData);
             // 判断数据类型
-            if (strtolower($postObj->MsgType) == 'event') {
+            if (strtolower($postData['MsgType']) == 'event') {
+                echo 'event';
                 // 如果是关注事件(subscribe)
-                if (strtolower($postObj->Event) == 'subscribe') {
+                if (strtolower($postData['Event']) == 'subscribe') {
                     $arr = array(
                         array(
                             'title' => 'guoguo',
@@ -36,25 +37,25 @@ class Index extends Controller  {
                             'url' => 'http://blog.ai702.com/',
                         ),
                     );
-                    $this->weixinObj->responseNews($postObj, $arr);
-                } else if (strtolower($postObj->Event) == 'click') {
-                    switch($postObj->Eventkey) {
+                    $this->weixinObj->responseNews($postData, $arr);
+                } else if (strtolower($postData['Event']) == 'click') {
+                    switch($postData['EventKey']) {
                         case 'about_me':
-                            $this->weixinObj->responseText($postObj, '我是果果的爸爸');
+                            $this->weixinObj->responseText($postData, '我是果果的爸爸');
                             break;
                         case 'dVvkdk':
-                            $this->weixinObj->responseText($postObj, '谢谢你的称赞!');
+                            $this->weixinObj->responseText($postData, '谢谢你的称赞!');
                             break;
                         default:
-                            $this->weixinObj->responseText($postObj, '其他东东....');
+                            $this->weixinObj->responseText($postData, '其他东东....');
                             break;
                     }                   
                 }
                    
                     
-            } else if (strtolower($postObj->MsgType) == 'text') {
-                $postArr = json_decode(json_encode($postObj), true);
-                $keyword = trim($postArr['Content']);
+            } else if (strtolower($postData['MsgType']) == 'text') {
+                echo 'text';
+                $keyword = trim($postData['Content']);
                 
                 //天气查询
                 if (!(is_numeric($keyword))) {                       
@@ -93,9 +94,10 @@ class Index extends Controller  {
                         $content = '没有找到'.$keyword . '的天气信息.';
                     }
 
-                    $this->weixinObj->responseText($postObj, $content);
+                    $this->weixinObj->responseText($postData, $content);
                 } else {
-                    switch( trim($postObj->Content) ) {
+                    echo 'elese';
+                    switch( trim($postData['Content']) ) {
                         case 1:
                             $content = '果果2岁4个月大了..';
                             break;
@@ -117,7 +119,7 @@ class Index extends Controller  {
                                     'url' => 'http://blog.ai702.com/a/6',
                                 ),
                             );
-                            $this->weixinObj->responseNews($postObj, $arr);
+                            $this->weixinObj->responseNews($postData, $arr);
                             break;
                         case 6: 
                         // 回复多图文, 当前微信版本 : 图文消息个数；
@@ -143,16 +145,16 @@ class Index extends Controller  {
                                     'url' => 'http://www.hao123.com',
                                 ),
                             );
-                            $this->weixinObj->responseNews($postObj, $arr);
+                            $this->weixinObj->responseNews($postData, $arr);
                             break;
                         default:
-                            $content = '找不到和' . $postObj->Content . '相关的信息';
+                            $content = '找不到和' . $postData->Content . '相关的信息';
                             break;
                     }
                 }
 
                 if (isset($content)) {
-                    $this->weixinObj->responseText($postObj, $content);
+                    $this->weixinObj->responseText($postData, $content);
                 } 
             }              
         }        
@@ -161,18 +163,17 @@ class Index extends Controller  {
     
     //获取到微信推送过来的post数据(xml格式)
     public function getWxReqData() {
-        //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $postStr = file_get_contents("php://input");
-        //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[text]]></MsgType>  <Content><![CDATA[this is a test]]></Content>  <MsgId>1234567890123456</MsgId>  </xml>";
+        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        //$postStr = file_get_contents("php://input");
+        //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[event]]></MsgType>  <Event><![CDATA[CLICK]]></Event>
+        //<EventKey><![CDATA[EVENTKEY]]></EventKey>  <MsgId>1234567890123456</MsgId>  </xml>";
         if (!empty($postStr)) {
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-                    
+            $postData = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            return json_decode(json_encode($postData), true);      
         } else {
             echo 'NULL';
             exit;
         }
-        
-        return $postObj;
     }
     
 

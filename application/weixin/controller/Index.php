@@ -185,7 +185,7 @@ class Index extends Controller  {
         $postArr = array(
             'button' => array(
                 array(
-                    'name' => urlencode('果果宝宝'),
+                    'name' => urlencode('关于我'),
                     'type' => 'click',
                     'key'  => 'about_me',
                 ),  // 第一个一级菜单

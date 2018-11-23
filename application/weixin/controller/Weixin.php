@@ -120,17 +120,15 @@ class Weixin extends Controller  {
         $access_token = cache('access_token')? cache('access_token') : '';
         
         if (empty($access_token) || cache('expire_time') < time()) {
-            echo '3k3kdk';
             // 1. 请求url地址
             $appid = 'wxf90f6aec3e2fcd91';
             $secret = '1830b09c31cdf066fa299025c326b8f3';
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='. $appid .'&secret='. $secret;
 
             $res = $this->http_curl($url);
-            var_dump($res);
             $access_token = $res['access_token'];
             cache('access_token', $access_token);
-            cache('expire_time', time()+10);           
+            cache('expire_time', time()+7000);           
         }
         
         return $access_token;

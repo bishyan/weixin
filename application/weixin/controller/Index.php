@@ -15,7 +15,6 @@ class Index extends Controller  {
     }
     
     public function index() {
-        $this->definedItem(); exit;
                                   
         // 判断是验证还是其他业务
         if ($this->request->isGet()) {
@@ -38,7 +37,14 @@ class Index extends Controller  {
                         ),
                     );
                     $this->weixinObj->responseNews($postObj, $arr);
+                } else if (strtolower($postObj->Event) == 'CLICK') {
+                    if($postObj->Eventkey == 'about_me') {
+                        $this->weixinObj->responseText($postObj, '我是果果的爸爸');
+                    }
+                    
                 }
+                   
+                    
             } else if (strtolower($postObj->MsgType) == 'text') {
                 $postArr = json_decode(json_encode($postObj), true);
                 $keyword = trim($postArr['Content']);
@@ -167,14 +173,13 @@ class Index extends Controller  {
     // 创建微信菜单
     public function definedItem() {
         $access_token = $this->weixinObj->getWxAccessToken();
-        var_dump($access_token);
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
         $postArr = array(
             'button' => array(
                 array(
                     'name' => urlencode('果果宝宝'),
                     'type' => 'click',
-                    'key'  => 'vkakak_dkkd',
+                    'key'  => 'about_me',
                 ),  // 第一个一级菜单
                 array(
                     'name' => urlencode('小蜜'),

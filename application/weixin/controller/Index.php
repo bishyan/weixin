@@ -37,7 +37,7 @@ class Index extends Controller  {
                         ),
                     );
                     $this->weixinObj->responseNews($postObj, $arr);
-                } else if (strtolower($postObj->Event) == 'CLICK') {
+                } else if (strtolower($postObj->Event) == 'click') {
                     if($postObj->Eventkey == 'about_me') {
                         $this->weixinObj->responseText($postObj, '我是果果的爸爸');
                     } else {

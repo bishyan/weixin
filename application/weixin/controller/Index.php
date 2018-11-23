@@ -190,18 +190,17 @@ class Index extends Controller  {
                     'key'  => 'about_me',
                 ),  // 第一个一级菜单
                 array(
-                    'name' => urlencode('小蜜'),
+                    'name' => urlencode('生活助手'),
                     'sub_button' => array(
                         array(
                             'type' => 'view',
-                            'name' => urlencode('搜索'),
-                            'url' => 'http://www.soso.com'
+                            'name' => urlencode('百度搜索'),
+                            'url' => 'http://www.baidu.com'
                         ),
                         array(
-                            'type'  => 'pic_sysphoto',
-                            'name'  => urlencode('系统拍照发图'),
-                            'key'   => 'kdkdk_ovkd',
-                            'sub_button' => array(),
+                            'type'  => 'view',
+                            'name'  => urlencode('坐车'),
+                            'url'   => 'http://m.zuoche.com',
                         ),
                         array(
                             'type' => 'click',

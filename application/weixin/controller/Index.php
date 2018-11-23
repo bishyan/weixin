@@ -40,6 +40,8 @@ class Index extends Controller  {
                 } else if (strtolower($postObj->Event) == 'CLICK') {
                     if($postObj->Eventkey == 'about_me') {
                         $this->weixinObj->responseText($postObj, '我是果果的爸爸');
+                    } else {
+                        $this->weixinObj->responseText($postObj, '其他东东');
                     }
                     
                 }

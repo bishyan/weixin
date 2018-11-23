@@ -200,7 +200,7 @@ class Index extends Controller  {
                         array(
                             'type'  => 'view',
                             'name'  => urlencode('坐车'),
-                            'url'   => 'http://m.zuoche.com',
+                            'url'   => 'http://zuoche.com/touch/searincity.jspx',
                         ),
                         array(
                             'type' => 'click',

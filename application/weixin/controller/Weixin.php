@@ -330,19 +330,28 @@ class Weixin extends Controller  {
         //2.获取到网页授权的access_token
         $info = cache($code);
         if (!$info) {
+            echo 'guoguoss';
             $appid = $this->appId;
             $secret = $this->secret; 
             $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
             $info = $this->http_curl($url);
-            cache($code, $info);
+            cache($code, $info, tim()+30*24*3600);
+            cache($code.'.expire_time', 7000);  
         }
-        dump($info); exit;
-        if ($res['scope'] == 'snsapi_base') {
-            return $res;
+        
+        if ($info['scope'] == 'snsapi_base') {
+            return $info;
+        }
+        
+        dump($info);exit;
+        
+        // 判断access_token是否过期
+        if ($info['scope'] == 'snsapi_userinfo' && $info['expire_time'] < time) {
+            $res = $this->refreshToken($info['refresh_token']);
         }
         
         //3. 拉取用户的详细信息
-        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$info['access_token']."&openid=".$info['openid']."&lang=zh_CN";
         return $this->weixinObj->http_curl($url);
     }
     

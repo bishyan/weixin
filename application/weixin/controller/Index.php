@@ -347,8 +347,7 @@ class Index extends Controller  {
     public function getUserOpenId() {
         //2.获取用户信息
         $code = $_GET['code'];
-        dump($_GET);
-        dump($_POST);
+
         $res = $this->weixinObj->getUserInfo($code);
         dump($res);  //
         /*{ "access_token":"ACCESS_TOKEN",

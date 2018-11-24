@@ -194,38 +194,16 @@ class Weixin extends Controller  {
         var_dump($res);
     }
     
-    public function sendTemplateMsg() {
+    
+    /**
+     *  发送模板消息
+     * @param type $postJson   json格式的数据
+     */
+    public function sendWxTemplateMsg($postJson) {
         $access_token = $this->getWxAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $access_token;
         
-        /*{
-           "touser":"OPENID",
-           "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
-           "url":"http://weixin.qq.com/download",  
-           "miniprogram":{
-             "appid":"xiaochengxuappid12345",
-             "pagepath":"index?foo=bar"
-           },          
-           "data":{
-                   "first": {
-                       "value":"恭喜你购买成功！",
-                       "color":"#173177"
-                   },
-
-           }
-       }*/
         
-        $array = array(
-            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
-            'template_id' => 'nZR3hfPuRW7rBjIE1brRQaNn_SczMSXxaJLrHmi9GMM',
-            'url' => 'http://www.baidu.com',
-            'data' => array(
-                'name' => array('value' => '果果', 'color'=> '#173177'),
-                'age'  => array('value'=>'2岁了', 'color' => '#173177'),
-            )
-        );
-        
-        $postJson= json_encode($array);
         $res = $this->http_curl($url, 'post', $postJson);
         dump($res);        
     }

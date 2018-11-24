@@ -305,5 +305,57 @@ class Index extends Controller  {
         $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);
     }
+    
+    // 发送模板消息 
+    public function sendTemplateMsg() {
+        /*{ 模板消息格式
+           "touser":"OPENID",  
+           "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",  
+           "url":"http://weixin.qq.com/download",    
+           "miniprogram":{
+             "appid":"xiaochengxuappid12345",
+             "pagepath":"index?foo=bar"
+           },          
+           "data":{
+                   "first": {
+                       "value":"恭喜你购买成功！",
+                       "color":"#173177"
+                   },
+
+           }
+       }*/
+        
+        $array = array(
+            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
+            'template_id' => 'nZR3hfPuRW7rBjIE1brRQaNn_SczMSXxaJLrHmi9GMM',
+            'url' => 'http://www.baidu.com',
+            'data' => array(
+                'name' => array('value' => '果果', 'color'=> '#173177'),
+                'age'  => array('value'=>'2岁了', 'color' => '#173177'),
+            )
+        );
+        
+        $postJson= json_encode($array);
+        $this->weixinObj->sendWxTemplateMsg($postJson);
+    }
+    
+    public function getBaseInfo() {
+        // 1. 获取到code
+        $appid = 'wxf90f6aec3e2fcd91';
+        $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_base&state=123456#wechat_redirect";
+        header('Location: ' . $url);
+    }
+    
+    public function getUserOpenId() {
+        //2.获取到网页授权的access_token
+        $appid = 'wxf90f6aec3e2fcd91';
+        $secret = '1830b09c31cdf066fa299025c326b8f3';
+        $code = $_GET['code'];
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
+        //3.摘取到用户的open_id
+        $res = $this->weixinObj->http_curl($url);
+        dump($res);
+    }
 }
 

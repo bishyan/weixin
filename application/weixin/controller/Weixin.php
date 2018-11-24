@@ -329,6 +329,7 @@ class Weixin extends Controller  {
     public function getUserInfo($code) {
         //2.获取到网页授权的access_token
         $info = cache($code);
+        dump(!$info); 
         if (!$info) {
             echo 'guoguossss';
             $appid = $this->appId;

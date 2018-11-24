@@ -252,9 +252,6 @@ class Index extends Controller  {
     
     // 创建微信菜单
     public function definedItem() {
-        $access_token = $this->weixinObj->getWxAccessToken();
-        //dump($access_token);
-        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
         $postArr = array(
             'button' => array(
                 array(
@@ -302,8 +299,7 @@ class Index extends Controller  {
             ),      
         );
         $postJson = urldecode(json_encode($postArr));
-        $res = $this->weixinObj->http_curl($url, 'post', $postJson);
-        var_dump($res);
+        $res = $this->weixinObj->createMenu($postJson);
     }
     
     // 发送模板消息 
@@ -351,7 +347,8 @@ class Index extends Controller  {
     public function getUserOpenId() {
         //2.获取用户信息
         $code = $_GET['code'];
-        dump($code);
+        dump($_GET);
+        dump($_POST);
         $res = $this->weixinObj->getUserInfo($code);
         dump($res);  //
         /*{ "access_token":"ACCESS_TOKEN",
@@ -370,6 +367,8 @@ class Index extends Controller  {
     }
     
     public function getUserInfo() {
+        dump($_GET);
+        dump($_POST);
         
         $code = $_GET['code'];
         dump($code);

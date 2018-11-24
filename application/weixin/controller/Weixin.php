@@ -8,6 +8,17 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Weixin extends Controller  {
+    private $appId;
+    private $secret;
+    private $accessToken;
+    
+    public function __construct(\think\Request $request = null) {
+        parent::__construct($request);
+        $this->appId = 'wxf90f6aec3e2fcd91';
+        $this->secret = '1830b09c31cdf066fa299025c326b8f3';
+        $this->accessToken = $this->getWxAccessToken();
+    }
+    
     
     /**
      * 验证微信服务器
@@ -123,7 +134,7 @@ class Weixin extends Controller  {
      */
     public function sendMsgAllPreview($postJson) {
         // 获取access_token
-        $access_token = $this->getWxAccessToken();
+        $access_token = $this->accessToken;
         $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . $access_token;
 
         $res = $this->http_curl($url, 'post', $postJson);
@@ -209,7 +220,7 @@ class Weixin extends Controller  {
     }
     
     // 获取access_token
-    public function getWxAccessToken() {
+    private function getWxAccessToken() {
         $access_token = cache('access_token')? cache('access_token') : '';
         
         if (empty($access_token) || cache('expire_time') < time()) {
@@ -291,12 +302,23 @@ class Weixin extends Controller  {
     }
     
     /**
+     * 创建自定义菜单
+     * @param type $postJson  post数据(json格式)
+     */
+    public function createMenu($postJson) {
+        $access_token = $this->accessToken;
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
+        $res = $this->http_curl($url, 'post', $postJson);
+        var_dump($res);
+    }
+    
+    /**
      * 获取网页授权code
      * @param string $redirect_url  授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
      * @param type $scope
      */
     public function getCode($redirect_url, $scope='snsapi_base') {
-        $appid = 'wxf90f6aec3e2fcd91';
+        $appid = $this->appId;
 
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=123456#wechat_redirect";
         header('location:' . $url);
@@ -305,8 +327,8 @@ class Weixin extends Controller  {
     
     public function getUserInfo($code) {
         //2.获取到网页授权的access_token
-        $appid = 'wxf90f6aec3e2fcd91';
-        $secret = '1830b09c31cdf066fa299025c326b8f3';
+        $appid = $this->appId;
+        $secret = $this->secret; 
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $res = $this->http_curl($url);
         dump($res);
@@ -317,6 +339,14 @@ class Weixin extends Controller  {
         //3. 拉取用户的详细信息
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
         return $this->weixinObj->http_curl($url);
+    }
+    
+    // 刷新网页授权的access_token
+    public function refreshToken($refresh_token) {
+        $appid = $this->appId;
+        $url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=".$appid."&grant_type=refresh_token&refresh_token=" . $refresh_token;
+        
+        return $this->http_curl($url);
     }
 }
 

@@ -330,15 +330,16 @@ class Weixin extends Controller  {
         //2.获取到网页授权的access_token
         $info = cache($code);
         if (!$info) {
-            echo 'guoguoss';
+            echo 'guoguossss';
             $appid = $this->appId;
             $secret = $this->secret; 
             $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
             $info = $this->http_curl($url);
             $info['expire_time'] = time() + 7000;  //设定一个access_token过期时间
-            cache($code, $info, tim()+30*24*3600); 
+            cache($code, $info, time()+30*24*3600); 
         }
         
+        dump($info);
         if ($info['scope'] == 'snsapi_base') {
             return $info;
         }

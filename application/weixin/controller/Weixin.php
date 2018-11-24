@@ -329,7 +329,7 @@ class Weixin extends Controller  {
     public function getUserInfo($code) {
         //2.获取到网页授权的access_token
         $info = cache($code);
-        dump(!$info); 
+        
         if (!$info) {
             echo 'guoguossss';
             $appid = $this->appId;
@@ -339,6 +339,7 @@ class Weixin extends Controller  {
             $info['expire_time'] = time() + 7000;  //设定一个access_token过期时间
             cache($code, $info, time()+30*24*3600); 
         }
+        dump($info); 
         
         if ($info['scope'] == 'snsapi_base') {
             return $info;

@@ -289,5 +289,34 @@ class Weixin extends Controller  {
         
         return $res;
     }
+    
+    /**
+     * 获取网页授权code
+     * @param type $redirect_url
+     * @param type $scope
+     */
+    public function getCode($redirect_url, $scope='snsapi_base') {
+        $appid = 'wxf90f6aec3e2fcd91';
+
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=123456#wechat_redirect";
+        header('location:' . $url);
+        exit;  //这里需要exit结束, 不然有可能不跳转
+    }
+    
+    public function getUserInfo($code) {
+        //2.获取到网页授权的access_token
+        $appid = 'wxf90f6aec3e2fcd91';
+        $secret = '1830b09c31cdf066fa299025c326b8f3';
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
+        $res = $this->http_curl($url);
+        
+        if ($res['scope'] == 'snsapi_base') {
+            return $res;
+        }
+        
+        //3. 拉取用户的详细信息
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
+        return $this->weixinObj->http_curl($url);
+    }
 }
 

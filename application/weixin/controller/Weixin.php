@@ -310,13 +310,13 @@ class Weixin extends Controller  {
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $res = $this->http_curl($url);
         dump($res);
-//        if ($res['scope'] == 'snsapi_base') {
-//            return $res;
-//        }
-//        
-//        //3. 拉取用户的详细信息
-//        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
-//        return $this->weixinObj->http_curl($url);
+        if ($res['scope'] == 'snsapi_base') {
+            return $res;
+        }
+        
+        //3. 拉取用户的详细信息
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
+        return $this->weixinObj->http_curl($url);
     }
 }
 

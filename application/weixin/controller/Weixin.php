@@ -353,7 +353,7 @@ class Weixin extends Controller  {
         
         //3. 拉取用户的详细信息
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$info['access_token']."&openid=".$info['openid']."&lang=zh_CN";
-        return $this->weixinObj->http_curl($url);
+        return $this->http_curl($url);
     }
     
     // 刷新网页授权的access_token

@@ -255,7 +255,7 @@ class Index extends Controller  {
         $postArr = array(
             'button' => array(
                 array(
-                    'name' => urlencode('关于我'),
+                    'name' => urlencode('关于果果'),
                     'type' => 'click',
                     'key'  => 'about_me',
                 ),  // 第一个一级菜单
@@ -326,7 +326,7 @@ class Index extends Controller  {
             'template_id' => 'nZR3hfPuRW7rBjIE1brRQaNn_SczMSXxaJLrHmi9GMM',
             'url' => 'http://www.baidu.com',
             'data' => array(
-                'name' => array('value' => '果果', 'color'=> '#173177'),
+                'name' => array('value' => '果果宝宝', 'color'=> '#173177'),
                 'age'  => array('value'=>'2岁了', 'color' => '#173177'),
             )
         );
@@ -341,7 +341,7 @@ class Index extends Controller  {
         //抽奖活动的真正页面
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
         // 1. 获取到code
-        $this->weixinObj->getCode($redirect_url);
+        $this->weixinObj->getCode($redirect_url, 'snsapi_userinfo');
     }
     
     public function getUserOpenId() {

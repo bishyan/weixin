@@ -315,7 +315,8 @@ class Weixin extends Controller  {
     /**
      * 获取网页授权code
      * @param string $redirect_url  授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
-     * @param type $scope
+     * @param type $scope  应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），
+     * snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且， 即使在未关注的情况下，只要用户授权，也能获取其信息 ）
      */
     public function getCode($redirect_url, $scope='snsapi_base') {
         $appid = $this->appId;
@@ -327,11 +328,15 @@ class Weixin extends Controller  {
     
     public function getUserInfo($code) {
         //2.获取到网页授权的access_token
-        $appid = $this->appId;
-        $secret = $this->secret; 
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
-        $res = $this->http_curl($url);
-        dump($res);
+        $info = cache($code);
+        if ($cache && $cache['expire_time'] < time()) {
+            $appid = $this->appId;
+            $secret = $this->secret; 
+            $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
+            $info = $this->http_curl($url);
+            cache($code, $info);
+        }
+        dump($info);
         if ($res['scope'] == 'snsapi_base') {
             return $res;
         }

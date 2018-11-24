@@ -346,17 +346,48 @@ class Index extends Controller  {
 
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_base&state=123456#wechat_redirect";
         header('location:' . $url);
-        exit;
+        exit;  //这里需要exit结束, 不然有可能不跳转
     }
     
     public function getUserOpenId() {
-        echo '333';
         //2.获取到网页授权的access_token
         $appid = 'wxf90f6aec3e2fcd91';
         $secret = '1830b09c31cdf066fa299025c326b8f3';
         $code = $_GET['code'];
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         //3.摘取到用户的open_id
+        $res = $this->weixinObj->http_curl($url);
+        dump($res);  //
+        /*{ "access_token":"ACCESS_TOKEN",
+        "expires_in":7200,
+        "refresh_token":"REFRESH_TOKEN",
+        "openid":"OPENID",
+        "scope":"SCOPE" }*/
+        // 应用场景: 比如抽奖 每天3次, 累计3次后不再继续
+        //$this->fetch('index');        
+    }
+    
+    public function getUserDetail() {
+        // 1. 获取到code
+        $appid = 'wxf90f6aec3e2fcd91';
+        $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserInfo');
+
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect";
+        header('location:' . $url);
+        exit;  //这里需要exit结束, 不然有可能不跳转
+    }
+    
+    public function getUserInfo() {
+        //2.获取到网页授权的access_token
+        $appid = 'wxf90f6aec3e2fcd91';
+        $secret = '1830b09c31cdf066fa299025c326b8f3';
+        $code = $_GET['code'];
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
+        $res = $this->weixinObj->http_curl($url);
+        $openid = $res['openid'];
+        $access_token = $res['access_token'];
+        //3. 拉取用户的详细信息
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
         $res = $this->weixinObj->http_curl($url);
         dump($res);
     }

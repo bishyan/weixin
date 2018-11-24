@@ -341,13 +341,13 @@ class Index extends Controller  {
         //抽奖活动的真正页面
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
         // 1. 获取到code
-        $this->weixinObj->getCode($redirect_url, 'snsapi_userinfo');
+        $this->weixinObj->getCode($redirect_url);
     }
     
     public function getUserOpenId() {
         //2.获取用户信息
         $code = $_GET['code'];
-
+        dump($code);
         $res = $this->weixinObj->getUserInfo($code);
         dump($res);  //
         /*{ "access_token":"ACCESS_TOKEN",
@@ -366,9 +366,6 @@ class Index extends Controller  {
     }
     
     public function getUserInfo() {
-        dump($_GET);
-        dump($_POST);
-        
         $code = $_GET['code'];
         dump($code);
         $res = $this->weixinObj->getUserInfo($code);

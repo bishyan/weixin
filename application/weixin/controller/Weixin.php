@@ -339,7 +339,6 @@ class Weixin extends Controller  {
             cache($code, $info, time()+30*24*3600); 
         }
         
-        dump($info);
         if ($info['scope'] == 'snsapi_base') {
             return $info;
         }

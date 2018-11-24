@@ -292,7 +292,7 @@ class Weixin extends Controller  {
     
     /**
      * 获取网页授权code
-     * @param type $redirect_url
+     * @param string $redirect_url  授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
      * @param type $scope
      */
     public function getCode($redirect_url, $scope='snsapi_base') {
@@ -309,14 +309,14 @@ class Weixin extends Controller  {
         $secret = '1830b09c31cdf066fa299025c326b8f3';
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $res = $this->http_curl($url);
-        
-        if ($res['scope'] == 'snsapi_base') {
-            return $res;
-        }
-        
-        //3. 拉取用户的详细信息
-        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
-        return $this->weixinObj->http_curl($url);
+        dump($res);
+//        if ($res['scope'] == 'snsapi_base') {
+//            return $res;
+//        }
+//        
+//        //3. 拉取用户的详细信息
+//        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$res['access_token']."&openid=".$res['openid']."&lang=zh_CN";
+//        return $this->weixinObj->http_curl($url);
     }
 }
 

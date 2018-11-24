@@ -25,7 +25,6 @@ class Index extends Controller  {
             $postData = $this->getWxReqData();
             // 判断数据类型
             if (strtolower($postData['MsgType']) == 'event') {
-                echo 'event';
                 // 如果是关注事件(subscribe)
                 if (strtolower($postData['Event']) == 'subscribe') {
                     $arr = array(
@@ -43,7 +42,7 @@ class Index extends Controller  {
                             $this->weixinObj->responseText($postData, '我是果果的爸爸..');
                             break;
                         case 'dVvkdk':
-                            $this->weixinObj->responseText($postData, '谢谢你的称赞....!');
+                            $this->weixinObj->responseText($postData, '谢谢你的称赞!');
                             break;
                         default:
                             $this->weixinObj->responseText($postData, '其他东东.');
@@ -54,7 +53,6 @@ class Index extends Controller  {
                    
                     
             } else if (strtolower($postData['MsgType']) == 'text') {
-                echo 'text';
                 $keyword = trim($postData['Content']);
                 
                 //天气查询
@@ -96,7 +94,6 @@ class Index extends Controller  {
 
                     $this->weixinObj->responseText($postData, $content);
                 } else {
-                    echo 'elese';
                     switch( trim($postData['Content']) ) {
                         case 1:
                             $content = '果果2岁4个月大了..';
@@ -163,8 +160,8 @@ class Index extends Controller  {
     
     //获取到微信推送过来的post数据(xml格式)
     public function getWxReqData() {
-        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        //$postStr = file_get_contents("php://input");
+        //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postStr = file_get_contents("php://input");
         //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[event]]></MsgType>  <Event><![CDATA[CLICK]]></Event>
         //<EventKey><![CDATA[EVENTKEY]]></EventKey>  <MsgId>1234567890123456</MsgId>  </xml>";
         if (!empty($postStr)) {
@@ -176,11 +173,87 @@ class Index extends Controller  {
         }
     }
     
-
+    // 群发预览
+    public function previewSend() {
+        /* 单文本
+        $array = array(
+            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
+            'text' => array('content' => urlencode('果果唱歌非常好听! very,very Good!')),
+            'msgtype' => 'text'
+        );*/
+        
+        /* 单图文
+            {
+                "touser":"OPENID",
+                "image":{      
+                        "media_id":"123dsdajkasd231jhksad"
+                        },
+                "msgtype":"image" 
+            }
+         */
+        $array = array(
+            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
+            'image' => array(
+                'media_id' => '123dsdajkasd231jhksad',
+            ),
+            'msgtype' => 'image'
+        );
+        // 3. 转换->json
+        $postJson = urldecode(json_encode($array));
+        //dump($postJson); exit;
+        $this->weixinObj->sendMsgAllPreview($postJson);
+    }
+    
+    // 群发消息
+    public function sendMsg() {
+        /*{ tag群发文本格式
+            "filter":{
+               "is_to_all":false,
+               "tag_id":2
+            },
+            "text":{
+               "content":"CONTENT"
+            },
+             "msgtype":"text"
+            }*/
+//        $arr = array(
+//            'filter' => array(
+//                'is_to_all' => false,
+//                'tag_id' => 1,
+//            ),
+//            'text' => array(
+//                'content' => urlencode('果果唱歌非常好听!果果唱歌非常好听!'),
+//            ),
+//            'msgtype' => 'text',
+//        );
+        
+        /*{  ID群发文本格式
+            "touser":[
+             "OPENID1",
+             "OPENID2"
+            ],
+             "msgtype": "text",
+             "text": { "content": "hello from boxer."}
+        }*/
+        
+        $arr = array(
+            'touser' => array('oBqKY1K2m-zHHaKQ35gJ6Ho_-LYg', 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M'),
+            'msgtype' => 'text',
+            'text' => array(
+                'content' => urlencode('果果唱歌非常好听!果果唱歌非常好听!果果唱歌非常好听!果果唱歌非常好听!'),
+            ),
+        );
+        
+        $array = urldecode(json_encode($arr));
+        //dump($array);exit;
+        //$this->weixinObj->sendMsgAllByTag($array);
+        $this->weixinObj->sendMsgAllById($array);
+    }
     
     // 创建微信菜单
     public function definedItem() {
         $access_token = $this->weixinObj->getWxAccessToken();
+        //dump($access_token);
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
         $postArr = array(
             'button' => array(
@@ -203,12 +276,9 @@ class Index extends Controller  {
                             'url'   => 'http://zuoche.com/touch/searincity.jspx',
                         ),
                         array(
-                            'name' => urlencode('三级'),
-                            'sub_button' => array(
-                                'type' => 'click',
-                                'name' => urlencode('赞一下我们'),
-                                'key'  => 'dVvkdk'
-                            )
+                            'type' => 'click',
+                            'name' => urlencode('赞一下我们'),
+                            'key'  => 'dVvkdk'
                         ),
                     ),
                     
@@ -229,11 +299,9 @@ class Index extends Controller  {
                         ),
                     )
                 ), // 第三个一级菜单
-            ),
-      
+            ),      
         );
         $postJson = urldecode(json_encode($postArr));
-        var_dump($postJson);
         $res = $this->weixinObj->http_curl($url, 'post', $postJson);
         var_dump($res);
     }

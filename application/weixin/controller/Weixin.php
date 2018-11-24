@@ -101,7 +101,7 @@ class Weixin extends Controller  {
      * @param string $content   文本内容
      */
     public function responseText($postData, $content) {           
-        $toUser = $postData['FromUserName'];
+        $toUser   = $postData['FromUserName'];
         $fromUser = $postData['ToUserName'];
         $template = "<xml> 
                         <ToUserName><![CDATA[%s]]></ToUserName>
@@ -113,6 +113,78 @@ class Weixin extends Controller  {
         echo sprintf($template, $toUser, $fromUser, time(), 'text', $content);
 
         //printf($template, $toUser, $fromUser, $time, 'text', $content);       
+    }
+    
+    
+    /**
+     * 群发预览
+     * @param string $postArr  post数据(json格式)
+     * @param string $type    消息类型
+     */
+    public function sendMsgAllPreview($postJson) {
+        //1. 获取access_token
+        $access_token = $this->getWxAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . $access_token;
+        //2. 组装群发接口数据
+        /*{     
+        "touser":"OPENID",
+        "text":{           
+               "content":"CONTENT"            
+               },     
+        "msgtype":"text"
+        }
+        $array = array(
+            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
+            'text' => array('content' => urlencode('果果唱歌很好听! very Good!')),
+            'msgtype' => 'text'
+        );*/
+        // 3. 转换->json
+        //$postJson = urldecode(json_encode($postArr));
+        //dump(urldecode($postJson));exit;
+        $res = $this->http_curl($url, 'post', $postJson);
+        dump($res);
+    }
+    
+    /**
+     * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
+     * @param string $postArr  post数据(json格式)
+     */
+    public function sendMsgAllById($postJson) {
+        $access_token = $this->getWxAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=" . $access_token;
+        
+        $res = $this->http_curl($url, 'post', $postJson);
+        dump($res);
+    } 
+    
+    /**
+     * 根据标签进行群发【订阅号与服务号认证后均可用】
+     * @param string $postArr  post数据(json格式)
+     */
+    public function sendMsgAllByTag($postJson) {
+        $access_token = $this->getWxAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=" . $access_token;
+        
+        $res = $this->http_curl($url, 'post', $postJson);
+        dump($res);
+    } 
+    
+    
+    //上传logo图片(大小限制1MB，推荐像素为300*300，支持JPG格式)
+    public function uploadWxImage() {
+        $access_token = $this->getWxAccessToken();
+        //dump($access_token);
+        
+        $url = "http://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . $access_token . '&type=image';
+        
+        $file = dirname(__FILE__) . '/lenovo.jpg';
+        
+        $postArr = array(
+            'media' => '@'. $file,
+        );
+        //dump($postArr);exit;
+        $res = $this->http_curl($url, 'post', $postArr);
+        var_dump($res);
     }
     
     // 获取access_token
@@ -134,7 +206,7 @@ class Weixin extends Controller  {
         return $access_token;
     }
     
-        /**
+    /**
      * 获取url接口数据
      * @param string $url   接口url
      * @param string $type  请求的类型

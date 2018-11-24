@@ -240,14 +240,14 @@ class Index extends Controller  {
             'touser' => array('oBqKY1K2m-zHHaKQ35gJ6Ho_-LYg', 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M'),
             'msgtype' => 'text',
             'text' => array(
-                'content' => urlencode('果果唱歌非常好听!果果唱歌非常好听!果果唱歌非常好听!果果唱歌非常好听!'),
+                'content' => urlencode('果果唱歌非常好听!果果唱歌非常好听!果果唱歌非常好听!'),
             ),
         );
         
         $array = urldecode(json_encode($arr));
         //dump($array);exit;
         //$this->weixinObj->sendMsgAllByTag($array);
-        $this->weixinObj->sendMsgAllById($array);
+        $this->weixinObj->sendMsgAll($array, 'id');
     }
     
     // 创建微信菜单
@@ -276,9 +276,9 @@ class Index extends Controller  {
                             'url'   => 'http://zuoche.com/touch/searincity.jspx',
                         ),
                         array(
-                            'type' => 'click',
-                            'name' => urlencode('赞一下我们'),
-                            'key'  => 'dVvkdk'
+                            'type' => 'view',
+                            'name' => urlencode('精选文章'),
+                            'url'  => 'https://mp.weixin.qq.com/mp/homepage?__biz=MzU0NTgyMDIyMA==&hid=3&sn=d24108c93567a9278f2a2c0a35aad093'
                         ),
                     ),
                     

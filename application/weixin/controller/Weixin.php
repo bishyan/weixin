@@ -122,46 +122,47 @@ class Weixin extends Controller  {
      * @param string $type    消息类型
      */
     public function sendMsgAllPreview($postJson) {
-        //1. 获取access_token
+        // 获取access_token
         $access_token = $this->getWxAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . $access_token;
-        //2. 组装群发接口数据
-        /*{     
-        "touser":"OPENID",
-        "text":{           
-               "content":"CONTENT"            
-               },     
-        "msgtype":"text"
-        }
-        $array = array(
-            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
-            'text' => array('content' => urlencode('果果唱歌很好听! very Good!')),
-            'msgtype' => 'text'
-        );*/
-        // 3. 转换->json
-        //$postJson = urldecode(json_encode($postArr));
-        //dump(urldecode($postJson));exit;
+
         $res = $this->http_curl($url, 'post', $postJson);
         dump($res);
     }
     
     /**
      * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
+     * 根据标签进行群发【订阅号与服务号认证后均可用】
+     * @param string $postArr  post数据(json格式)
+     * @param string $type  群发的方式  tag,id两种方式
+     */
+    public function sendMsgAll($postJson, $type = 'tag') {        
+   
+        if ($type == 'id') {
+            $this->sendMsgAllById($postJson);
+        } else {
+            $this->sendMsgAllByTag($postJson);
+        }
+    } 
+    
+    
+     /**
+     * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
      * @param string $postArr  post数据(json格式)
      */
-    public function sendMsgAllById($postJson) {
+    private function sendMsgAllById($postJson) {
         $access_token = $this->getWxAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=" . $access_token;
         
         $res = $this->http_curl($url, 'post', $postJson);
         dump($res);
-    } 
+    }
     
     /**
      * 根据标签进行群发【订阅号与服务号认证后均可用】
      * @param string $postArr  post数据(json格式)
      */
-    public function sendMsgAllByTag($postJson) {
+    private function sendMsgAllByTag($postJson) {
         $access_token = $this->getWxAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=" . $access_token;
         
@@ -175,16 +176,58 @@ class Weixin extends Controller  {
         $access_token = $this->getWxAccessToken();
         //dump($access_token);
         
-        $url = "http://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . $access_token . '&type=image';
+        $url = "http://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . $access_token . "&type=image";
         
         $file = dirname(__FILE__) . '/lenovo.jpg';
+        //dump($file); exit;
+  
+        if (class_exists('CURLFile')) {
+            //$data['media'] = new \CURLFile(realpath($file));
+            $data['media'] = curl_file_create(realpath($file));
+        } else {
+
+            $data['media'] = '@' . realpath($file);
+        }
         
-        $postArr = array(
-            'media' => '@'. $file,
-        );
-        dump($postArr);exit;
-        $res = $this->http_curl($url, 'post', $postArr);
+        dump($data);exit;
+        $res = $this->http_curl($url, 'post', $data);
         var_dump($res);
+    }
+    
+    public function sendTemplateMsg() {
+        $access_token = $this->getWxAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $access_token;
+        
+        /*{
+           "touser":"OPENID",
+           "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
+           "url":"http://weixin.qq.com/download",  
+           "miniprogram":{
+             "appid":"xiaochengxuappid12345",
+             "pagepath":"index?foo=bar"
+           },          
+           "data":{
+                   "first": {
+                       "value":"恭喜你购买成功！",
+                       "color":"#173177"
+                   },
+
+           }
+       }*/
+        
+        $array = array(
+            'touser' => 'oBqKY1ABzkfRtgZNxu-VzrV5Kt3M',
+            'template_id' => 'nZR3hfPuRW7rBjIE1brRQaNn_SczMSXxaJLrHmi9GMM',
+            'url' => 'http://www.baidu.com',
+            'data' => array(
+                'name' => array('value' => '果果', 'color'=> '#173177'),
+                'age'  => array('value'=>'2岁了', 'color' => '#173177'),
+            )
+        );
+        
+        $postJson= json_encode($array);
+        $res = $this->http_curl($url, 'post', $postJson);
+        dump($res);        
     }
     
     // 获取access_token
@@ -224,6 +267,7 @@ class Weixin extends Controller  {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);
         }
+
         // 3. 采集
         $output = curl_exec($ch);    
         // 关闭

@@ -182,7 +182,7 @@ class Weixin extends Controller  {
         $postArr = array(
             'media' => '@'. $file,
         );
-        //dump($postArr);exit;
+        dump($postArr);exit;
         $res = $this->http_curl($url, 'post', $postArr);
         var_dump($res);
     }

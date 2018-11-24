@@ -343,11 +343,14 @@ class Index extends Controller  {
         // 1. 获取到code
         $appid = 'wxf90f6aec3e2fcd91';
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
+
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_base&state=123456#wechat_redirect";
-        header('Location: ' . $url);
+        header('location:' . $url);
+        exit;
     }
     
     public function getUserOpenId() {
+        echo '333';
         //2.获取到网页授权的access_token
         $appid = 'wxf90f6aec3e2fcd91';
         $secret = '1830b09c31cdf066fa299025c326b8f3';

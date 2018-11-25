@@ -320,7 +320,8 @@ class Weixin extends Controller  {
      */
     public function getCode($redirect_url, $scope='snsapi_base') {
         $appid = $this->appId;
-
+        
+        // 微信授权地址
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=123456#wechat_redirect";
         header('location:' . $url);
         exit;  //这里需要exit结束, 不然有可能不跳转
@@ -332,10 +333,12 @@ class Weixin extends Controller  {
         
        // if (!$info) {
           //  echo 'guoguossss';
+        if (session($name)) {
             $appid = $this->appId;
             $secret = $this->secret; 
             $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
             $info = $this->http_curl($url);
+        }
         //    $info['expire_time'] = time() + 7000;  //设定一个access_token过期时间
         //    cache($code, $info, time()+30*24*3600); 
        // }

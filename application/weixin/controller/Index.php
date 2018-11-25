@@ -158,6 +158,7 @@ class Index extends Controller  {
     }
     
     
+    
     //获取到微信推送过来的post数据(xml格式)
     public function getWxReqData() {
         //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
@@ -294,6 +295,17 @@ class Index extends Controller  {
                             'key'  => 'reskksk_0_1',
                             'sub_button' => array(),
                         ),
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('获取id'),
+                            'url'  => 'http://weixin.ai702.com/weixin/Index/getBaseInfo'
+                        ),
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('获取详情'),
+                            'url'  => 'http://weixin.ai702.com/weixin/Index/getUserDetail'
+                        ),
+                        
                     )
                 ), // 第三个一级菜单
             ),      
@@ -338,6 +350,10 @@ class Index extends Controller  {
     
     // 获取用户的open_id(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
+        dump($_GET);
+        dump($_POST);
+        $res = file_get_contents('php://input');
+        dump($res);
         //抽奖活动的真正页面
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
         // 1. 获取到code
@@ -348,6 +364,8 @@ class Index extends Controller  {
         //2.获取用户信息
         $code = $_GET['code'];
         dump($code);
+        dump($_GET);
+        dump($_POST); exit;
         $res = $this->weixinObj->getUserInfo($code);
         dump($res);  //
         /*{ "access_token":"ACCESS_TOKEN",

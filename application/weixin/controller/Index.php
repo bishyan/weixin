@@ -365,9 +365,7 @@ class Index extends Controller  {
                 $res = $this->weixinObj->getUserInfo($_GET['code']);
                 dump($res);
             } else {
-                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-                dump($url);
-                dump($_SERVER);
+                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'];
                 echo '非法请求!';
                 //sleep(3);
                 header('Location'.$url);

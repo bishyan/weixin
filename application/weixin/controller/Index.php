@@ -356,6 +356,7 @@ class Index extends Controller  {
 
             $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url);
             header('Location:' . $jumpurl);
+            exit;
         } else {
             $res = $this->weixinObj->getUserInfo($_GET['code']);
             dump($res);

@@ -25,7 +25,7 @@ class Authorize extends Controller {
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());  //安全验证
-            session('state', $state);
+            session('state', $state);  
             
             //判断是否是第一次访问(session为空), 或者session存在但没有其他信息, 则取用户信息, 否则取option_id
             if (!session('?user_info') || (session('?user_info.openid') && empty(cache(session('user_info.openid'))['nickname']))) 

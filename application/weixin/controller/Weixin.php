@@ -342,6 +342,8 @@ class Weixin extends Controller  {
             return $info;
         }
         
+        dump($info);
+        
         if (isset($info['errcode'])) {
             echo '获取用户信息错误!<br>';
             echo '错误代码: ' . $info['errcode'];

@@ -20,6 +20,7 @@ class Authorize extends Controller {
             return;
         }
         
+        
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());  //安全验证
@@ -38,7 +39,7 @@ class Authorize extends Controller {
             if (session('state') == $_GET['state']) {
                 session('state', null);
                 $res = $this->weixinObj->getUserInfo($_GET['code']);
-                
+                dump($res);
                 if (isset($res['nickname'])) {
                     // 获取到的是详细信息, 存入缓存和session
                     session('user_info', $res);

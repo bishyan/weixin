@@ -353,13 +353,20 @@ class Index extends Controller  {
         
         if (!isset($_GET['code'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, 'snsapi_userinfo');
+            $state = md5(uniqid());
+            session('state', $state);
+            echo $state; exit;
+            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, 'snsapi_userinfo', $state);
             header('Location:' . $jumpurl);
             exit;
         } else {
-            $res = $this->weixinObj->getUserInfo($_GET['code']);
-            dump($res);
+            if (session('state') == $_GET['state']) {
+                $res = $this->weixinObj->getUserInfo($_GET['code']);
+                dump($res);
+            } else {
+                dump($_SERVER);
+            }
+            
             //var_dump($_SESSION); 
         }
     }

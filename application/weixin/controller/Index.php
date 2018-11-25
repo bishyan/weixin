@@ -350,9 +350,10 @@ class Index extends Authorize  {
     
     // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
+        $url = url('test');
         dump($url);
         dump($_SESSION);
-        $url = url('test');
+        
         
         exit;
         echo "<a href='".$url."'>测试</a>";

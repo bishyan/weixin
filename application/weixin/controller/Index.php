@@ -348,12 +348,16 @@ class Index extends Controller  {
     }
     
     
-    // 获取用户的open_id(不需要用户授权)(抽奖页面入口)
+    // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
-        //抽奖活动的真正页面
-        $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
-        // 1. 获取到code
-        $this->weixinObj->getCode($redirect_url);
+        if (!$isset($_get['code'])) {
+            var_dump($_SERVER);
+            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $code = $this->weixinObj->getCode($redirect_url);
+        } else {
+            $res = $this->weixinObj->getUserInfo($code);
+            dump($res);
+        }
     }
     
     public function getUserOpenId() {
@@ -362,6 +366,8 @@ class Index extends Controller  {
 
         $res = $this->weixinObj->getUserInfo($code);
         dump($res);  //
+        session_start();
+        dump($_SESSION);
         /*{ "access_token":"ACCESS_TOKEN",
         "expires_in":7200,
         "refresh_token":"REFRESH_TOKEN",

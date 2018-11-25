@@ -354,7 +354,7 @@ class Index extends Authorize  {
         dump($url);
         dump($_SESSION);
         
-        echo "<a href='".$url."'>测试</a>";
+        echo "<a href='".$url."'>测试页面</a>";
 //        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
 //            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 //            $state = md5(uniqid());
@@ -381,7 +381,7 @@ class Index extends Authorize  {
     
     public function test() {
         dump($_SESSION);
-        echo '测试...';
+        echo '这是一个测试页面';
     }
     
     public function getUserOpenId() {

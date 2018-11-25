@@ -350,11 +350,10 @@ class Index extends Controller  {
     
     // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
-        dump($_SERVER);
         
         if (!isset($_GET['code'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            dump($redirect_url); exit;
+
             $code = $this->weixinObj->getCode($redirect_url);
         } else {
             $res = $this->weixinObj->getUserInfo($_GET['code']);

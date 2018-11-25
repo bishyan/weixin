@@ -27,8 +27,8 @@ class Authorize extends Controller {
             $state = md5(uniqid());  //安全验证
             session('state', $state);
             
-            //如果为空则表示授权获取用户信息, 否则只取option_id
-            if (session('?user_info') && !cache('?'. session('user_info.openid'). '.nickname')) 
+            //判断是否是第一次访问(session为空), 或者session存在但没有其他信息, 则取用户信息, 否则取option_id
+            if (!session('?user_info') || (session('?user_info.openid') && empty(cache(session('user_info.openid'))['nickname']))) 
                 $scope = 'snsapi_userinfo';
             else 
                 $scope = 'snsapi_base';
@@ -54,7 +54,10 @@ class Authorize extends Controller {
                     $userinfo = cache($res['openid']);
                     session('user_info', $userinfo);
                 }
-            } 
+            } else {
+                
+                $this->error('非法请求!', url('/weixin/index/getbaseinfo'));
+            }
         }
     }
 }

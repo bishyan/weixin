@@ -335,10 +335,6 @@ class Weixin extends Controller  {
         $info = $this->http_curl($url);
         
         session($info['openid'], $info);
-       // }
-        //    $info['expire_time'] = time() + 7000;  //设定一个access_token过期时间
-        //    cache($code, $info, time()+30*24*3600); 
-       // }
         
         if ($info['scope'] == 'snsapi_base') {
             return $info;

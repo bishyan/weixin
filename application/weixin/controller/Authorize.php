@@ -16,7 +16,8 @@ class Authorize extends Controller {
     //检查授权
     public function checkAuth() {
         // 存在用户option_id, 并且nickname值不为空(说明已授权获取用户信息)
-        if (session('?user_info') && !(cache('?'.session('user_info.openid'). 'nickname')))  {
+        if (session('?user_info') && !empty(cache(session('user_info.openid'). '.nickname')))  {
+            echo '不用验证<br>';
             return;
         }
         
@@ -27,10 +28,13 @@ class Authorize extends Controller {
             session('state', $state);
             
             //如果为空则表示授权获取用户信息, 否则只取option_id
-            if (!session('?user_info')) 
+            if (session('?user_info') && !cache('?'. session('user_info.openid'). '.nickname'))  {
+                echo 'userinfo<br>';
                 $scope = 'snsapi_userinfo';
-            else 
+            } else {
+                echo 'base<br>';
                 $scope = 'snsapi_base';
+            }
             
             $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, $state, $scope);
             header('Location:' . $jumpurl);
@@ -39,12 +43,15 @@ class Authorize extends Controller {
             if (session('state') == $_GET['state']) {
                 session('state', null);
                 $res = $this->weixinObj->getUserInfo($_GET['code']);
-                dump($res);
+                
                 if (isset($res['nickname'])) {
                     // 获取到的是详细信息, 存入缓存和session
+                    echo '详情<br>';
+                    dump($res);
                     session('user_info', $res);
                     cache($res['openid'], $res);
                 } else {
+                    echo '简短<br>';
                     // 只获取openid, 通过openid从缓存中获取用户信息
                     $userinfo = cache($res['openid']);
                     session('user_info', $userinfo);

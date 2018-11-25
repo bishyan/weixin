@@ -361,6 +361,7 @@ class Index extends Controller  {
             exit;
         } else {
             if (session('state') == $_GET['state']) {
+                session('state', null);
                 $res = $this->weixinObj->getUserInfo($_GET['code']);
                 dump($res);
             } else {

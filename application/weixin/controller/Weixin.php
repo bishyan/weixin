@@ -313,23 +313,20 @@ class Weixin extends Controller  {
     }
     
     /**
-     * 获取网页授权code
+     * 获取微信网页授权url
      * @param string $redirect_url  授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
      * @param type $scope  应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），
      * snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且， 即使在未关注的情况下，只要用户授权，也能获取其信息 ）
      */
-    public function getCode($redirect_url, $scope='snsapi_base') {
-        $appid = $this->appId;
-        
+    public function getWxAuthorizeUrl($redirect_url, $scope='snsapi_base', $state='123456') {
         // 微信授权地址
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=123456#wechat_redirect";
-        header('location:' . $url);
-        exit;  //这里需要exit结束, 不然有可能不跳转
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->appId."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=".$state."#wechat_redirect";
+        return $url;
     }
     
     /**
      * 
-     * @param type $code 换取access_token的票据
+     * @param type $code 获取access_token的票据
      * @return type
      */
     public function getUserInfo($code) {
@@ -338,7 +335,7 @@ class Weixin extends Controller  {
         $secret = $this->secret; 
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $info = $this->http_curl($url);
-        dump($info);
+
         session($info['openid'], $info);
         
         if ($info['scope'] == 'snsapi_base') {

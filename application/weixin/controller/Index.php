@@ -354,11 +354,13 @@ class Index extends Controller  {
         if (!isset($_GET['code'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-            $code = $this->weixinObj->getCode($redirect_url);
+            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url);
+            header('Location:' . $jumpurl);
         } else {
             $res = $this->weixinObj->getUserInfo($_GET['code']);
             dump($res);
-            var_dump($_SERVER); 
+            session_start();
+            var_dump($_SESSION); 
         }
     }
     

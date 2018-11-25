@@ -380,7 +380,7 @@ class Index extends Authorize  {
     }
     
     public function test() {
-        session(null);
+        //session(null);
         dump($_SESSION);
         echo '这是一个测试页面<br>';
         

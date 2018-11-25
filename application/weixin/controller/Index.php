@@ -353,7 +353,7 @@ class Index extends Controller  {
         dump($_GET);
         dump($_POST);
         $res = file_get_contents('php://input');
-        dump($res);
+        dump($res); exit;
         //抽奖活动的真正页面
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');
         // 1. 获取到code

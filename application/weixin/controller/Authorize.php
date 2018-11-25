@@ -16,15 +16,10 @@ class Authorize extends Controller {
     //检查授权
     public function checkAuth() {
         // 存在用户option_id, 并且nickname值不为空(说明已授权获取用户信息)
-        dump(session('?user_info'));
 
-        dump(cache(session('user_info.openid'))['nickname']);
-        $openid = session('user_info.openid');
-        dump($openid);
-        dump(cache('oBqKY1ABzkfRtgZNxu-VzrV5Kt3M'));
-        dump(cache(session('user_info.openid'). '.nickname'));
+        dump(!empty(cache(session('user_info.openid'))['nickname']));
         exit;
-        if (session('?user_info') && !empty(cache(session('user_info.openid'). '.nickname')))  {
+        if (session('?user_info') && !empty(cache(session('user_info.openid'))['nickname']))  {
             echo '不用验证<br>';
             return;
         }

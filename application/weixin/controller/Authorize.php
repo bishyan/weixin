@@ -19,7 +19,7 @@ class Authorize extends Controller {
         dump(session('?user_info'));
         dump(session('user_info.openid'));
         dump(cache(session('user_info.openid')));
-        dump(cache(session('user_info.openid'). '.nickname'));
+        dump(cache(session('user_info.openid'). '.city'));
         dump(cache(session('user_info.openid'). '.nickname'));
         exit;
         if (session('?user_info') && !empty(cache(session('user_info.openid'). '.nickname')))  {

@@ -329,11 +329,11 @@ class Weixin extends Controller  {
     
     public function getUserInfo($code) {
         //2.获取到网页授权的access_token
-        //if (session($name)) {
-            $appid = $this->appId;
-            $secret = $this->secret; 
-            $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
-            $info = $this->http_curl($url);
+        $appid = $this->appId;
+        $secret = $this->secret; 
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
+        $info = $this->http_curl($url);
+        
        // }
         //    $info['expire_time'] = time() + 7000;  //设定一个access_token过期时间
         //    cache($code, $info, time()+30*24*3600); 

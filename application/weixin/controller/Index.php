@@ -351,7 +351,7 @@ class Index extends Controller  {
     // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
         
-        if (!isset($_GET['code'])) {  
+        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());
             session('state', $state);

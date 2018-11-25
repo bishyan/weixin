@@ -352,6 +352,7 @@ class Index extends Controller  {
     public function getBaseInfo() {
         if (!isset($_GET['code'])) {
             var_dump($_SERVER);
+            
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $code = $this->weixinObj->getCode($redirect_url);
         } else {

@@ -358,7 +358,7 @@ class Index extends Controller  {
             header('Location:' . $jumpurl);
             exit;
         } else {
-            $res = $this->weixinObj->getUserInfo($_GET['code']);
+            $res = $this->weixinObj->getWebAccessToken($_GET['code']);
             dump($res);
             var_dump($_SESSION); 
         }

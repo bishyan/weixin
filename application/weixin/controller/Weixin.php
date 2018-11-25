@@ -325,18 +325,18 @@ class Weixin extends Controller  {
     }
     
     /**
-     * 
+     * 获取网页授权access_token
      * @param type $code 获取access_token的票据
      * @return type
      */
-    public function getUserInfo($code) {
+    public function getWebAccessToken($code) {
         //2.获取到网页授权的access_token
         $appid = $this->appId;
         $secret = $this->secret; 
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $info = $this->http_curl($url);
 
-        session($info['openid'], $info['openid']);
+        session('openid', $info['openid']);
         
         if ($info['scope'] == 'snsapi_base') {
             return $info;
@@ -351,7 +351,9 @@ class Weixin extends Controller  {
         
         //3. 拉取用户的详细信息
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$info['access_token']."&openid=".$info['openid']."&lang=zh_CN";
-        return $this->http_curl($url);
+        $userInfo = $this->http_curl($url);
+        cache($info['openid'], $userInfo);
+        return  $userInfo;
     }
     
     // 刷新网页授权的access_token

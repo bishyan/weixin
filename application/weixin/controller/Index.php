@@ -367,6 +367,7 @@ class Index extends Controller  {
             } else {
                 $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
                 dump($url);
+                dump($_SERVER);
                 echo '非法请求!';
                 //sleep(3);
                 header('Location'.$url);

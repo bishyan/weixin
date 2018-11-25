@@ -336,7 +336,7 @@ class Weixin extends Controller  {
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
         $info = $this->http_curl($url);
 
-        session($info['openid'], $info);
+        session($info['openid'], $info['openid']);
         
         if ($info['scope'] == 'snsapi_base') {
             return $info;

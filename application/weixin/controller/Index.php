@@ -360,7 +360,6 @@ class Index extends Controller  {
         } else {
             $res = $this->weixinObj->getUserInfo($_GET['code']);
             dump($res);
-            session_start();
             var_dump($_SESSION); 
         }
     }

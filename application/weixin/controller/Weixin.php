@@ -261,11 +261,6 @@ class Weixin extends Controller  {
         $output = curl_exec($ch);    
         // 关闭
         //curl_close($ch);
-        dump($output);
-        if (isset($output['errcode'])) {
-            echo '获取用户信息错误: ' . $output['errmsg'];
-            exit;
-        }
         
         if (curl_errno($ch)) {
             // 请示失败, 返回错误信息
@@ -347,7 +342,12 @@ class Weixin extends Controller  {
             return $info;
         }
         
-        
+        if (isset($info['errcode'])) {
+            echo '获取用户信息错误!<br>';
+            echo '错误代码: ' . $info['errcode'];
+            echo '错误信息: ' . $info['errmsg'];
+            exit;
+        }
         // 判断access_token是否过期
 //        if ($info['scope'] == 'snsapi_userinfo' && $info['expire_time'] < time()) {
 //            $info = $this->refreshToken($info['refresh_token']);

@@ -355,7 +355,7 @@ class Index extends Controller  {
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());
             session('state', $state);
-            echo $state; exit;
+
             $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, 'snsapi_userinfo', $state);
             header('Location:' . $jumpurl);
             exit;

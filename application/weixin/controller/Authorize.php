@@ -16,9 +16,6 @@ class Authorize extends Controller {
     //检查授权
     public function checkAuth() {
         // 存在用户option_id, 并且nickname值不为空(说明已授权获取用户信息)
-
-        dump(!empty(cache(session('user_info.openid'))['nickname']));
-        exit;
         if (session('?user_info') && !empty(cache(session('user_info.openid'))['nickname']))  {
             echo '不用验证<br>';
             return;

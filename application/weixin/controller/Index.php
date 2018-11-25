@@ -6,7 +6,7 @@
 namespace app\weixin\controller;
 use think\Controller;
 
-class Index extends Controller  {
+class Index extends Authorize  {
     private $weixinObj;
          
     public function _initialize() {
@@ -350,29 +350,38 @@ class Index extends Controller  {
     
     // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
+        dump($url);
+        dump($_SESSION);
+        $url = url('test');
         
-        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
-            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            $state = md5(uniqid());
-            session('state', $state);
-
-            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, 'snsapi_userinfo', $state);
-            header('Location:' . $jumpurl);
-            exit;
-        } else {
-            if (session('state') == $_GET['state']) {
-                session('state', null);
-                $res = $this->weixinObj->getUserInfo($_GET['code']);
-                dump($res);
-            } else {
-                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'];
-                echo '非法请求!';
-                //sleep(3);
-                header('Location'.$url);
-            }
-            
-            //var_dump($_SESSION); 
-        }
+        exit;
+        echo "<a href='".$url."'>测试</a>";
+//        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
+//            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//            $state = md5(uniqid());
+//            session('state', $state);
+//
+//            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, $state);
+//            header('Location:' . $jumpurl);
+//            exit;
+//        } else {
+//            if (session('state') == $_GET['state']) {
+//                session('state', null);
+//                $res = $this->weixinObj->getUserInfo($_GET['code']);
+//                dump($res);
+//            } else {
+//                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'];
+//                echo '非法请求!';
+//                //sleep(3);
+//                header('Location'.$url);
+//            }
+//            
+//            //var_dump($_SESSION); 
+//        }
+    }
+    
+    public function test() {
+        echo '测试...';
     }
     
     public function getUserOpenId() {

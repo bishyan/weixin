@@ -28,13 +28,11 @@ class Authorize extends Controller {
             session('state', $state);
             
             //如果为空则表示授权获取用户信息, 否则只取option_id
-            if (session('?user_info') && !cache('?'. session('user_info.openid'). '.nickname'))  {
-                echo 'userinfo<br>';
+            if (session('?user_info') && !cache('?'. session('user_info.openid'). '.nickname')) 
                 $scope = 'snsapi_userinfo';
-            } else {
-                echo 'base<br>';
+            else 
                 $scope = 'snsapi_base';
-            }
+            
             
             $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, $state, $scope);
             header('Location:' . $jumpurl);

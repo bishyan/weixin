@@ -360,13 +360,13 @@ class Index extends Controller  {
             header('Location:' . $jumpurl);
             exit;
         } else {
-            if (session('state') == $_GET['state']) {
-                session('state', null);
+            //if (session('state') == $_GET['state']) {
+             //   session('state', null);
                 $res = $this->weixinObj->getUserInfo($_GET['code']);
                 dump($res);
-            } else {
+          //  } else {
                 dump($_SERVER);
-            }
+         //   }
             
             //var_dump($_SESSION); 
         }

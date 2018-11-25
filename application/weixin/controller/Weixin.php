@@ -337,19 +337,18 @@ class Weixin extends Controller  {
         $info = $this->http_curl($url);
 
         //session('openid', $info['openid']);
-        
-        if ($info['scope'] == 'snsapi_base') {
-            return $info;
-        }
-        
-        dump($info);
-        
+
         if (isset($info['errcode'])) {
             echo '获取用户信息错误!<br>';
             echo '错误代码: ' . $info['errcode'];
             echo '错误信息: ' . $info['errmsg'];
             exit;
         }
+        
+        if ($info['scope'] == 'snsapi_base') {
+            return $info;
+        }
+        
         // 判断access_token是否过期
 //        if ($info['scope'] == 'snsapi_userinfo' && $info['expire_time'] < time()) {
 //            $info = $this->refreshToken($info['refresh_token']);

@@ -7,7 +7,7 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Index extends Authorize  {
-    private $weixinObj;
+    protected $weixinObj;
          
     public function _initialize() {
         parent::_initialize();

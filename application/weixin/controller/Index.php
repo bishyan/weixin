@@ -350,12 +350,10 @@ class Index extends Authorize  {
     
     // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
-        $url = url('test');
+        $url = url('/weixin/index/test');
         dump($url);
         dump($_SESSION);
         
-        
-        exit;
         echo "<a href='".$url."'>测试</a>";
 //        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
 //            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -382,6 +380,7 @@ class Index extends Authorize  {
     }
     
     public function test() {
+        dump($_SESSION);
         echo '测试...';
     }
     

@@ -350,9 +350,9 @@ class Index extends Controller  {
     
     // 获取用户的open_id(不需要用户授权)(抽奖页面入口)
     public function getBaseInfo() {
-        dump($_GET);
-        dump($_POST);
-        $res = file_get_contents('php://input');
+        //dump($_GET);
+        dump($_SESSION);
+        $res = $GLOBALS['HTTP_RAW_POST_DATA'];
         dump($res); exit;
         //抽奖活动的真正页面
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserOpenId');

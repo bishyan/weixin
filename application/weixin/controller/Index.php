@@ -380,8 +380,18 @@ class Index extends Authorize  {
     }
     
     public function test() {
+        session(null);
         dump($_SESSION);
-        echo '这是一个测试页面';
+        echo '这是一个测试页面<br>';
+        
+        $url = url('/weixin/index/test2');
+        echo "<a href='".$url."'>测试页面2</a>";
+    }
+    
+    public function test2() {
+
+        dump($_SESSION);
+        echo '这是第二个测试页面';
     }
     
     public function getUserOpenId() {

@@ -262,6 +262,11 @@ class Weixin extends Controller  {
         // 关闭
         //curl_close($ch);
         
+        if (isset($output['errcode'])) {
+            echo '获取用户信息错误: ' . $output['errmsg'];
+            exit;
+        }
+        
         if (curl_errno($ch)) {
             // 请示失败, 返回错误信息
             $err = curl_error($ch);

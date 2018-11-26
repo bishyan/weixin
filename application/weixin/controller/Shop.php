@@ -17,7 +17,7 @@ class Shop extends Authorize{
     
     // 获取用户的信息
     public function getBaseInfo() {
-        $url = url('/weixin/index/test');
+        $url = url('/weixin/shop/test');
         dump($_SESSION);
         
         echo "<a href='".$url."'>测试页面</a>";
@@ -29,7 +29,7 @@ class Shop extends Authorize{
         dump($_SESSION);
         echo '这是一个测试页面<br>';
         
-        $url = url('/weixin/index/test2');
+        $url = url('/weixin/shop/test2');
         echo "<a href='".$url."'>测试页面2</a>";
     }
     

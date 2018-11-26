@@ -389,8 +389,11 @@ class Index extends Authorize  {
         echo '这是第二个测试页面';
     }
     
-    public function test3() {
-        Weixin::getWxAccessToken();
+    
+    // 注册
+    public function register() {
+        echo '注册页面';
+        dump($_SESSION);
     }
     
     public function getUserOpenId() {

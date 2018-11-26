@@ -90,8 +90,8 @@ class Index extends Controller {
 
                     Weixin::responseText($postData, $content);
                 } else {
-                    echo '...';
-                    switch( trim($postData['Content']) ) {
+                  
+                    switch($keyword) {
                         case 1:
                             $content = '果果2岁4个月大了..';
                             break;
@@ -142,7 +142,7 @@ class Index extends Controller {
                             Weixin::responseNews($postData, $arr);
                             break;
                         default:
-                            $content = '找不到和' . $postData->Content . '相关的信息';
+                            $content = '找不到和' . $keyword . '相关的信息';
                             break;
                     }
                 }

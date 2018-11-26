@@ -389,6 +389,10 @@ class Index extends Authorize  {
         echo '这是第二个测试页面';
     }
     
+    public function test3() {
+        Weixin::getWxAccessToken();
+    }
+    
     public function getUserOpenId() {
         //2.获取用户信息
         $code = $_GET['code'];

@@ -295,12 +295,12 @@ class Index extends Controller {
                         array(
                             'type' => 'view',
                             'name' => urlencode('获取用户信息'),
-                            'url'  => 'http://weixin.ai702.com/weixin/WxShop/getBaseInfo'
+                            'url'  => 'http://weixin.ai702.com/weixin/Shop/getBaseInfo'
                         ),
                         array(
                             'type' => 'view',
                             'name' => urlencode('注册'),
-                            'url'  => 'http://weixin.ai702.com/weixin/WxShop/register'
+                            'url'  => 'http://weixin.ai702.com/weixin/Shop/register'
                         ),
                         
                     )

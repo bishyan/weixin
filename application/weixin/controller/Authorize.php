@@ -67,8 +67,8 @@ class Authorize extends Controller {
                 
                 if (isset($res['nickname'])) {
                     // 获取到的是详细信息, 存入缓存和session
-                    echo '详情<br>';
-                    dump($res);
+                    //echo '详情<br>';
+                    //dump($res);
                     session('user_info', $res);
                     cache($res['openid'], $res);
                 } else {

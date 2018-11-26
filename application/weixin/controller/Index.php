@@ -292,13 +292,13 @@ class Index extends Authorize  {
                         ),
                         array(
                             'type' => 'view',
-                            'name' => urlencode('获取id'),
+                            'name' => urlencode('获取用户信息'),
                             'url'  => 'http://weixin.ai702.com/weixin/Index/getBaseInfo'
                         ),
                         array(
                             'type' => 'view',
-                            'name' => urlencode('获取详情'),
-                            'url'  => 'http://weixin.ai702.com/weixin/Index/getUserDetail'
+                            'name' => urlencode('注册'),
+                            'url'  => 'http://weixin.ai702.com/weixin/Index/register'
                         ),
                         
                     )
@@ -343,39 +343,17 @@ class Index extends Authorize  {
     }
     
     
-    // 获取用户的基本信息(不需要用户授权)(抽奖页面入口)
+    // 获取用户的信息
     public function getBaseInfo() {
         $url = url('/weixin/index/test');
-        dump($url);
         dump($_SESSION);
         
         echo "<a href='".$url."'>测试页面</a>";
-//        if (!isset($_GET['code']) && !isset($_GET['state'])) {  
-//            $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//            $state = md5(uniqid());
-//            session('state', $state);
-//
-//            $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state);
-//            header('Location:' . $jumpurl);
-//            exit;
-//        } else {
-//            if (session('state') == $_GET['state']) {
-//                session('state', null);
-//                $res = Weixin::getUserInfo($_GET['code']);
-//                dump($res);
-//            } else {
-//                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'];
-//                echo '非法请求!';
-//                //sleep(3);
-//                header('Location'.$url);
-//            }
-//            
-//            //var_dump($_SESSION); 
-//        }
+
     }
     
     public function test() {
-        session(null);
+        //session(null);
         dump($_SESSION);
         echo '这是一个测试页面<br>';
         
@@ -396,28 +374,6 @@ class Index extends Authorize  {
         dump($_SESSION);
     }
     
-    public function getUserOpenId() {
-        //2.获取用户信息
-        $code = $_GET['code'];
-
-        $res = Weixin::getUserInfo($code);
-        dump($res);  //
-        session_start();
-        dump($_SESSION);
-        /*{ "access_token":"ACCESS_TOKEN",
-        "expires_in":7200,
-        "refresh_token":"REFRESH_TOKEN",
-        "openid":"OPENID",
-        "scope":"SCOPE" }*/
-        // 应用场景: 比如抽奖 每天3次, 累计3次后不再继续
-        //$this->fetch('index');        
-    }
-    
-    public function getUserDetail() {
-        // 1. 获取到code
-        $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserInfo');
-        Weixin::getCode($redirect_url, 'snsapi_userinfo');
-    }
     
     public function getUserInfo() {
         $code = $_GET['code'];

@@ -6,7 +6,7 @@
 namespace app\weixin\controller;
 //use think\Controller;
 
-class Index extends Authorize {
+class WxShop extends Authorize {
          
     //首页
     public function index() {

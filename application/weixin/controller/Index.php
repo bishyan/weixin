@@ -6,7 +6,7 @@
 namespace app\weixin\controller;
 use think\Controller;
 
-class Index extends Authorize  {
+class Index extends Authorize {
          
     
     public function index() {
@@ -30,6 +30,7 @@ class Index extends Authorize  {
                             'url' => 'http://blog.ai702.com/',
                         ),
                     );
+                    
                     Weixin::responseNews($postData, $arr);
                 } else if (strtolower($postData['Event']) == 'click') {
                     switch($postData['EventKey']) {
@@ -49,7 +50,7 @@ class Index extends Authorize  {
                     
             } else if (strtolower($postData['MsgType']) == 'text') {
                 $keyword = trim($postData['Content']);
-                
+                dump($keyword);
                 //天气查询
                 if (!(is_numeric($keyword))) {                       
                     $cityList = cache('city_list');
@@ -89,6 +90,7 @@ class Index extends Authorize  {
 
                     Weixin::responseText($postData, $content);
                 } else {
+                    echo '...';
                     switch( trim($postData['Content']) ) {
                         case 1:
                             $content = '果果2岁4个月大了..';
@@ -144,8 +146,9 @@ class Index extends Authorize  {
                             break;
                     }
                 }
-
-                if (isset($content)) {
+                
+                echo $content; exit;
+                 if (isset($content)) {
                     Weixin::responseText($postData, $content);
                 } 
             }              
@@ -157,8 +160,8 @@ class Index extends Authorize  {
     //获取到微信推送过来的post数据(xml格式)
     public static function getWxReqData() {
         //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $postStr = file_get_contents("php://input");
-        //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[event]]></MsgType>  <Event><![CDATA[CLICK]]></Event>
+        //$postStr = file_get_contents("php://input");
+        $postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[Event]]></MsgType>  <Event><![CDATA[subscribe]]></Event>
         //<EventKey><![CDATA[EVENTKEY]]></EventKey>  <MsgId>1234567890123456</MsgId>  </xml>";
         if (!empty($postStr)) {
             $postData = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -247,7 +250,7 @@ class Index extends Authorize  {
     }
     
     // 创建微信菜单
-    public function definedItem() {
+    public function defineItem() {
         $postArr = array(
             'button' => array(
                 array(

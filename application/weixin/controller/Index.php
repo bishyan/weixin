@@ -6,7 +6,7 @@
 namespace app\weixin\controller;
 use think\Controller;
 
-class Index extends Authorize {
+class Index extends Controller {
          
     
     public function index() {
@@ -50,7 +50,7 @@ class Index extends Authorize {
                     
             } else if (strtolower($postData['MsgType']) == 'text') {
                 $keyword = trim($postData['Content']);
-                dump($keyword);
+              
                 //天气查询
                 if (!(is_numeric($keyword))) {                       
                     $cityList = cache('city_list');
@@ -146,9 +146,8 @@ class Index extends Authorize {
                             break;
                     }
                 }
-                
-                echo $content; exit;
-                 if (isset($content)) {
+
+                if (isset($content)) {
                     Weixin::responseText($postData, $content);
                 } 
             }              
@@ -345,45 +344,5 @@ class Index extends Authorize {
         Weixin::sendWxTemplateMsg($postJson);
     }
     
-    
-    // 获取用户的信息
-    public function getBaseInfo() {
-        $url = url('/weixin/index/test');
-        dump($_SESSION);
-        
-        echo "<a href='".$url."'>测试页面</a>";
-
-    }
-    
-    public function test() {
-        //session(null);
-        dump($_SESSION);
-        echo '这是一个测试页面<br>';
-        
-        $url = url('/weixin/index/test2');
-        echo "<a href='".$url."'>测试页面2</a>";
-    }
-    
-    public function test2() {
-
-        dump($_SESSION);
-        echo '这是第二个测试页面';
-    }
-    
-    
-    // 注册
-    public function register() {
-        echo '注册页面';
-        dump($_SESSION);
-    }
-    
-    
-    public function getUserInfo() {
-        $code = $_GET['code'];
-        dump($code);
-        $res = Weixin::getUserInfo($code);
-        
-        dump($res);
-    }
 }
 

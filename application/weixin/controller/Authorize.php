@@ -15,25 +15,47 @@ class Authorize extends Controller {
     
     //检查授权
     public function checkAuth() {
-        echo $this->request->action(); exit;
         // 存在用户option_id, 并且nickname值不为空(说明已授权获取用户信息)
-        if (session('?user_info') && !empty(cache(session('user_info.openid'))['nickname']))  {
+        /*if (session('?user_info') && !empty(cache(session('user_info.openid'))['nickname']))  {
             echo '不用验证<br>';
             return;
+        }*/
+        
+        $actionName = $this->request->action(); // 请求的动作名
+        if ($actionName == 'register') {
+            if (session('?user_info.nickname')) {
+                echo '已有信息, 不用再授权';
+                return;
+            }
+        } else {
+            if (session('?user_info')) {
+                echo '有openid, 且不是注册页面';
+                return;
+            }
         }
         
         
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  
+            // 
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());  //安全验证
             session('state', $state);  
             
+            
+            // 只
+            if ($actionName == 'register') {
+                $scope = 'snsapi_userinfo';
+            } else {
+                $scope = 'snsapi_base';
+            }
+            
+            /*
             //判断是否是第一次访问(session为空), 或者session存在但没有其他信息, 则取用户信息, 否则取option_id
             if (!session('?user_info') || (session('?user_info.openid') && empty(cache(session('user_info.openid'))['nickname']))) 
                 $scope = 'snsapi_userinfo';
             else 
                 $scope = 'snsapi_base';
-            
+            */
             
             $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state, $scope);
             header('Location:' . $jumpurl);
@@ -52,8 +74,12 @@ class Authorize extends Controller {
                 } else {
                     echo '简短<br>';
                     // 只获取openid, 通过openid从缓存中获取用户信息
-                    $userinfo = cache($res['openid']);
-                    session('user_info', $userinfo);
+                    //$userinfo = cache($res['openid']);
+                    //session('user_info', $userinfo);
+                    
+                    // 只存openid
+                    cache($res['openid'], $res['openid']);
+                    session('user_info', $res['openid']);
                 }
             } else {
                 

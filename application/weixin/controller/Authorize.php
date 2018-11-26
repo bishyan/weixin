@@ -34,13 +34,13 @@ class Authorize extends Controller {
                 $scope = 'snsapi_base';
             
             
-            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, $state, $scope);
+            $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state, $scope);
             header('Location:' . $jumpurl);
             exit;
         } else {
             if (session('state') == $_GET['state']) {
                 session('state', null);
-                $res = $this->weixinObj->getUserInfo($_GET['code']);
+                $res = Weixin::getUserInfo($_GET['code']);
                 
                 if (isset($res['nickname'])) {
                     // 获取到的是详细信息, 存入缓存和session

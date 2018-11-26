@@ -8,22 +8,22 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Weixin extends Controller  {
-    private $appId;
-    private $secret;
-    private $accessToken;
+    //private $appId;
+    //private $secret;
+    //private $accessToken;
     
     public function __construct(\think\Request $request = null) {
         parent::__construct($request);
-        $this->appId = 'wxf90f6aec3e2fcd91';
-        $this->secret = '1830b09c31cdf066fa299025c326b8f3';
-        $this->accessToken = $this->getWxAccessToken();
+        define('APPID', 'wxf90f6aec3e2fcd91');
+        define('SECRET', '1830b09c31cdf066fa299025c326b8f3');
+        define('ACCESS_TOKEN', self::getWxAccessToken());
     }
     
     
     /**
      * 验证微信服务器
      */
-    public function wxVerify() {
+    public static function wxVerify() {
  
         // 获得参数 signaturn nonce echostr timestamp, token
         $timestamp = isset($_GET['timestamp'])? $_GET['timestamp']:'';
@@ -40,7 +40,9 @@ class Weixin extends Controller  {
         
         if ($arrStr == $signature) {
             echo $echostr;
-        } 
+        } else {
+            echo '验证失败';
+        }
     }
     
     /**
@@ -63,7 +65,7 @@ class Weixin extends Controller  {
             );
      * @return string
      */
-    public function responseNews($postData, $arr) {
+    public static function responseNews($postData, $arr) {
         $toUser = $postData['FromUserName'];
         $fromUser = $postData['ToUserName'];
         $template = "<xml>
@@ -90,7 +92,7 @@ class Weixin extends Controller  {
      * @param array $postData   post数据
      * @param string $imgId     图片id
      */
-    public function responseImage($postData, $imgId) {
+    public static function responseImage($postData, $imgId) {
         $toUser = $postData['FromUserName'];
         $fromUser = $postData['ToUserName'];
         $template = "<xml>
@@ -111,7 +113,7 @@ class Weixin extends Controller  {
      * @param array $postData   post数据
      * @param string $content   文本内容
      */
-    public function responseText($postData, $content) {           
+    public static function responseText($postData, $content) {           
         $toUser   = $postData['FromUserName'];
         $fromUser = $postData['ToUserName'];
         $template = "<xml> 
@@ -132,12 +134,11 @@ class Weixin extends Controller  {
      * @param string $postArr  post数据(json格式)
      * @param string $type    消息类型
      */
-    public function sendMsgAllPreview($postJson) {
+    public static function sendMsgAllPreview($postJson) {
         // 获取access_token
-        $access_token = $this->accessToken;
-        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . $access_token;
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . ACCESS_TOKEN;
 
-        $res = $this->http_curl($url, 'post', $postJson);
+        $res = self::http_curl($url, 'post', $postJson);
         dump($res);
     }
     
@@ -147,12 +148,12 @@ class Weixin extends Controller  {
      * @param string $postArr  post数据(json格式)
      * @param string $type  群发的方式  tag,id两种方式
      */
-    public function sendMsgAll($postJson, $type = 'tag') {        
+    public static function sendMsgAll($postJson, $type = 'tag') {        
    
         if ($type == 'id') {
-            $this->sendMsgAllById($postJson);
+            self::sendMsgAllById($postJson);
         } else {
-            $this->sendMsgAllByTag($postJson);
+            self::sendMsgAllByTag($postJson);
         }
     } 
     
@@ -161,11 +162,10 @@ class Weixin extends Controller  {
      * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
      * @param string $postArr  post数据(json格式)
      */
-    private function sendMsgAllById($postJson) {
-        $access_token = $this->getWxAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=" . $access_token;
+    private static function sendMsgAllById($postJson) {
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=" . ACCESS_TOKEN;
         
-        $res = $this->http_curl($url, 'post', $postJson);
+        $res = self::http_curl($url, 'post', $postJson);
         dump($res);
     }
     
@@ -173,35 +173,28 @@ class Weixin extends Controller  {
      * 根据标签进行群发【订阅号与服务号认证后均可用】
      * @param string $postArr  post数据(json格式)
      */
-    private function sendMsgAllByTag($postJson) {
-        $access_token = $this->getWxAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=" . $access_token;
+    private static function sendMsgAllByTag($postJson) {
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=" . ACCESS_TOKEN;
         
-        $res = $this->http_curl($url, 'post', $postJson);
+        $res = self::http_curl($url, 'post', $postJson);
         dump($res);
     } 
     
     
     //上传logo图片(大小限制1MB，推荐像素为300*300，支持JPG格式)
-    public function uploadWxImage() {
-        $access_token = $this->getWxAccessToken();
-        //dump($access_token);
+    public static function uploadWxImage($file_path) {
         
-        $url = "http://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . $access_token . "&type=image";
-        
-        $file = dirname(__FILE__) . '/lenovo.jpg';
-        //dump($file); exit;
-  
+        $url = "http://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . ACCESS_TOKEN . "&type=image";
+
         if (class_exists('CURLFile')) {
             //$data['media'] = new \CURLFile(realpath($file));
-            $data['media'] = curl_file_create(realpath($file));
+            $data['media'] = curl_file_create(realpath($file_path));
         } else {
 
-            $data['media'] = '@' . realpath($file);
+            $data['media'] = '@' . realpath($file_path);
         }
-        
-        dump($data);exit;
-        $res = $this->http_curl($url, 'post', $data);
+
+        $res = self::http_curl($url, 'post', $data);
         var_dump($res);
     }
     
@@ -210,18 +203,16 @@ class Weixin extends Controller  {
      *  发送模板消息
      * @param type $postJson   json格式的数据
      */
-    public function sendWxTemplateMsg($postJson) {
-        $access_token = $this->getWxAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $access_token;
-        
-        
-        $res = $this->http_curl($url, 'post', $postJson);
+    public static function sendWxTemplateMsg($postJson) {
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . ACCESS_TOKEN;
+            
+        $res = self::http_curl($url, 'post', $postJson);
         dump($res);        
     }
     
     // 获取access_token
-    private function getWxAccessToken() {
-        $access_token = cache('access_token')? cache('access_token') : '';
+    private static function getWxAccessToken() {
+        $access_token = cache('token_info')['access_token']? : '';
         
         if (empty($access_token) || cache('expire_time') < time()) {
             // 1. 请求url地址
@@ -245,7 +236,7 @@ class Weixin extends Controller  {
      * @param  $arr  请求的参数
      * @return type
      */
-    public function http_curl($url, $type='get', $arr = '') {
+    public static function http_curl($url, $type='get', $arr = '') {
         // 1. 初始化
         $ch = curl_init();
         // 2. 设置参数
@@ -285,19 +276,10 @@ class Weixin extends Controller  {
     }
     
     //获取微信服务器IP
-    public function getWxServerIp() {
-        $accessToken = "15_m8Bbhv7qyXd3o80hYXPU78vY9BXkvyZl_7dfQRE3sfKOIriVM6AKE8grj6DgBjXmO92ygWpO4EC0_OPe1wOJ0AACqgBY8Z_oYd7J2O0AHRrrXr6zyNIUdztkSTkFwyEIibjie1WJY3nbGvztTBBfAJADLL";
-        $url = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=$accessToken";
+    public static function getWxServerIp() {
+        $url = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token='. ACCESS_TOKEN;
         
-        $ch = curl_init();
-        
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        $res = curl_exec($ch);
-        $res = json_decode($res, true);
-        curl_close($ch);
-        
+        $res = self::http_curl($url); 
         return $res;
     }
     
@@ -305,10 +287,9 @@ class Weixin extends Controller  {
      * 创建自定义菜单
      * @param type $postJson  post数据(json格式)
      */
-    public function createMenu($postJson) {
-        $access_token = $this->accessToken;
-        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token;
-        $res = $this->http_curl($url, 'post', $postJson);
+    public static function createMenu($postJson) {
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . ACCESS_TOKEN;
+        $res = self::http_curl($url, 'post', $postJson);
         var_dump($res);
     }
     
@@ -319,9 +300,9 @@ class Weixin extends Controller  {
      *                      snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。
      *                      并且，即使在未关注的情况下，只要用户授权，也能获取其信息 ）
      */
-    public function getWxAuthorizeUrl($redirect_url, $state='', $scope='snsapi_base') {
+    public static function getWxAuthorizeUrl($redirect_url, $state='', $scope='snsapi_base') {
         // 微信授权地址
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->appId."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=".$state."#wechat_redirect";
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".APPID."&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=".$state."#wechat_redirect";
         return $url;
     }
     
@@ -330,14 +311,10 @@ class Weixin extends Controller  {
      * @param type $code 获取access_token的票据
      * @return type
      */
-    public function getUserInfo($code) {
+    public static function getUserInfo($code) {
         //2.获取到网页授权的access_token
-        $appid = $this->appId;
-        $secret = $this->secret; 
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code";
-        $info = $this->http_curl($url);
-
-        //session('openid', $info['openid']);
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".APPID."&secret=".SECRET."&code=".$code."&grant_type=authorization_code";
+        $info = self::http_curl($url);
 
         if (isset($info['errcode'])) {
             echo '获取用户信息错误!';
@@ -358,17 +335,15 @@ class Weixin extends Controller  {
         
         //3. 拉取用户的详细信息
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$info['access_token']."&openid=".$info['openid']."&lang=zh_CN";
-        $userInfo = $this->http_curl($url);
-        //cache($info['openid'], $userInfo);
-        return  $userInfo;
+        
+        return self::http_curl($url);
     }
     
     // 刷新网页授权的access_token
-    public function refreshToken($refresh_token) {
-        $appid = $this->appId;
-        $url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=".$appid."&grant_type=refresh_token&refresh_token=" . $refresh_token;
+    public static function refreshToken($refresh_token) {
+        $url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=".APPID."&grant_type=refresh_token&refresh_token=" . $refresh_token;
         
-        return $this->http_curl($url);
+        return self::http_curl($url);
     }
 }
 

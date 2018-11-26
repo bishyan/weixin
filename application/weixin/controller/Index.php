@@ -7,22 +7,17 @@ namespace app\weixin\controller;
 use think\Controller;
 
 class Index extends Authorize  {
-    protected $weixinObj;
          
-    public function _initialize() {
-        parent::_initialize();
-        $this->weixinObj = new Weixin();
-    }
     
     public function index() {
                                   
         // 判断是验证还是其他业务
         if ($this->request->isGet()) {
             // 验证微信服务器地址
-            $this->weixinObj->wxVerify();
+            Weixin::wxVerify();
         } else {       
             # 其他业务
-            $postData = $this->getWxReqData();
+            $postData = self::getWxReqData();
             // 判断数据类型
             if (strtolower($postData['MsgType']) == 'event') {
                 // 如果是关注事件(subscribe)
@@ -35,17 +30,17 @@ class Index extends Authorize  {
                             'url' => 'http://blog.ai702.com/',
                         ),
                     );
-                    $this->weixinObj->responseNews($postData, $arr);
+                    Weixin::responseNews($postData, $arr);
                 } else if (strtolower($postData['Event']) == 'click') {
                     switch($postData['EventKey']) {
                         case 'about_me':
-                            $this->weixinObj->responseText($postData, '我是果果的爸爸..');
+                            Weixin::responseText($postData, '我是果果的爸爸..');
                             break;
                         case 'dVvkdk':
-                            $this->weixinObj->responseText($postData, '谢谢你的称赞!');
+                            Weixin::responseText($postData, '谢谢你的称赞!');
                             break;
                         default:
-                            $this->weixinObj->responseText($postData, '其他东东.');
+                            Weixin::responseText($postData, '其他东东.');
                             break;
                     }                   
 
@@ -92,7 +87,7 @@ class Index extends Authorize  {
                         $content = '没有找到'.$keyword . '的天气信息.';
                     }
 
-                    $this->weixinObj->responseText($postData, $content);
+                    Weixin::responseText($postData, $content);
                 } else {
                     switch( trim($postData['Content']) ) {
                         case 1:
@@ -116,7 +111,7 @@ class Index extends Authorize  {
                                     'url' => 'http://blog.ai702.com/a/6',
                                 ),
                             );
-                            $this->weixinObj->responseNews($postData, $arr);
+                            Weixin::responseNews($postData, $arr);
                             break;
                         case 6: 
                         // 回复多图文, 当前微信版本 : 图文消息个数；
@@ -142,7 +137,7 @@ class Index extends Authorize  {
                                     'url' => 'http://www.hao123.com',
                                 ),
                             );
-                            $this->weixinObj->responseNews($postData, $arr);
+                            Weixin::responseNews($postData, $arr);
                             break;
                         default:
                             $content = '找不到和' . $postData->Content . '相关的信息';
@@ -151,7 +146,7 @@ class Index extends Authorize  {
                 }
 
                 if (isset($content)) {
-                    $this->weixinObj->responseText($postData, $content);
+                    Weixin::responseText($postData, $content);
                 } 
             }              
         }        
@@ -160,7 +155,7 @@ class Index extends Authorize  {
     
     
     //获取到微信推送过来的post数据(xml格式)
-    public function getWxReqData() {
+    public static function getWxReqData() {
         //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
         $postStr = file_get_contents("php://input");
         //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[event]]></MsgType>  <Event><![CDATA[CLICK]]></Event>
@@ -202,7 +197,7 @@ class Index extends Authorize  {
         // 3. 转换->json
         $postJson = urldecode(json_encode($array));
         //dump($postJson); exit;
-        $this->weixinObj->sendMsgAllPreview($postJson);
+        Weixin::sendMsgAllPreview($postJson);
     }
     
     // 群发消息
@@ -247,8 +242,8 @@ class Index extends Authorize  {
         
         $array = urldecode(json_encode($arr));
         //dump($array);exit;
-        //$this->weixinObj->sendMsgAllByTag($array);
-        $this->weixinObj->sendMsgAll($array, 'id');
+        //Weixin::sendMsgAllByTag($array);
+        Weixin::sendMsgAll($array, 'id');
     }
     
     // 创建微信菜单
@@ -311,7 +306,7 @@ class Index extends Authorize  {
             ),      
         );
         $postJson = urldecode(json_encode($postArr));
-        $res = $this->weixinObj->createMenu($postJson);
+        $res = Weixin::createMenu($postJson);
     }
     
     // 发送模板消息 
@@ -344,7 +339,7 @@ class Index extends Authorize  {
         );
         
         $postJson= json_encode($array);
-        $this->weixinObj->sendWxTemplateMsg($postJson);
+        Weixin::sendWxTemplateMsg($postJson);
     }
     
     
@@ -360,13 +355,13 @@ class Index extends Authorize  {
 //            $state = md5(uniqid());
 //            session('state', $state);
 //
-//            $jumpurl = $this->weixinObj->getWxAuthorizeUrl($redirect_url, $state);
+//            $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state);
 //            header('Location:' . $jumpurl);
 //            exit;
 //        } else {
 //            if (session('state') == $_GET['state']) {
 //                session('state', null);
-//                $res = $this->weixinObj->getUserInfo($_GET['code']);
+//                $res = Weixin::getUserInfo($_GET['code']);
 //                dump($res);
 //            } else {
 //                $url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'];
@@ -398,7 +393,7 @@ class Index extends Authorize  {
         //2.获取用户信息
         $code = $_GET['code'];
 
-        $res = $this->weixinObj->getUserInfo($code);
+        $res = Weixin::getUserInfo($code);
         dump($res);  //
         session_start();
         dump($_SESSION);
@@ -414,13 +409,13 @@ class Index extends Authorize  {
     public function getUserDetail() {
         // 1. 获取到code
         $redirect_url = urlencode('http://weixin.ai702.com/weixin/index/getUserInfo');
-        $this->weixinObj->getCode($redirect_url, 'snsapi_userinfo');
+        Weixin::getCode($redirect_url, 'snsapi_userinfo');
     }
     
     public function getUserInfo() {
         $code = $_GET['code'];
         dump($code);
-        $res = $this->weixinObj->getUserInfo($code);
+        $res = Weixin::getUserInfo($code);
         
         dump($res);
     }

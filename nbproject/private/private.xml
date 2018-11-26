@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Authorize.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Weixin.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Index.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/thinkphp/helper.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/thinkphp/library/think/Session.php</file>
         </group>
     </open-files>
 </project-private>

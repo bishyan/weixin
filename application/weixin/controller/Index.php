@@ -160,8 +160,8 @@ class Index extends Authorize {
     //获取到微信推送过来的post数据(xml格式)
     public static function getWxReqData() {
         //$postStr = $GLOBALS['HTTP_RAW_POST_DATA'];
-        //$postStr = file_get_contents("php://input");
-        $postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[Event]]></MsgType>  <Event><![CDATA[subscribe]]></Event>
+        $postStr = file_get_contents("php://input");
+        //$postStr = "<xml>  <ToUserName><![CDATA[toUser]]></ToUserName>  <FromUserName><![CDATA[fromUser]]></FromUserName>  <CreateTime>1348831860</CreateTime>  <MsgType><![CDATA[Event]]></MsgType>  <Event><![CDATA[subscribe]]></Event>
         //<EventKey><![CDATA[EVENTKEY]]></EventKey>  <MsgId>1234567890123456</MsgId>  </xml>";
         if (!empty($postStr)) {
             $postData = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);

@@ -36,6 +36,9 @@
                     success: function () {
                     // 用户点击了分享后执行的回调函数
                     },
+                    cancal:function(){
+                        // 用户取消了分享后执行的回调函数
+                    }
                     
                 });
                 
@@ -49,6 +52,11 @@
                     dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                     success: function () {
                     // 用户点击了分享后执行的回调函数
+                        alert('分享成功');
+                    },
+                    cancal:function(){
+                        // 用户取消了分享后执行的回调函数
+                        alert('分享失败, 请重新分享');
                     }
                 });
             });

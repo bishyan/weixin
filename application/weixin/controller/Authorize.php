@@ -27,12 +27,12 @@ class Authorize extends Controller {
                 echo '已有信息, 不用再授权';
                 return;
             }
-        } else {
-            if (session('?user_info')) {
-                echo '有openid, 且不是注册页面';
-                return;
-            }
-        }
+        } //else {
+//            if (session('?user_info')) {
+//                echo '有openid, 且不是注册页面';
+//                return;
+//            }
+//        }
         
         
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  

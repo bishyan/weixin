@@ -154,7 +154,19 @@ class Index extends Controller {
         }        
     }
     
-    
+    //测试微信分享
+    public function shareWx() {
+        $noncestr = Weixin::getNoncestr();
+        $timestamp = time();
+        $url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $signature = Weixin::getSignature($noncestr, $timestamp, $url);
+        
+        $this->assign('timestamp', $timestamp);
+        $this->assign('noncestr', $noncestr);
+        $this->assign('signature', $signature);
+        
+        return $this->fetch('share');
+    }
     
     //获取到微信推送过来的post数据(xml格式)
     public static function getWxReqData() {
@@ -275,11 +287,7 @@ class Index extends Controller {
                             'name' => urlencode('精选文章'),
                             'url'  => 'https://mp.weixin.qq.com/mp/homepage?__biz=MzU0NTgyMDIyMA==&hid=3&sn=d24108c93567a9278f2a2c0a35aad093'
                         ),
-                        array(
-                            'type' => 'view',
-                            'name' => urlencode('淘宝'),
-                            'url'  => 'http://www.taobao.com'
-                        ),
+
                     ),
                     
                 ),  // 第二个一级菜单

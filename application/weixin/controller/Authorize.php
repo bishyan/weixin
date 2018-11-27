@@ -61,11 +61,13 @@ class Authorize extends Controller {
                 $scope = 'snsapi_base';
             */
             
-            //如果用户同意授权，页面将跳转至 redirect_uri/?code=CODE&state=STATE
-            $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state, $scope);
+            $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state, $scope); //获取授权url
+            // 跳转url, 如果用户同意授权，页面将跳转至 redirect_uri/?code=CODE&state=STATE
             header('Location:' . $jumpurl);
             exit;
-        } else {
+        } 
+        else {
+            // 判断是否从微信过来的
             if (session('state') == $_GET['state']) {
                 session('state', null);
                 $res = Weixin::getUserInfo($_GET['code']);

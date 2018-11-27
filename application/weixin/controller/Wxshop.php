@@ -11,8 +11,7 @@ class WxShop extends Authorize{
     //首页
     public function index() {
                          
-          echo '首页';          
-             
+          echo '首页';                    
     }
     
     // 获取用户的信息
@@ -21,7 +20,6 @@ class WxShop extends Authorize{
         dump($_SESSION);
         
         echo "<a href='".$url."'>测试页面</a>";
-
     }
     
     public function test() {
@@ -46,14 +44,6 @@ class WxShop extends Authorize{
         dump($_SESSION);
     }
     
-    
-    public function getUserInfo() {
-        $code = $_GET['code'];
-        dump($code);
-        $res = Weixin::getUserInfo($code);
-        
-        dump($res);
-    }
 }
 
 

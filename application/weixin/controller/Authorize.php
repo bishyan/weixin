@@ -78,8 +78,13 @@ class Authorize extends Controller {
                     //session('user_info', $userinfo);
                     
                     // 只存openid
-                    cache($res['openid'], $res['openid']);
-                    session('user_info', $res['openid']);
+                    if ( cache('?'.$res['openid'])){ 
+                        $info = cache($res['openid']);
+                    } else {
+                        $info =  $res['openid'];
+                        cache($res['open_id'], $info);
+                    }
+                    session('user_info', $info);
                 }
             } else {
                 

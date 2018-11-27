@@ -88,7 +88,7 @@ class Authorize extends Controller {
                 }
             } else {
                 
-                $this->error('非法请求!', url('/weixin/index/getbaseinfo'));
+                $this->error('非法请求!', url('/weixin/wxshop/index'));
             }
         }
     }

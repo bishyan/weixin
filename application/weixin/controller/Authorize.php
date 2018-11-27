@@ -1,7 +1,9 @@
 <?php
 
 /**
- *  验证是否授权
+ *  微信网页授权的管理类, 需要网页授权的页面统一继承此类
+ *  功能: 判断是否授权, 如果已经有用户信息, 则返回
+ *  否则去获取授权信息
  */
 namespace app\weixin\controller;
 use think\Controller;
@@ -22,27 +24,27 @@ class Authorize extends Controller {
         }*/
         
         $actionName = $this->request->action(); // 请求的动作名
+        //判断是否是指定要获取授权信息的动作
         if ($actionName == 'register') {
             if (session('?user_info.nickname')) {
-                echo '已有信息, 不用再授权';
+                //已有信息, 无需再取
                 return;
             }
         } else {
             if (session('?user_info')) {
-                echo '有openid, 且不是注册页面';
+                //不是指定动作, 只要有信息,就不再去取
                 return;
             }
         }
         
         
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  
-            // 
+            // 授权返回本页面
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());  //安全验证
             session('state', $state);  
-            
-            
-            // 只
+                        
+            // 指定register页面去获取用户授权信息, 其他动作只取openid
             if ($actionName == 'register') {
                 $scope = 'snsapi_userinfo';
             } else {
@@ -72,7 +74,7 @@ class Authorize extends Controller {
                     session('user_info', $res);
                     cache($res['openid'], $res);
                 } else {
-                    echo '简短<br>';
+                    //echo '简短<br>';
                     // 只获取openid, 通过openid从缓存中获取用户信息
                     //$userinfo = cache($res['openid']);
                     //session('user_info', $userinfo);

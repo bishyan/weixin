@@ -275,6 +275,11 @@ class Index extends Controller {
                             'name' => urlencode('精选文章'),
                             'url'  => 'https://mp.weixin.qq.com/mp/homepage?__biz=MzU0NTgyMDIyMA==&hid=3&sn=d24108c93567a9278f2a2c0a35aad093'
                         ),
+                        array(
+                            'type' => 'view',
+                            'name' => '淘宝',
+                            'url'  => 'http://www.taobao.com'
+                        ),
                     ),
                     
                 ),  // 第二个一级菜单

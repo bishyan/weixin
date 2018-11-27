@@ -39,7 +39,7 @@ class Authorize extends Controller {
         
         
         if (!isset($_GET['code']) && !isset($_GET['state'])) {  
-            // 授权返回本页面
+            // 回调url:本页面
             $redirect_url = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $state = md5(uniqid());  //安全验证
             session('state', $state);  
@@ -52,13 +52,16 @@ class Authorize extends Controller {
             }
             
             /*
-            //判断是否是第一次访问(session为空), 或者session存在但没有其他信息, 则取用户信息, 否则取option_id
-            if (!session('?user_info') || (session('?user_info.openid') && empty(cache(session('user_info.openid'))['nickname']))) 
+            //判断是否是第一次访问(session为空), 或者session存在但没有其他信息, 
+             * 则取用户信息, 否则取option_id
+            if (!session('?user_info') || (session('?user_info.openid') && 
+             * empty(cache(session('user_info.openid'))['nickname']))) 
                 $scope = 'snsapi_userinfo';
             else 
                 $scope = 'snsapi_base';
             */
             
+            //如果用户同意授权，页面将跳转至 redirect_uri/?code=CODE&state=STATE
             $jumpurl = Weixin::getWxAuthorizeUrl($redirect_url, $state, $scope);
             header('Location:' . $jumpurl);
             exit;

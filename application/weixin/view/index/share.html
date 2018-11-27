@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+        
+    </head>
+    <body>
         <script>
             wx.config({
                 debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -38,8 +41,8 @@
                 
                 //分享给朋友
                 wx.onMenuShareAppMessage({
-                    title: '', // 分享标题
-                    desc: '', // 分享描述
+                    title: 'test1', // 分享标题
+                    desc: 'http://blog.ai702.com', // 分享描述
                     link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                     imgUrl: '', // 分享图标
                     type: '', // 分享类型,music、video或link，不填默认为link
@@ -56,8 +59,7 @@
                 // 对于SPA可以在这里更新签名。
             });
         </script>
-    </head>
-    <body>
+        
         <div>果果好宝宝</div>
     </body>
 </html>

@@ -277,7 +277,7 @@ class Index extends Controller {
                         ),
                         array(
                             'type' => 'view',
-                            'name' => '淘宝',
+                            'name' => urlencode('淘宝'),
                             'url'  => 'http://www.taobao.com'
                         ),
                     ),

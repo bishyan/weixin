@@ -65,7 +65,7 @@
             });
             
             //拍照或从手机相册中选图接口
-            function scan() {
+            function uploadImage() {
                 //拍照或从手机相册中选图接口
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -75,18 +75,27 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     }
                 });
+                
+                wx.uploadImage({
+                    localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        alert(serverId);
+                    }
+                });
             }
             
-//            function location(latitude, longitude) {
-//                wx.openLocation({
-//                    latitude: latitude, // 纬度，浮点数，范围为90 ~ -90
-//                    longitude: longitude, // 经度，浮点数，范围为180 ~ -180。
-//                    name: '石岩', // 位置名
-//                    address: '自由空间', // 地址详情说明
-//                    scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
-//                    infoUrl: 'http://www.baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
-//                });
-//            }
+            function scanQRCode() {
+                wx.scanQRCode({
+                    needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                        alert(result);
+                    }
+                });
+            }
             
             function getLocation() {
                 wx.getLocation({
@@ -96,15 +105,6 @@
                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                         var speed = res.speed; // 速度，以米/每秒计
                         var accuracy = res.accuracy; // 位置精度
-                        
-                        wx.openLocation({
-                            latitude: latitude, // 纬度，浮点数，范围为90 ~ -90
-                            longitude: longitude, // 经度，浮点数，范围为180 ~ -180。
-                            name: '石岩', // 位置名
-                            address: '自由空间', // 地址详情说明
-                            scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
-                            infoUrl: 'http://www.baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
-                        });
                     }
                 });
             }
@@ -117,7 +117,8 @@
         </script>
         
         <div>果果好宝宝</div>
-        <button onclick="scan()" >上传照片</button> <br>
-        <button onclick="getLocation()" >地理位置</button>
+        <button onclick="uploadImage()" >上传照片</button> <br>
+        <button onclick="getLocation()" >地理位置</button> <br>
+        <button onclick="scanQRCode()" >扫一扫</button>
     </body>
 </html>

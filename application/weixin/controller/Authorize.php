@@ -82,7 +82,7 @@ class Authorize extends Controller {
                         $info = cache($res['openid']);
                     } else {
                         $info =  $res['openid'];
-                        cache($res['open_id'], $info);
+                        cache($res['openid'], $info);
                     }
                     session('user_info', $info);
                 }

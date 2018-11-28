@@ -193,7 +193,7 @@ class Index extends Controller {
             $localData = $_POST['localData'];
             
             $savePath = ROOT_PATH . 'public/static/images/';
-            $subPath = date('Y-m-d') .'/';
+            $subPath = date('Ymd') .'/';
             if (!is_dir($savePath . $subPath)) {
                 mkdir($savePath . $subPath, 0777, true);
                 chmod($savePath . $subPath, 0777);               

@@ -133,7 +133,7 @@
                                 success: function (res) {
                                     i++;
                                     var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    
+                                    alert(i);
                                     $.ajax({
                                         url: "{:url('/weixin/index/saveImage', '', false)}",
                                         type: "post",

@@ -114,7 +114,8 @@
                             alert('请先使用chooseImage 接口选择图片');
                             return;
                         }
-                        var i=0, length = images.localId.length;upok=0;upfail=0;
+                        var i=0, length = images.localId.length;
+                        var upok=0,upfail=0;
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器
@@ -169,7 +170,7 @@
                             });     
                         }
                         upload();
-                        alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                        
                         //alert(images);
                     }
                 });  

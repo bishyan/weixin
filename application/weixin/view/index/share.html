@@ -147,17 +147,14 @@
                                         success: function(data) {
                                             //alert(data);
                                             var mydata = JSON.parse(data);
-                                            alert(mydata.code);
                                             
                                             if (mydata.code == '0001') {
                                                 //alert('已上传:'+i+'/'+length);
-                                                upok++;
-                                                alert(upok);
+                                                upok++;     
                                             }else {
                                                 upfail++;
                                                 //alert('第: '+i+'/'+length+'上传失败');
                                             }
-                                            alert(333333333333);
                                         },
                                         error: function(XMLHttpRequest, textStatus, errorThrown){
                                             alert(errorThrown);
@@ -167,19 +164,16 @@
                                     
                                     if (i < length) {
                                         upload();
-                                    } else {
-                                        alert(1111111111);
-                                    }
-                                        
+                                    }        
                                 },
                                 fail:function(res) {
                                     alert(JSON.stringify(res));
-                                }
+                                },
+                                alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                             });     
                             //alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                         }
                         upload();
-                        alert(222222222222222222);
                         //alert(images);
                     }
                 });  

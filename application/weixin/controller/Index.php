@@ -187,7 +187,7 @@ class Index extends Controller {
         error_reporting(0);
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
-            //dump($localData);exit;
+            dump($localData);exit;
             //$url = explode(',', $localData);
             //dump($url);exit;
             $savePath = ROOT_PATH . 'image/';

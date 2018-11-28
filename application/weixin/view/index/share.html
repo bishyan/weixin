@@ -156,8 +156,7 @@
                                             }else {
                                                 upfail++;
                                                 //alert('第: '+i+'/'+length+'上传失败');
-                                            }
-                                            alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                                            }                                            
                                         },
                                         error: function(XMLHttpRequest, textStatus, errorThrown){
                                             alert(errorThrown);
@@ -167,7 +166,9 @@
                                     
                                     if (i < length) {
                                         upload();
-                                    }        
+                                    }  else {
+                                        alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                                    }      
                                 },
                                 fail:function(res) {
                                     alert(JSON.stringify(res));

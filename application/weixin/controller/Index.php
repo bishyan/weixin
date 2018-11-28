@@ -184,7 +184,9 @@ class Index extends Controller {
     }
     
     public function imageList() {
-        
+        $data = db('images')->select();
+        $this->assign($data);
+        $this->fetch();
     }
     
     public function saveImage() {

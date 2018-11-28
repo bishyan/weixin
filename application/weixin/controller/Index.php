@@ -203,7 +203,7 @@ class Index extends Controller {
             if (file_exists($savePath . $subPath .$fileName)) {
                 //echo json_encode(['code' => '0001', 'localData'=>$localData]);
                 echo json_encode(['code' => '0001']);               
-                db('images')->add(['image_url'=>$subPath .$fileName]);
+                db('images')->insert(['image_url'=>$subPath .$fileName]);
             }else {
                 //echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
                 echo json_encode(['code'=> '0002'], JSON_UNESCAPED_UNICODE);

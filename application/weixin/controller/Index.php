@@ -183,6 +183,27 @@ class Index extends Controller {
         }
     }
     
+    public function saveImage() {
+        error_reporting(0);
+        if (!empty($_POST)) {
+            $localData = $_POST['localData'];
+            $url = explode(',', $localData);
+            $savePath = ROOT_PATH . 'image/';
+            if (!is_dir($savePath)) {
+                mkdir($savePath, 0777, true);
+            }
+            $fileName = data('YmdHis').rand(1000, 9999) . '.jpg';
+            file_put_contents($savePath.$fileName, base64_decode($url[1]));
+            if (file_exists($savePath . $fileName)) {
+                echo json_encode(['code' => '0001', 'localData'=>$localData]);
+                exit(0);
+            }else {
+                echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
+                exit(0);
+            }
+        }
+    }
+    
     // 群发预览
     public function previewSend() {
         /* 单文本

@@ -133,6 +133,27 @@
                                 success: function (res) {
                                     i++;
                                     var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                    
+                                    $.ajax({
+                                        url: "{:url('/weixin/index/saveImage', '', false)}",
+                                        type: "post",
+                                        async: "false",
+                                        dataType: "html",
+                                        data: {
+                                            localData: localData,
+                                        },
+                                        success: function(data) {
+                                            var mydata = JSON.parse(data);
+                                            if (mydata.code == '0001') {
+                                                alert('已上传:'+i+'/'+length);
+                                            }else {
+                                                alert('第: '+i+'/'+length+'上传失败');
+                                            }
+                                        },
+                                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                                            alert(errorThrown);
+                                        },
+                                    });
                                     $("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
                                     
                                     if (i < length) {

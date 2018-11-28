@@ -185,10 +185,10 @@ class Index extends Controller {
     }
     
     public function imageList() {
-        $data = db('images')->paginate(2);
-        dump($data);
+        $data = db('images')->paginate(10);
         
         $this->assign('imageList', $data);
+        $this->assign('page', $data->render());
         return $this->fetch('image_list');
     }
     

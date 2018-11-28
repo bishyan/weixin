@@ -101,8 +101,7 @@
             };
             
             //拍照或从手机相册中选图接口
-            function uploadImage() {
-                var upok=0; var upfail=0; 
+            function uploadImage() {                 
                 //拍照或从手机相册中选图接口               
                 wx.chooseImage({
                     //count: 1, // 默认9
@@ -118,7 +117,7 @@
                             return;
                         }
                         var i=0, length = images.localId.length;   
-                        
+                        var upok=0; var upfail=0;
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器
@@ -157,7 +156,7 @@
                                                 upfail++;
                                                 //alert('第: '+i+'/'+length+'上传失败');
                                             }   
-                                            
+                                            alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                                         },
                                         error: function(XMLHttpRequest, textStatus, errorThrown){
                                             alert(errorThrown);

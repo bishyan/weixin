@@ -9,4 +9,11 @@ return [
     //'app_id' => 'wxe6dfc606143872e8',
     //'secret' => 'Obe5d18ee3dOf3df973dO6c2a9e22b22',
     
+    //分页配置
+    'paginate'               => [
+        'type'      => 'page\page',
+        'var_page'  => 'page',
+        'list_rows' => 5,
+    ],
+    
 ];

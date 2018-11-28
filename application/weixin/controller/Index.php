@@ -193,16 +193,17 @@ class Index extends Controller {
             $localData = $_POST['localData'];
             
             $savePath = ROOT_PATH . 'public/static/images/';
-            if (!is_dir($savePath)) {
-                mkdir($savePath, 0777, true);
-                chmod($savePath, 0777);               
+            $subPath = date('Y-m-d') .'/';
+            if (!is_dir($savePath . $subPath)) {
+                mkdir($savePath . $subPath, 0777, true);
+                chmod($savePath . $subPath, 0777);               
             }
-            $fileName = date('Y-m-d') . '/' . date('YmdHis').rand(1000, 9999) . '.jpg';
-            file_put_contents($savePath.$fileName, base64_decode($localData));
-            if (file_exists($savePath . $fileName)) {
+            $fileName = date('YmdHis').rand(1000, 9999) . '.jpg';
+            file_put_contents($savePath.$subPath .$fileName, base64_decode($localData));
+            if (file_exists($savePath . $subPath .$fileName)) {
                 //echo json_encode(['code' => '0001', 'localData'=>$localData]);
                 echo json_encode(['code' => '0001']);               
-                db('images')->add(['image_url'=>$fileName]);
+                db('images')->add(['image_url'=>$subPath .$fileName]);
             }else {
                 //echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
                 echo json_encode(['code'=> '0002'], JSON_UNESCAPED_UNICODE);

@@ -189,7 +189,7 @@ class Index extends Controller {
             $localData = $_POST['localData'];
             //dump($localData);exit;
             $url = explode(',', $localData);
-            dump($url);exit;
+            //dump($url);exit;
             $savePath = ROOT_PATH . 'image/';
             if (!is_dir($savePath)) {
                 mkdir($savePath, 0777, true);

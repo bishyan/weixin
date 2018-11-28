@@ -107,6 +107,7 @@
                     //count: 1, // 默认9
                     //sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     //sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    var upok=0; var upfail=0; 
                     success: function (res) {
                         images.localId = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         //alert('已选择 '+res.localIds.length+' 张图片');
@@ -116,7 +117,7 @@
                             return;
                         }
                         var i=0, length = images.localId.length;   
-                        var upok=0; var upfail=0; 
+                        
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器
@@ -169,13 +170,13 @@
                                 fail:function(res) {
                                     alert(JSON.stringify(res));
                                 },
-                                alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                             });     
                             //alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                         }
                         upload();
                         //alert(images);
-                    }
+                        alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                    },
                 });  
             }
             

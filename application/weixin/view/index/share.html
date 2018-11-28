@@ -116,7 +116,7 @@
                             return;
                         }
                         var i=0, length = images.localId.length;   
-                         
+                        var upok=0; var upfail=0; 
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器
@@ -135,7 +135,7 @@
                                 success: function (res) {
                                     i++;
                                     var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    var upok=0; var upfail=0;
+                                    
                                     $.ajax({
                                         url: "{:url('/weixin/index/saveImage', '', false)}",
                                         type: "post",

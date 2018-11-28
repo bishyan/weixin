@@ -188,14 +188,14 @@ class Index extends Controller {
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
             //dump($localData);exit;
-            $url = explode(',', $localData);
+            //$url = explode(',', $localData);
             //dump($url);exit;
             $savePath = ROOT_PATH . 'image/';
             if (!is_dir($savePath)) {
                 mkdir($savePath, 0777, true);
             }
             $fileName = date('YmdHis').rand(1000, 9999) . '.jpg';
-            file_put_contents($savePath.$fileName, base64_decode($url[1]));
+            file_put_contents($savePath.$fileName, base64_decode($localData));
             if (file_exists($savePath . $fileName)) {
                 echo json_encode(['code' => '0001', 'localData'=>$localData]);
                 exit(0);

@@ -164,6 +164,7 @@ class Index extends Controller {
         $this->assign('timestamp', $timestamp);
         $this->assign('noncestr', $noncestr);
         $this->assign('signature', $signature);
+        $this->assign('list_link', url('/weixin/index/imagelist', '', false));
         
         return $this->fetch('share');
     }
@@ -185,6 +186,8 @@ class Index extends Controller {
     
     public function imageList() {
         $data = db('images')->select();
+        
+        
         $this->assign('imageList', $data);
         return $this->fetch('image_list');
     }

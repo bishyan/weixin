@@ -155,7 +155,7 @@
                                             alert(errorThrown);
                                         },
                                     });
-                                    $("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
+                                    //$("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
                                     
                                     if (i < length) {
                                         upload();
@@ -209,10 +209,8 @@
         
         <h1>果果好宝宝</h1>
         <div id="pic"></div>
-        <button onclick="uploadImage()" >上传照片</button> <br>
-        <button onclick="getLocation()" >地理位置</button> <br>
+        <button onclick="uploadImage()" >上传照片</button> &nbsp;&nbsp;&nbsp; <a href="{:url('/weixin/index/imagelist')}">已上传图片</a> <br><br>
+        <button onclick="getLocation()" >地理位置</button> <br><br>
         <button onclick="scanQRCode()" >扫一扫</button>  <br>
-        
-        <input type="file" name="logo"/>
     </body>
 </html>

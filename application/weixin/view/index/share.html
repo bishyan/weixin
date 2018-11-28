@@ -133,7 +133,7 @@
                                 success: function (res) {
                                     i++;
                                     var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    $("#pic").append("<img src='data:image/png;base64,"+localData+"' width='120px' />");
+                                    $("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
                                     
                                     if (i < length) {
                                         upload();

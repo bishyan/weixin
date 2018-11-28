@@ -195,6 +195,7 @@ class Index extends Controller {
             $savePath = ROOT_PATH . 'public/static/images/';
             if (!is_dir($savePath)) {
                 mkdir($savePath, 0777, true);
+                chmod($savePath, 0777);               
             }
             $fileName = date('Y-m-d') . '/' . date('YmdHis').rand(1000, 9999) . '.jpg';
             file_put_contents($savePath.$fileName, base64_decode($localData));

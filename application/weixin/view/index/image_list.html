@@ -13,7 +13,7 @@ and open the template in the editor.
     <body>
         
         {foreach $imageList as $v}
-        <img src="{:url('/weixin/index/imageList', '', false)}/weixin/public/static/images/{$v.image_url}" />
+        <img src="/weixin/public/static/images/{$v.image_url}" />
         {/foreach}
     </body>
 </html>

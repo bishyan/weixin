@@ -192,7 +192,7 @@ class Index extends Controller {
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
             
-            $savePath = ROOT_PATH . 'public/static/imagell/';
+            $savePath = ROOT_PATH . 'public/static/images/';
             if (!is_dir($savePath)) {
                 mkdir($savePath, 0777, true);
             }

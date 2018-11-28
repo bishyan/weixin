@@ -133,7 +133,7 @@
                                 success: function (res) {
                                     i++;
                                     var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    alert(i);
+                                    
                                     $.ajax({
                                         url: "{:url('/weixin/index/saveImage', '', false)}",
                                         type: "post",
@@ -143,7 +143,7 @@
                                             localData: localData,
                                         },
                                         success: function(data) {
-                                            alert(data);
+                                            //alert(data);
                                             var mydata = JSON.parse(data);
                                             if (mydata.code == '0001') {
                                                 alert('已上传:'+i+'/'+length);

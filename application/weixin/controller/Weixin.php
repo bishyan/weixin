@@ -347,7 +347,6 @@ class Weixin extends Controller  {
             $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".self::getWxAccessToken()."&type=jsapi";
             $res = self::http_curl($url);
             $jsapi_ticket = $res['ticket'];
-            dump($res);
             
             session('jsapi_ticket', $jsapi_ticket);
             session('jsapi_ticket_expire_time', time()+7000);

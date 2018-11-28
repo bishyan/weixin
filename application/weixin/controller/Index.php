@@ -185,7 +185,7 @@ class Index extends Controller {
     }
     
     public function imageList() {
-        $data = db('images')->select();
+        $data = db('images')->paginate(2)->select();
         
         
         $this->assign('imageList', $data);

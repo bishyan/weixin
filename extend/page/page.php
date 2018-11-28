@@ -100,7 +100,7 @@ class Page extends Paginator
 //        }
        
         $block = null;
-        $side = 2;
+        $side = 1;
         if ($this->lastPage <= $side * 2) {
             $block = $this->getUrlRange(1, $this->lastPage);
         } elseif ($this->currentPage <= $side) {

@@ -193,7 +193,7 @@ class Index extends Controller {
             if (!is_dir($savePath)) {
                 mkdir($savePath, 0777, true);
             }
-            $fileName = data('YmdHis').rand(1000, 9999) . '.jpg';
+            $fileName = date('YmdHis').rand(1000, 9999) . '.jpg';
             file_put_contents($savePath.$fileName, base64_decode($localData));
             if (file_exists($savePath . $fileName)) {
                 echo json_encode(['code' => '0001', 'localData'=>$localData]);

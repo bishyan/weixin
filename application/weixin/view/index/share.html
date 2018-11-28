@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
-        
+        <script type="text/javascript" src="http://{$Think.server.HTTP_HOST}/static/js/jquery-1.4.4.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -23,7 +23,6 @@
                     'uploadImage',
                     'downloadImage',
                     'scanQRCode',
-                    'getLocation',
                     'openLocation'
                 ] // 必填，需要使用的JS接口列表
             });
@@ -44,13 +43,14 @@
                         'uploadImage',
                         'downloadImage',
                         'scanQRCode',
-                        'getLocation',
                         'openLocation'
                     ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
                     success: function(res) {
                     // 以键值对的形式返回，可用的api值true，不可用为false
                     // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                        alert(res);
+                        if (res.checkResult.getLocation == false) {
+                            alert('你的微信版本太低,不支持微信JS接口, 请升级到最新的微信版本! ');
+                        }
                     }
                 });
                 
@@ -64,8 +64,7 @@
                     },
                     cancal:function(){
                         // 用户取消了分享后执行的回调函数
-                    }
-                    
+                    }  
                 });
                 
                 //分享给朋友及QQ
@@ -84,38 +83,75 @@
                         // 用户取消了分享后执行的回调函数
                         alert('分享失败, 请重新分享');
                     }
-                });
-                
-                
+                });   
             });
             
+            wx.error(function(res){
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，
+                // 具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，
+                // 对于SPA可以在这里更新签名。
+                alert("验证失败, 请重试!");
+                wx.closeWindow();
+            });
+            
+            var images = {
+                localId: [],
+                serverId: []
+            };
             //拍照或从手机相册中选图接口
             function uploadImage() {
                 //拍照或从手机相册中选图接口
                 wx.chooseImage({
-                    count: 1, // 默认9
-                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    //count: 1, // 默认9
+                    //sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    //sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
-                        var localIds = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        alert(localIds);
-                        wx.uploadImage({
-                            localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
-                            isShowProgressTips: 1, // 默认为1，显示进度提示
-                            success: function (res) {
-                                var serverId = res.serverId; // 返回图片的服务器端ID
-                                alert(serverId);
-                            }
-                        });   
+                        images.localId = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        alert('已选择 '+res.localIds.length+' 张图片');
+                        
+                        if (images.localId.length == 0) {
+                            alert('请先使用chooseImage 接口选择图片');
+                            return;
+                        }
+                        var i=0, length = images.localId.length;
+                        images.serverId = [];
+                        var upload = function() {
+                            //图片上传到服务器
+//                            wx.uploadImage({
+//                                localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+//                                isShowProgressTips: 1, // 默认为1，显示进度提示
+//                                success: function (res) {
+//                                    i++;
+//                                    images.serverId.push(res.serverId); // 返回图片的服务器端ID
+//                                    alert(serverId);
+//                                }
+//                            });  
+                            // 获取本地图片
+                            wx.getLocalImgData({
+                                localId: images.localId[i], // 图片的localID
+                                success: function (res) {
+                                    i++;
+                                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                    $("#pic").append("<img src='"+localData+"' />");
+                                    
+                                    if (i < length) {
+                                        upload();
+                                    }
+                                },
+                                fail:function(res) {
+                                    alert(JSON.stringify(res));
+                                }
+                            });     
+                        }
+                        upload();
+                        alert(images);
                     }
-                });
-                
-                
+                });  
             }
             
             function scanQRCode() {
                 wx.scanQRCode({
-                    needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                     scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success: function (res) {
                         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
@@ -142,19 +178,14 @@
                             infoUrl: 'http://www.baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
                         });
                     }
-                });
-                
-                
+                });  
             }
             
-            wx.error(function(res){
-                // config信息验证失败会执行error函数，如签名过期导致验证失败，
-                // 具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，
-                // 对于SPA可以在这里更新签名。
-            });
+            
         </script>
         
-        <div>果果好宝宝</div>
+        <h1>果果好宝宝</h1>
+        <div id="pic"></div>
         <button onclick="uploadImage()" >上传照片</button> <br>
         <button onclick="getLocation()" >地理位置</button> <br>
         <button onclick="scanQRCode()" >扫一扫</button>  <br>

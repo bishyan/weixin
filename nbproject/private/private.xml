@@ -6,8 +6,10 @@
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Authorize.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/config.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Weixin.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/application/weixin/view/index/share.html</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Wxshop.php</file>
             <file>file:/C:/xampp/htdocs/weixin/application/weixin/controller/Index.php</file>
+            <file>file:/C:/xampp/htdocs/weixin/application/weixin/view/index/domo.php</file>
         </group>
     </open-files>
 </project-private>

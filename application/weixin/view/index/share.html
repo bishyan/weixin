@@ -143,6 +143,7 @@
                                             localData: localData,
                                         },
                                         success: function(data) {
+                                            alert(data);
                                             var mydata = JSON.parse(data);
                                             if (mydata.code == '0001') {
                                                 alert('已上传:'+i+'/'+length);

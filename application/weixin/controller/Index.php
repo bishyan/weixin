@@ -183,23 +183,25 @@ class Index extends Controller {
         }
     }
     
+    public function imageList() {
+        
+    }
+    
     public function saveImage() {
         error_reporting(0);
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
-            $url = explode(',', $localData);
-            //dump($url);exit;
-            $savePath = ROOT_PATH . 'public/static/images/';
-            dump($url[1]);
+            
+            $savePath = ROOT_PATH . 'public/static/imagell/';
             if (!is_dir($savePath)) {
-                mkdir($savePath, 777, true);
+                mkdir($savePath, 0777, true);
             }
-            $fileName = date('YmdHis').rand(1000, 9999) . '.jpg';
+            $fileName = date('Y-m-d') . '/' . date('YmdHis').rand(1000, 9999) . '.jpg';
             file_put_contents($savePath.$fileName, base64_decode($localData));
             if (file_exists($savePath . $fileName)) {
                 //echo json_encode(['code' => '0001', 'localData'=>$localData]);
-                echo json_encode(['code' => '0001']);
-                exit(0);
+                echo json_encode(['code' => '0001']);               
+                db('images')->add(['image_url'=>$fileName]);
             }else {
                 //echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
                 echo json_encode(['code'=> '0002'], JSON_UNESCAPED_UNICODE);

@@ -99,7 +99,7 @@
                 localId: [],
                 serverId: []
             };
-             var upok=0; var upfail=0;
+            
             //拍照或从手机相册中选图接口
             function uploadImage() {
                 //拍照或从手机相册中选图接口
@@ -115,7 +115,8 @@
                             alert('请先使用chooseImage 接口选择图片');
                             return;
                         }
-                        var i=0, length = images.localId.length;                       
+                        var i=0, length = images.localId.length;   
+                         var upok=0; var upfail=0;
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器

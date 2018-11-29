@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>图片列表</title>
+        <title>我的图片列表</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -15,6 +15,7 @@ and open the template in the editor.
         {foreach $imageList as $v}
         <img src="/weixin/public/static/images/{$v.image_url}" width="300px" />
         {/foreach}
+        <a href="{:url('/weixin/index/sharewx')}">返回上传页面</a><br>
         <span>{$page}</span>
     </body>
 </html>

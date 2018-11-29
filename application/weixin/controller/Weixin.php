@@ -388,7 +388,7 @@ class Weixin extends Controller  {
         $ticket = $res['ticket'];
         //2. 通过ticket获取二维码
         $url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . urlencode($ticket);
-        $res = self::http_curl($url);
+        $res = file_get_contents($url);
         dump($res);
     }
 }

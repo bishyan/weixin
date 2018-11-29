@@ -14,7 +14,7 @@ and open the template in the editor.
         
         {foreach $imageList as $v}
         <img src="/weixin/public/static/images/{$v.image_url}" width="300px" />
-        {/foreach}
+        {/foreach} <br>
         <a href="{:url('/weixin/index/sharewx')}">返回上传页面</a><br>
         <span>{$page}</span>
     </body>

@@ -196,7 +196,7 @@ class Index extends Controller {
         error_reporting(0);
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
-            dump($_POST['media_id']);
+            //dump($_POST['media_id']);
             $savePath = ROOT_PATH . 'public/static/images/';
             $subPath = date('Ymd') .'/';
             if (!is_dir($savePath . $subPath)) {
@@ -208,10 +208,11 @@ class Index extends Controller {
             if (file_exists($savePath . $subPath .$fileName)) {
                 //echo json_encode(['code' => '0001', 'localData'=>$localData]);
                 echo json_encode(['code' => '0001']);               
-                db('images')->insert([
-                    'image_url'=>$subPath .$fileName,
+                $res = db('images')->insert([
+                    'image_url'=> $subPath .$fileName,
                     'media_id' => $_POST['media_id'],
                 ]);
+                dump($res);
             }else {
                 //echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
                 echo json_encode(['code'=> '0002'], JSON_UNESCAPED_UNICODE);

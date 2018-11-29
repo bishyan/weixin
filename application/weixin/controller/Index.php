@@ -46,10 +46,10 @@ class Index extends Controller {
                     }                   
                 } else if (strtolower($postData['Event']) == 'scan') {
                     switch($postData['EventKey']) {
-                        case 'guoguo':
+                        case 999:
                             $title = '永久二维码欢迎你';
                             break;
-                        case 'bixinyun':
+                        case 888:
                             $title = '临时二维码欢迎你';
                             break;
                         //default:
@@ -211,7 +211,7 @@ class Index extends Controller {
         //echo $res == 1? '二维码生成成功': '失败';
         
         //直接显示
-        Weixin::getQrCode('guoguo');
+        Weixin::getQrCode('888');
     }
     
     // 永久二维码
@@ -221,7 +221,7 @@ class Index extends Controller {
         //echo $res == 1? '二维码生成成功': '失败';
         
         // 直接显示
-        Weixin::getQrCode('bixinyun', 'forever');
+        Weixin::getQrCode('999', 'forever');
     }
     
     public function imageList() {

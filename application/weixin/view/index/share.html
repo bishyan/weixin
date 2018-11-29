@@ -171,7 +171,7 @@
                                                     if (i < length) {
                                                         upload();
                                                     } else {
-                                                        count();
+                                                        alert('上传完成'+upok);
                                                     }
                                                 },
                                                 fail:function(res) {
@@ -187,9 +187,6 @@
                         }
                         upload(); 
                     },  
-                    complete: function() {
-                        alert('上传完毕!'+upok);
-                    }
                 });  
             }
             

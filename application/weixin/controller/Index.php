@@ -196,7 +196,7 @@ class Index extends Controller {
         error_reporting(0);
         if (!empty($_POST)) {
             $localData = $_POST['localData'];
-            
+            dump($_POST['media_id']);
             $savePath = ROOT_PATH . 'public/static/images/';
             $subPath = date('Ymd') .'/';
             if (!is_dir($savePath . $subPath)) {

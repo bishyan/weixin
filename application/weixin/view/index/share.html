@@ -121,59 +121,68 @@
                         images.serverId = [];
                         var upload = function() {
                             //图片上传到服务器
-//                            wx.uploadImage({
-//                                localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
-//                                isShowProgressTips: 1, // 默认为1，显示进度提示
-//                                success: function (res) {
-//                                    i++;
-//                                    images.serverId.push(res.serverId); // 返回图片的服务器端ID
-//                                    alert(serverId);
-//                                }
-//                            });  
-                            // 获取本地图片
-                            wx.getLocalImgData({
-                                localId: images.localId[i], // 图片的localID
+                            wx.uploadImage({
+                                localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                                isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
                                     i++;
-                                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    
-                                    $.ajax({
-                                        url: "{:url('/weixin/index/saveImage', '', false)}",
-                                        type: "post",
-                                        async: "false",
-                                        dataType: "html",
-                                        data: {
-                                            localData: localData,
-                                        },
-                                        success: function(data) {
-                                            //alert(data);
-                                            var mydata = JSON.parse(data);
+                                    images.serverId.push(res.serverId); // 返回图片的服务器端ID
+                                    //图片上传完成之后，进行图片的下载，图片上传完成之后会返回一个在腾讯服务器的存放的图片的ID--->serverId
+                                    wx.downloadImage({
+                                        serverId: res.serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+                                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                                        success: function (res) {
+                                            var localId = res.localId; // 返回图片下载后的本地ID
                                             
-                                            if (mydata.code == '0001') {
-                                                //alert('已上传:'+i+'/'+length);
-                                                upok++;     
-                                            }else {
-                                                upfail++;
-                                                //alert('第: '+i+'/'+length+'上传失败');
-                                            }   
-                                            //alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
-                                        },
-                                        error: function(XMLHttpRequest, textStatus, errorThrown){
-                                            alert(errorThrown);
+                                             //通过下载的本地的ID获取的图片的base64数据，通过对数据的转换进行图片的保存
+                                            wx.getLocalImgData({
+                                                localId: localId, // 图片的localID
+                                                success: function (res) {                                                 
+                                                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+
+                                                    $.ajax({
+                                                        url: "{:url('/weixin/index/saveImage', '', false)}",
+                                                        type: "post",
+                                                        async: "false",
+                                                        dataType: "html",
+                                                        data: {
+                                                            localData: localData,
+                                                            media_id:i-1,
+                                                        },
+                                                        success: function(data) {
+                                                            //alert(data);
+                                                            var mydata = JSON.parse(data);
+
+                                                            if (mydata.code == '0001') {
+                                                                //alert('已上传:'+i+'/'+length);
+                                                                upok++;     
+                                                            }else {
+                                                                upfail++;
+                                                                //alert('第: '+i+'/'+length+'上传失败');
+                                                            }   
+                                                            //alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                                                        },
+                                                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                                                            alert(errorThrown);
+                                                        },
+                                                    });
+                                                    //$("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
+
+                                                    if (i < length) {
+                                                        upload();
+                                                    } else {
+                                                        count();
+                                                    }
+                                                },
+                                                fail:function(res) {
+                                                    alert(JSON.stringify(res));
+                                                },
+                                            });  
                                         },
                                     });
-                                    //$("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
-                                    
-                                    if (i < length) {
-                                        upload();
-                                    } else {
-                                        count();
-                                    }
-                                },
-                                fail:function(res) {
-                                    alert(JSON.stringify(res));
-                                },
-                            });     
+                                }
+                            });  
+                              
                             
                         }
                         upload(); 

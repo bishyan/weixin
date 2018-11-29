@@ -378,6 +378,7 @@ class Weixin extends Controller  {
     
     
     public static function getQrCode($arr) {
+        //header('Content-Type: image/png;');
         //1. 获取ticket票据
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.self::getWxAccessToken();
         //临时二维码格式:"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
@@ -388,9 +389,9 @@ class Weixin extends Controller  {
         $ticket = $res['ticket'];
         //2. 通过ticket获取二维码
         $url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . urlencode($ticket);
-        $res = file_get_contents($url);
-        header('Content-Type: image/png');
-        echo "<img src='" . $res . "' />";
+
+        //file_put_contents('./test1.jpg', $res);
+        echo "<img src='" .$url . "'>";
     }
 }
 

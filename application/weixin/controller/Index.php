@@ -44,10 +44,30 @@ class Index extends Controller {
                             Weixin::responseText($postData, '其他东东.');
                             break;
                     }                   
-
-                }
-                   
+                } else if (strtolower($postData['Event']) == 'scan') {
+                    switch($postData['EventKey']) {
+                        case 'guoguo':
+                            $title = '永久二维码欢迎你';
+                            break;
+                        case 'bixinyun':
+                            $title = '临时二维码欢迎你';
+                            break;
+                        //default:
+                            //Weixin::responseText($postData, '其他东东.');
+                            //break;
+                    }
                     
+                    $arr = array(
+                        array(
+                            'title' => $title,
+                            'description' => "欢迎关注果果爸爸的订阅号, \n回复1: 了解果果的年龄 \n回复2: 了解果果的身高 \n回复3: 了解果果的体重 \n回复4: 果果的个人博客 \n回复5: 单图文信息",
+                            'picUrl' => 'http://blog.ai702.com/public/Uploads/Admin/20180517202617219.jpg',
+                            'url' => 'http://blog.ai702.com/',
+                        ),
+                    );
+                    
+                    Weixin::responseNews($postData, $arr);
+                }      
             } else if (strtolower($postData['MsgType']) == 'text') {
                 $keyword = trim($postData['Content']);
               
@@ -184,18 +204,17 @@ class Index extends Controller {
         }
     }
     
-    
+    // 临时二维码
     public function getTempQrCode() {
-        $arr = array(
-            'expire_seconds' => 604800,  //7天 / 7*24*3600,
-            'action_name' => 'QR_SCENE',
-            'action_info' => array(
-                'scene' => array(
-                    'scene_id' => 988
-                ),
-            ),
-        );
-        Weixin::getQrCode($arr);
+        
+        Weixin::getQrCode('bixinyun');
+    }
+    
+    // 永久二维码
+    public function getForeverQrCode() {
+              
+        $res = Weixin::getQrCode('guoguo', 'forever', './');
+        echo $res == 1? '二维码生成成功': '失败';
     }
     
     public function imageList() {

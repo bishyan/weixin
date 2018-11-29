@@ -376,12 +376,36 @@ class Weixin extends Controller  {
         return sha1($tempStr);
     }
     
-    
-    public static function getQrCode($arr) {
+    /**
+     * 生成二维码
+     * @param string $scene  场景码
+     * @param string $code_type  二维码的类型, 默认为临时(temp), 可选永久(forever)
+     */
+    public static function getQrCode($scene,$code_type='temp',$save_path='') {
         //header('Content-Type: image/png;');
         //1. 获取ticket票据
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.self::getWxAccessToken();
         //临时二维码格式:"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
+        if ($code_type == 'temp') {
+            $arr = array(
+                'expire_seconds' =>  604800,
+                'action_name' => 'QR_SCENE',
+                'action_info' => array(
+                    'scene' => array(
+                        'scene_id' => $scene,
+                    ),
+                ),
+            );
+        } else {
+            $arr = array(
+                'action_name' => 'QR_LIMIT_SCENE',
+                'action_info' => array(
+                    'scene' => array(
+                        'scene_id' => $scene,
+                    ),
+                ),
+            );
+        }
         
         $postJson = json_encode($arr);
         
@@ -389,9 +413,15 @@ class Weixin extends Controller  {
         $ticket = $res['ticket'];
         //2. 通过ticket获取二维码
         $url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . urlencode($ticket);
-
-        //file_put_contents('./test1.jpg', $res);
-        echo "<img src='" .$url . "'>";
+        
+        if ($save_path == '') {
+            echo "<img src='" .$url . "'>";
+        } else {    
+            $code_name = date('YmdHis') . mt_rand(1000, 9999) . '.png';
+            @file_put_contents($save_path .$code_name, file_get_contents($url));     
+            
+            return file_exists($save_path . $code_name) ? 1 : 0;       
+        }
     }
 }
 

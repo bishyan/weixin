@@ -212,7 +212,7 @@ class Index extends Controller {
                     'image_url'=> $subPath .$fileName,
                     'media_id' => $_POST['media_id'],
                 ]);
-                dump($res);
+                //dump($res);
             }else {
                 //echo json_encode(['code'=> '0002', 'localData'=>$localData], JSON_UNESCAPED_UNICODE);
                 echo json_encode(['code'=> '0002'], JSON_UNESCAPED_UNICODE);

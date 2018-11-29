@@ -160,19 +160,17 @@
                                                                 upfail++;
                                                                 //alert('第: '+i+'/'+length+'上传失败');
                                                             }   
-                                                            //alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
+                                                            alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
                                                         },
                                                         error: function(XMLHttpRequest, textStatus, errorThrown){
                                                             alert(errorThrown);
                                                         },
                                                     });
-                                                    //$("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
+                                                    $("#pic").append("<img src='data:image/png;base64,"+localData+"' width='320px' />");
 
                                                     if (i < length) {
                                                         upload();
-                                                    } else {
-                                                        alert('上传完成'+upok);
-                                                    }
+                                                    } 
                                                 },
                                                 fail:function(res) {
                                                     alert(JSON.stringify(res));

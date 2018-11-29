@@ -206,15 +206,22 @@ class Index extends Controller {
     
     // 临时二维码
     public function getTempQrCode() {
+        // 存储到指定目录    
+        //$res = Weixin::getQrCode('guoguo', 'temp', './temp/');
+        //echo $res == 1? '二维码生成成功': '失败';
         
-        Weixin::getQrCode('bixinyun');
+        //直接显示
+        Weixin::getQrCode('guoguo');
     }
     
     // 永久二维码
     public function getForeverQrCode() {
-              
-        $res = Weixin::getQrCode('guoguo', 'forever', './');
-        echo $res == 1? '二维码生成成功': '失败';
+        // 存储到指定目录    
+        //$res = Weixin::getQrCode('guoguo', 'forever', './forever/');
+        //echo $res == 1? '二维码生成成功': '失败';
+        
+        // 直接显示
+        Weixin::getQrCode('bixinyun', 'forever');
     }
     
     public function imageList() {

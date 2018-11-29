@@ -184,6 +184,20 @@ class Index extends Controller {
         }
     }
     
+    
+    public function getTempQrCode() {
+        $arr = array(
+            'expire_seconds' => 604800,  //7天 / 7*24*3600,
+            'action_name' => 'QR_SCENE',
+            'action_info' => array(
+                'scene' => array(
+                    'scene_id' => 988
+                ),
+            ),
+        );
+        Weixin::getQrCode($arr);
+    }
+    
     public function imageList() {
         $data = db('images')->paginate(10);
         
@@ -192,6 +206,7 @@ class Index extends Controller {
         return $this->fetch('image_list');
     }
     
+    //接收ajax发送过来的图片数据, 存入数据库
     public function saveImage() {
         error_reporting(0);
         if (!empty($_POST)) {

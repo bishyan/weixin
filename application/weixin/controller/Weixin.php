@@ -344,7 +344,8 @@ class Weixin extends Controller  {
         if (session('?jsapi_ticket') && session('jsapi_ticket_expire_time') > time()) {
             $jsapi_ticket = session('jsapi_ticket');
         } else {
-            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".self::getWxAccessToken()."&type=jsapi";
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="
+                    .self::getWxAccessToken()."&type=jsapi";
             $res = self::http_curl($url);
             $jsapi_ticket = $res['ticket'];
             
@@ -356,21 +357,35 @@ class Weixin extends Controller  {
     
     // 返回随机字符串
     public static function getNoncestr($num=16) {
-        $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        $strlen = strlen($string);
-        $randStr = '';
+        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $strlen = strlen($chars);
+        $str = '';
         for($i=1; $i<=$num; ++$i) {
-            $randStr .= $string{rand(0, $strlen-1)};
+            //$str .= $chars{rand(0, $strlen-1)};
+            $str .= substr($chars, mt_rand(0, $strlen-1), 1);
         }
         
-        return $randStr;
+        return $str;
     }
     
     // 生成JS-SDK权限验证的签名
     public static function getSignature($noncestr,$timestamp,$url) {        
-        $tempStr = "jsapi_ticket=".self::getJsApiTicket()."&noncestr=".$noncestr."&timestamp=".$timestamp."&url=".$url;
+        $tempStr = "jsapi_ticket=".self::getJsApiTicket()."&noncestr="
+                .$noncestr."&timestamp=".$timestamp."&url=".$url;
         
         return sha1($tempStr);
+    }
+    
+    
+    public static function getQrCode($arr) {
+        //1. 获取ticket票据
+        $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.self::getWxAccessToken();
+        //临时二维码格式:"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
+        
+        $postJson = json_encode($arr);
+        
+        $res = self::http_curl($url, 'post', $postJson);
+        dump($res);
     }
 }
 

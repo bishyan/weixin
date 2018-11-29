@@ -27,14 +27,14 @@
                 ] // 必填，需要使用的JS接口列表
             });
             
-            
-            
+
             wx.ready(function(){
                 // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
                 // config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
                 // 则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，
                 // 则可以直接调用，不需要放在ready函数中。
-                
+
+                //判断当前客户端版本是否支持指定JS接口
                 wx.checkJsApi({
                     jsApiList: [
                         'onMenuShareTimeline',
@@ -55,8 +55,8 @@
                     }
                 });
                 
-                // 分享到朋友圈及QQ空间
-                /*wx.onMenuShareTimeline({  
+                // 自定义分享到朋友圈及QQ空间
+                wx.onMenuShareTimeline({  
                     title: '果果宝宝', // 分享标题
                     link: 'http://blog.ai702.com', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                     imgUrl: 'http://blog.ai702.com/public/Uploads/Admin/20180517163727743.jpg', // 分享图标
@@ -66,10 +66,10 @@
                     cancal:function(){
                         // 用户取消了分享后执行的回调函数
                     }  
-                });*/
+                });
                 
-                //分享给朋友及QQ
-                /*wx.onMenuShareAppMessage({
+                //自定义分享给朋友及QQ
+                wx.onMenuShareAppMessage({
                     title: '果果宝宝', // 分享标题
                     desc: '果果宝宝分享测试...', // 分享描述
                     link: 'http://blog.ai702.com', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
@@ -84,7 +84,7 @@
                         // 用户取消了分享后执行的回调函数
                         alert('分享失败, 请重新分享');
                     }
-                });   */
+                });   
             });
             
             wx.error(function(res){
@@ -99,7 +99,6 @@
                 localId: [],
                 serverId: []
             };
-            
             //拍照或从手机相册中选图接口
             function uploadImage() {                 
                 //拍照或从手机相册中选图接口               
@@ -188,10 +187,7 @@
                 });  
             }
             
-            function count() {
-                alert('成功上传图片 '+upok+'张, 失败 '+upfail+'张.');
-            }
-            
+            //扫一扫接口
             function scanQRCode() {
                 wx.scanQRCode({
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -203,9 +199,10 @@
                 });
             }
             
+            //地理位置接口
             function getLocation() {
                 wx.getLocation({
-                    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                     success: function (res) {
                         var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。

@@ -12,9 +12,14 @@ class Miniprogram extends Controller {
        
        $res = $file->move($uploadPath . $subDir);
        
-       dump($res->getSaveName()); 
+       //dump($res->getSaveName()); 
        if (file_exists($uploadPath . $subDir . $res->getSaveName())) {
-           
+           $res = db('images')->insert([
+                    'image_url'=> $subDir .$res->getSaveName(),
+                ]);
+                dump(['ok'=>1]);
+       } else {
+           dump(['ok'=>0, 'msg'=>$file->getError()]);
        }
     }
 }

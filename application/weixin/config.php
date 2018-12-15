@@ -16,4 +16,8 @@ return [
         'list_rows' => 5,
     ],
     
+    // 上传
+    "upload_path" => ROOT_PATH . 'public/static/images/',
+    
+    
 ];

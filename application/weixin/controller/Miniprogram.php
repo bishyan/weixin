@@ -7,8 +7,14 @@ use think\Controller;
 class Miniprogram extends Controller {
     public function upload_file() {
        $file = $this->request->file('fileup');
-       $savePath = ROOT_PATH . 'public/static/images/';
-       $res = $file->move($savePath);
-       dump($res);
+       $uploadPath = config('upload_path');
+       $subDir = 'mini/';
+       
+       $res = $file->move($uploadPathPath . $subDir);
+       
+       dump($res->getSaveName()); 
+       if (file_exists($uploadPath . $subDir . $res->getSaveName())) {
+           
+       }
     }
 }

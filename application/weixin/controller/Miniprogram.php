@@ -10,7 +10,7 @@ class Miniprogram extends Controller {
        $uploadPath = config('upload_path');
        $subDir = 'mini/';
        
-       $res = $file->move($uploadPathPath . $subDir);
+       $res = $file->move($uploadPath . $subDir);
        
        dump($res->getSaveName()); 
        if (file_exists($uploadPath . $subDir . $res->getSaveName())) {

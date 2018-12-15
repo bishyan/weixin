@@ -6,6 +6,6 @@ use think\Controller;
 
 class Miniprogram extends Controller {
     public function upload_file() {
-        echo $_FILES['fileup'];
+       dump($_FILES['fileup']);
     }
 }

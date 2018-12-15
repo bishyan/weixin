@@ -6,6 +6,9 @@ use think\Controller;
 
 class Miniprogram extends Controller {
     public function upload_file() {
-       dump($_FILES['fileup']);
+       $file = $this->request->file('fileup');
+       $savePath = ROOT_PATH . 'public/static/images/';
+       $res = $file->move($savePath);
+       dump($res);
     }
 }

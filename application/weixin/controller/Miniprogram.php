@@ -22,4 +22,15 @@ class Miniprogram extends Controller {
            dump(['ok'=>0, 'msg'=>$file->getError()]);
        }
     }
+    
+    public function getOpenId() {
+        $appid = "wxc2328bb96ba892e8";
+        $secret = "c48c0d17d0a6e11049593acd8b9e698d";
+        $code = $_GET['code'];
+        
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appid}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
+        
+        $res = Weixin::http_curl($url);
+        dump($res);
+    }
 }

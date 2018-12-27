@@ -5,6 +5,39 @@ use think\Controller;
 
 
 class Miniprogram extends Controller {
+    
+    // 发送客服消息
+    public function sendCustomerMessage() {
+        $appid = "wxc2328bb96ba892e8";
+        $secret = "c48c0d17d0a6e11049593acd8b9e698d";
+
+        $accessToken = $this->getAccessToken($appid, $secret);
+        
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={$accessToken}";
+        
+        
+    }
+    
+     // 获取access_token
+    private function getAccessToken($appid, $secret) {
+        $access_token = cache('miniprogram_token')['access_token'];
+
+        if (!$access_token || cache('token_info')['expire_time'] < time()) {
+            // 1. 请求url地址
+            $getTokenApi = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$secret}";
+
+            $res = Weixin::http_curl($getTokenApi);
+           
+            $access_token = $res['access_token'];
+            $token['access_token'] = $access_token;
+            $token['expire_time'] = time() + 7000;
+            cache('miniprogram_token', $token);          
+        }
+        
+        return $access_token;
+    }
+    
+    
     public function upload_file() {
        $file = $this->request->file('fileup');
        $uploadPath = config('upload_path');
@@ -33,6 +66,6 @@ class Miniprogram extends Controller {
         
         $res = Weixin::http_curl($url);
         
-        dump($res);
+        return json_encode($res);
     }
 }
